@@ -1,0 +1,277 @@
+<%-include('../layout/adminHeader')-%>
+
+
+
+    <div class="container mt-5">
+
+
+        <div class="row">
+            <div class="col-md-10">
+                <h2  style="margin-bottom: 20px;">Add Offer</h2>
+
+            </div>
+            <div class="col-md-2">
+                <button type="button" class="btn btn-primary" id="showFormBtn">Show Form</button>
+            </div>
+          </div>
+
+
+
+
+        <form id="offerForm" style="display: none;">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" class="form-control" id="name" name="name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="discountPercentage">Discount Percentage:</label>
+                <input type="number" class="form-control" id="discountPercentage" name="discountPercentage" required min="0" max="100">
+            </div>
+
+            <div class="form-group">
+                <label for="startDate">Start Date:</label>
+                <input type="date" class="form-control" id="startDate" name="startDate" required>
+            </div>
+
+            <div class="form-group">
+                <label for="endDate">End Date:</label>
+                <input type="date" class="form-control" id="endDate" name="endDate" required>
+            </div>
+
+            <button type="button" class="btn btn-success" onclick="addOffer()">Add Offer</button>
+        </form>
+
+        <!-- Offer.ejs -->
+
+<table class="table mt-3">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Discount Percentage</th>
+            <th scope="col">Start Date</th>
+            <th scope="col">End Date</th>
+            <th scope="col">Actions</th> <!-- Add a new column for actions -->
+        </tr>
+    </thead>
+    <tbody id="offersTableBody">
+        <% if (offers && offers.length > 0) { %>
+            <% offers.forEach((offer, index) => { %>
+                <tr>
+                    <th scope="row"><%= index + 1 %></th>
+                    <td><%= offer.name %></td>
+                    <td><%= offer.discountPercentage %>%</td>
+                    <td><%= new Date(offer.startDate).toLocaleDateString() %></td>
+                    <td><%= new Date(offer.endDate).toLocaleDateString() %></td>
+                    <td>
+                        <% if (offer.offerActive === "Active") { %>
+                            <button class="btn btn-sm btn-primary" onclick="activateOffer('<%= offer._id %>')">Activate</button>
+                        <% } else { %>
+                            <button class="btn btn-sm btn-warning" onclick="deactivateOffer('<%= offer._id %>')">Deactivate</button>
+                        <% } %>
+                        <button class="btn btn-sm btn-danger" onclick="deleteOffer('<%= offer._id %>')">Delete</button>
+                        <button class="btn btn-sm btn-info" onclick="openUpdateofferModal('<%= JSON.stringify(offer) %>')">Update</button>
+                    </td>
+                </tr>
+            <% }); %>
+        <% } else { %>
+            <tr>
+                <td colspan="6">No offers available</td>
+            </tr>
+        <% } %>
+    </tbody>
+</table>
+
+<div class="modal fade" id="updateOfferModal" tabindex="-1" role="dialog" aria-labelledby="updateOfferModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="updateOfferModalLabel">Update Offer</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- Your form contents -->
+        <form id="updateOfferForm">
+          <div class="form-row">
+            <div class="form-group col-md-6" style="margin-bottom: 16px;">
+              <label for="name">Offer Name:</label>
+              <input type="text" class="form-control" id="updateOfferName" name="updateOfferName" required>
+            </div>
+
+            <div class="form-group col-md-6" style="margin-bottom: 16px;">
+              <label for="discountPercentage">Discount Percentage:</label>
+              <input type="number" class="form-control" id="updateDiscountPercentage" name="updateDiscountPercentage" required min="0" max="100">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-6" style="margin-bottom: 16px;">
+              <label for="updateStartDate">Start Date:</label>
+              <input type="date" class="form-control" id="updateStartDate" name="updateStartDate" required>
+            </div>
+
+            <div class="form-group col-md-6" style="margin-bottom: 16px;">
+              <label for="updateEndDate">End Date:</label>
+              <input type="date" class="form-control" id="updateEndDate" name="updateEndDate" required>
+            </div>
+          </div>
+         
+          <input type="hidden" id="hiddenFieldOfferId" name="offerId">
+          <div class="form-row">
+            <div class="form-group col-md-6" style="margin-bottom: 16px;">
+              <!-- Add additional fields for the offer update if needed -->
+            </div>
+
+            <div class="form-group col-md-6" style="margin-bottom: 16px;">
+              <!-- Add additional fields for the offer update if needed -->
+            </div>
+          </div>
+          <div id="updateOfferErrorContainer" style="color: red; margin-bottom: 16px;"></div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" onclick="saveUpdatedOffer()">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+    </div>
+
+  
+    <script>
+        document.getElementById('showFormBtn').addEventListener('click', function () {
+            var form = document.getElementById('offerForm');
+            form.style.display = (form.style.display === 'none' || form.style.display === '') ? 'block' : 'none';
+        });
+    
+        function addOffer() {
+            var form = document.getElementById('offerForm');
+            var formData = {
+                name: form.querySelector('#name').value,
+                discountPercentage: form.querySelector('#discountPercentage').value,
+                startDate: form.querySelector('#startDate').value,
+                endDate: form.querySelector('#endDate').value
+            };
+    
+            fetch('/addOffers', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Offer added successfully:', data);
+                // You can perform additional actions here, such as redirecting or displaying a success message.
+            })
+            .catch(error => {
+                console.error('There was a problem adding the offer:', error);
+                // Handle errors appropriately, e.g., display an error message to the user.
+            });
+        }
+
+
+
+
+        
+            // Function to activate an offer
+            function activateOffer(offerId) {
+                performOfferAction('activate', offerId);
+            }
+        
+            // Function to deactivate an offer
+            function deactivateOffer(offerId) {
+                performOfferAction('deactivate', offerId);
+            }
+        
+            // Function to delete an offer
+            function deleteOffer(offerId) {
+                performOfferAction('delete', offerId);
+            }
+        
+            // Function to update an offer
+            function updateOffer(offerId) {
+                // Fetch the offer details, open a modal for editing, etc.
+                // Modify this function according to your specific requirements
+                console.log('Update offer with ID:', offerId);
+            }
+        
+            // Generic function to perform CRUD actions on offers
+            function performOfferAction(action, offerId) {
+              
+
+                // Define the API endpoint for managing offers
+                const apiUrl = `/OfferManagement/${action}?offerId=${offerId}`;
+            
+                // Send a fetch request to the server
+                fetch(apiUrl, {
+                    method: 'GET', // or 'POST' if your server expects POST requests
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Handle the response data accordingly
+                    console.log(data);
+                    
+                    // Optionally, you can update the UI based on the server response
+            
+                    // Reload the page after a successful action
+                    window.location.reload();
+                })
+                .catch(error => {
+                    // Handle errors appropriately
+                    console.error('Error performing offer action:', error);
+                });
+            }
+            
+  
+        
+
+            function openUpdateOfferModal(offerId) {
+                // Assuming you have an array or object containing offer details
+                const offerDetails = JSON.parse(offerId);
+              
+                // Populate the modal fields with offer details
+                document.getElementById('updateOfferName').value = offerDetails.name;
+                document.getElementById('updateDiscountPercentage').value = offerDetails.discountPercentage;
+                document.getElementById('updateStartDate').value = offerDetails.startDate.split('T')[0];
+                document.getElementById('updateEndDate').value = offerDetails.endDate.split('T')[0];
+                // Add additional lines to populate other fields if needed
+                document.getElementById('hiddenFieldOfferId').value = offerDetails._id;
+              
+                // Show the modal
+                $('#updateOfferModal').modal('show');
+              }
+              
+
+
+
+
+    </script>
+    
+
+
+
+
+
+
+
+<%-include('../layout/adminFoot')-%>

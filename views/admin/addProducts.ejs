@@ -1,0 +1,373 @@
+<%-include('../layout/adminHeader')-%>
+
+    <div class="container mt-5">
+
+
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <h1>Add Product</h1>
+                <div class="d-inline-block">
+                    <button type="button" 
+                            class="btn btn-info btn-pill" 
+                            data-toggle="tooltip" 
+                            data-html="true"
+                            data-placement="left"
+                            title="How to handle sizes?<br>Only the same manufacturer and same product name will be shown in the size management.">
+                        i
+                    </button>
+                </div>
+                
+            </div>
+        </div>
+        <% if (locals.msg) { %>
+            <%= msg %>
+                <% } %>
+
+
+
+                    <form action="/newproducts" method="POST" enctype="multipart/form-data"
+                        onsubmit="return validateForm()">
+                        <div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="name">Product Name:</label>
+                                    <input type="text" class="form-control" id="name" name="name" required>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="manufacturer">Product Manufacturer:</label>
+                                    <input type="text" class="form-control" id="manufacturer" name="manufacturer">
+                                </div>
+                                <div class="col-md-2">
+                                    <label for="price">Product Price:</label>
+                                    <input type="number" class="form-control" id="price" name="price" value="0" min="0"
+                                        required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="description">Product Description:</label>
+                            <textarea class="form-control" id="description" name="description" rows="4"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label for="size">Product Size:</label>
+                                    <br>
+                                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                        <label class="btn btn-outline-secondary btn-sm">
+                                            <input type="radio" name="size" id="size3" value="3" autocomplete="off"> 3
+                                        </label>
+                                        <label class="btn btn-outline-secondary btn-sm">
+                                            <input type="radio" name="size" id="size4" value="4" autocomplete="off"> 4
+                                        </label>
+                                        <label class="btn btn-outline-secondary btn-sm">
+                                            <input type="radio" name="size" id="size5" value="5" autocomplete="off"> 5
+                                        </label>
+                                        <label class="btn btn-outline-secondary btn-sm">
+                                            <input type="radio" name="size" id="size6" value="6" autocomplete="off"> 6
+                                        </label>
+                                        <label class="btn btn-outline-secondary btn-sm">
+                                            <input type="radio" name="size" id="size7" value="7" autocomplete="off"> 7
+                                        </label>
+                                        <label class="btn btn-outline-secondary btn-sm">
+                                            <input type="radio" name="size" id="size8" value="8" autocomplete="off"> 8
+                                        </label>
+                                        <label class="btn btn-outline-secondary btn-sm">
+                                            <input type="radio" name="size" id="size9" value="9" autocomplete="off"> 9
+                                        </label>
+                                        <label class="btn btn-outline-secondary btn-sm">
+                                            <input type="radio" name="size" id="size10" value="10" autocomplete="off">
+                                            10
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label for="category">Gender:</label>
+                                    <select class="form-control" id="gender" name="gender">
+                                        <option value="Men">Men</option>
+                                        <option value="Women">Women</option>
+                                        <option value="Kids">Kids</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label for="category">Product Category:</label>
+                                    <select class="form-control" id="category" name="category" required>
+                                        <% Category.forEach((cate)=> { %>
+                                            <option value="<%= cate.subName %>" data-main="<%= cate.Name %>">
+                                                <%= cate.subName %>
+                                            </option>
+                                            <% }) %>
+                                    </select>
+                                </div>
+
+                                <script>
+                                    // Get references to the select elements
+                                    const genderSelect = document.getElementById('gender');
+                                    const categorySelect = document.getElementById('category');
+
+                                    // Add an event listener to the gender select
+                                    genderSelect.addEventListener('change', updateSubcategories);
+
+                                    // Function to update subcategories based on the selected main category
+                                    function updateSubcategories() {
+                                        // Get the selected main category
+                                        const selectedMainCategory = genderSelect.value;
+
+                                        // Remove existing options from the subcategory select
+                                        while (categorySelect.firstChild) {
+                                            categorySelect.removeChild(categorySelect.firstChild);
+                                        }
+
+                                // Add subcategory options based on the selected main category
+                                <% Category.forEach((cate) => { %>
+                                    if ("<%= cate.Name %>" === selectedMainCategory) {
+                                                const option = document.createElement('option');
+                                                option.value = "<%= cate.subName %>";
+                                                option.textContent = "<%= cate.subName %>";
+                                                categorySelect.appendChild(option);
+                                            }
+                                <% }) %>
+                            }
+
+                                    // Trigger the initial update
+                                    updateSubcategories();
+                                </script>
+
+
+
+
+                                <div class="col-md-2">
+                                    <label for="stockQuantity">Stock Quantity:</label>
+                                    <input type="number" class="form-control" id="stockQuantity" name="stockQuantity"
+                                        value="0" min="0">
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <div class="row">
+
+
+                            </div>
+                        </div>
+
+
+
+
+
+                        <!-- <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="images">Product Image 1:</label>
+                                    <input type="file" class="form-control" id="image1" name="images" accept="image/*"
+                                        onchange="previewImage(this, 'preview1')">
+                                    <img id="preview1" src="#" alt="Preview" style="max-width: 100%; display: none;">
+                                    <button type="button" class="btn btn-danger"
+                                        onclick="deleteImage('image1', 'preview1')">Delete</button>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="images">Product Image 2:</label>
+                                    <input type="file" class="form-control" id="image2" name="images" accept="image/*"
+                                        onchange="previewImage(this, 'preview2')">
+                                    <img id="preview2" src="#" alt="Preview" style="max-width: 100%; display: none;">
+                                    <button type="button" class="btn btn-danger"
+                                        onclick="deleteImage('image2', 'preview2')">Delete</button>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="images">Product Image 3:</label>
+                                    <input type="file" class="form-control" id="image3" name="images" accept="image/*"
+                                        onchange="previewImage(this, 'preview3')">
+                                    <img id="preview3" src="#" alt="Preview" style="max-width: 100%; display: none;">
+                                    <button type="button" class="btn btn-danger"
+                                        onclick="deleteImage('image3', 'preview3')">Delete</button>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="images">Product Image 4:</label>
+                                    <input type="file" class="form-control" id="image4" name="images" accept="image/*"
+                                        onchange="previewImage(this, 'preview4')">
+                                    <img id="preview4" src="#" alt="Preview" style="max-width: 100%; display: none;">
+                                    <button type="button" class="btn btn-danger"
+                                        onclick="deleteImage('image4', 'preview4')">Delete</button>
+                                </div>
+                            </div>
+                        </div> -->
+
+                        <div class="col-md-3">
+                            <label id="selectedFilesLabel">Selected Files: 0</label>
+                            <input type="file" class="form-control" id="addAllImages" name="images" accept="image/*" style="display: none;" multiple onchange="previewAllImages(this)">
+                            <button type="button" class="btn btn-primary" onclick="document.getElementById('addAllImages').click()">Add All Images</button>
+                        </div>
+                        
+                        
+<br>
+</div>
+
+                        <button type="submit" class="btn btn-primary">Add Product</button>
+                    </form>
+
+    </div>
+
+
+    <script>
+ //       function deleteImage(inputId, previewId) {
+ //           // Clear the file input
+ //           document.getElementById(inputId).value = '';
+//
+ //           // Hide the preview image
+ //           var preview = document.getElementById(previewId);
+ //           preview.src = '#';
+ //           preview.style.display = 'none';
+ //       }
+//
+ //       function previewImage(input, previewId) {
+ //           var preview = document.getElementById(previewId);
+ //           var file = input.files[0];
+ //           var reader = new FileReader();
+//
+ //           reader.onload = function (e) {
+ //               preview.src = e.target.result;
+ //               preview.style.display = 'block';
+ //           };
+//
+ //           if (file) {
+ //               reader.readAsDataURL(file);
+ //           } else {
+ //               preview.src = '#';
+ //               preview.style.display = 'none';
+ //           }
+ //       }
+
+ function previewAllImages(input) {
+    const maxAllowedImages = 4;
+    const selectedFilesCount = input.files.length;
+
+    console.log('Selected Files Count:', selectedFilesCount);
+
+    const selectedFilesLabel = document.getElementById('selectedFilesLabel');
+    selectedFilesLabel.textContent = `Selected Files: ${selectedFilesCount}`;
+
+    if (selectedFilesCount > maxAllowedImages) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Oops...',
+            text: `You can only select up to ${maxAllowedImages} images.`,
+        });
+        const selectedFilesLabel = document.getElementById('selectedFilesLabel');
+        selectedFilesLabel.textContent = `Selected Files: 0`;
+        input.value = '';
+    } else {
+        const imageContainerIds = ['preview1', 'preview2', 'preview3', 'preview4'];
+
+        for (let i = 0; i < selectedFilesCount; i++) {
+            const file = input.files[i];
+            const imageContainerId = imageContainerIds[i];
+
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const previewImage = document.getElementById(imageContainerId);
+                console.log('Preview Image Element:', previewImage);
+                previewImage.src = e.target.result;
+                previewImage.style.display = 'block';
+            };
+
+            reader.readAsDataURL(file);
+        }
+    }
+}
+
+
+
+    </script>
+
+
+
+
+
+
+
+
+
+    <!-- ============================================================== -->
+    <!-- Footer -->
+    <!-- ============================================================== -->
+    <footer class="footer text-center">
+        All rights reserved &copy; 2023 Shoe Rack
+    </footer>
+    <!-- ============================================================== -->
+    <!-- End Footer -->
+    <!-- ============================================================== -->
+
+    </div>
+
+
+
+    <script>
+        // Function to validate the form
+        function validateForm() {
+            var name = document.getElementById('name').value;
+            var description = document.getElementById('description').value;
+            var price = document.getElementById('price').value;
+            var size = document.querySelector('input[name="size"]:checked');
+            var gender = document.getElementById('category').value;
+            var category = document.getElementById('category').value;
+            var manufacturer = document.getElementById('manufacturer').value;
+            var stockQuantity = document.getElementById('stockQuantity').value;
+
+            // Check if any field is empty
+            if (!name || !description || !price || !size || !gender || !category || !manufacturer || !stockQuantity) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Oops...',
+                    text: `Some Fields are empty.`,
+                });
+                                return false;
+            }
+
+            // You can add more specific validation rules if needed
+
+            return true; // Form is valid
+        }
+    </script>
+
+
+
+<!-- Add this in the <head> section -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+    <script src="/admin/src/assets/libs/jquery/dist/jquery.min.js"></script>
+    <script src="/admin/src/assets/libs/popper.js/dist/umd/popper.min.js"></script>
+    <script src="/admin/src/assets/libs/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- apps -->
+    <!-- apps -->
+    <script src="/admin/src/dist/js/app-style-switcher.js"></script>
+    <script src="/admin/src/dist/js/feather.min.js"></script>
+    <script src="/admin/src/assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js"></script>
+    <script src="/admin/src/dist/js/sidebarmenu.js"></script>
+    <!--Custom JavaScript -->
+    <script src="/admin/src/dist/js/custom.min.js"></script>
+    <!--This page JavaScript -->
+    <script src="/admin/src/assets/extra-libs/c3/d3.min.js"></script>
+    <script src="/admin/src/assets/extra-libs/c3/c3.min.js"></script>
+    <script src="/admin/src/assets/libs/chartist/dist/chartist.min.js"></script>
+    <script src="/admin/src/assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
+    <script src="/admin/src/assets/extra-libs/jvector/jquery-jvectormap-2.0.2.min.js"></script>
+    <script src="/admin/src/assets/extra-libs/jvector/jquery-jvectormap-world-mill-en.js"></script>
+    <script src="/admin/src/dist/js/pages/dashboards/dashboard1.min.js"></script>
+    </body>
+
+    </html>

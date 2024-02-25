@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<!-- molla/index-9.html  22 Nov 2019 09:57:25 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="apple-touch-icon" sizes="180x180" href="/user/assets/images/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/user/assets/images/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/user/assets/images/icons/favicon-16x16.png">
+    <link rel="manifest" href="/user/assets/images/icons/site.html">
+    <link rel="mask-icon" href="/user/assets/images/icons/safari-pinned-tab.svg" color="#666666">
+    <link rel="shortcut icon" href="/user/assets/images/icons/favicon.ico">
+    <meta name="apple-mobile-web-app-title" content="Molla">
+    <meta name="application-name" content="Molla">
+    <meta name="msapplication-TileColor" content="#cc9966">
+    <meta name="msapplication-config" content="/user/assets/images/icons/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+
+    <!-- Plugins CSS File -->
+    <link rel="stylesheet" href="/user/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/user/assets/vendor/line-awesome/line-awesome/line-awesome/css/line-awesome.min.css">
+    <link rel="stylesheet" href="/user/assets/css/plugins/owl-carousel/owl.carousel.css">
+    <link rel="stylesheet" href="/user/assets/css/plugins/magnific-popup/magnific-popup.css">
+    <link rel="stylesheet" href="/user/assets/css/plugins/jquery.countdown.css">
+    <!-- Main CSS File -->
+    <link rel="stylesheet" href="/user/assets/css/style.css">
+    <link rel="stylesheet" href="/user/assets/css/skins/skin-demo-9.css">
+    <link rel="stylesheet" href="/user/assets/css/demos/demo-9.css">
+    <!-- Include SweetAlert CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10">
+
+    <title>Your Page Title</title>
+
+
+
+    <style>
+   
+        .card {
+          height: 400px; /* Set a fixed height for the card */
+        }
+      
+        .card-img-top {
+          object-fit: cover; /* Ensure the image covers the entire container */
+          height: 200px; /* Set a fixed height for the image */
+          width: 100%; /* Make the image take up the full width of the container */
+        }
+      </style>
+      <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+      
+</head>
+
+
+<body>
+    <div class="page-wrapper">
+         <header class="header header-6">
+            
+                
+            <div class="header-middle">
+                <div class="container">
+
+                    <div class="header-search header-search-extended header-search-visible d-none d-lg-block">
+                        <a href="#" class="search-toggle" role="button"><i class="icon-search"></i></a>
+                        <form action="#" method="get" onsubmit="searchProducts(event)">
+                            <div class="header-search-wrapper search-wrapper-wide">
+                                <label for="q" class="sr-only">Search</label>
+                                <button class="btn btn-primary" type="submit"><i class="icon-search"></i></button>
+                                
+                                <% if (locals.MainCat && locals.MainCat !== 'Men' && locals.MainCat !== 'Women' && locals.MainCat !== 'Kids' && locals.MainCat !== '0') { %>
+                                    <input type="search" class="form-control" name="q" id="q" placeholder="<%= locals.MainCat %>" required>
+                                <% } else { %>
+                                    <input type="search" class="form-control" name="q" id="q" placeholder="Search product ..." required>
+                                <% } %>
+                                
+                                
+                            </div>
+                        </form>
+                    </div>
+                    
+
+                    
+
+
+
+                    <div class="header-center">
+                        <a href="/" class="logo">
+                            <img src="/img/logo.png" alt="Molla Logo" width="82" height="20">
+                        </a>
+                    </div><!-- End .header-left -->
+
+                    <div class="header-right">
+                        
+                        <a href="/wishlist" class="wishlist-link">
+                            <i class="icon-heart-o"></i>
+                            <% if (locals.cartCount.wishlistCount && cartCount.wishlistCount > 0) { %>
+                                <span class="wishlist-count"><%= cartCount.wishlistCount %></span>
+                                <span class="wishlist-txt">My Wishlist</span>
+                            <% } else { %>
+                                <span class="wishlist-count">0</span>
+                            <% } %>
+                        </a>
+                        
+                        
+
+                        <div class="dropdown cart-dropdown">
+
+                            <a href="/cart" class="dropdown-toggle" role="button"  aria-haspopup="true" aria-expanded="false" data-display="static">
+                                <i class="icon-shopping-cart"></i>
+                                <% if (locals.cartCount && cartCount.count > 0) { %>
+                                    <span class="cart-count"><%= cartCount.count %></span>
+                                    <span class="cart-txt">₹ <%= cartCount.subtotal %></span>
+                                <% } else { %>
+                                    <span class="cart-count">0</span>
+                                <% } %>
+                            </a>
+                            
+                            
+
+                           
+                        </div><!-- End .cart-dropdown -->
+
+                        <a href="/profile" class="wishlist-link"> 
+                          
+                            <% if (locals.cartCount && cartCount.userImage > 0) { %>
+                                <img src="<%= cartCount.userImage %>" alt="User Image" class="user-image-circle rounded-circle" width="30" height="30">
+                                <% } else { %>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                                    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                                    <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+                                </svg>
+                                <% } %>
+                        </a>
+                        
+
+                    </div>
+                </div><!-- End .container -->
+            </div><!-- End .header-middle -->
+
+            <div class="header-bottom sticky-header">
+                <div class="container">
+                    <div class="header-left">
+                        <nav class="main-nav">
+                            <ul class="menu sf-arrows">
+                                <li class="megamenu-container ">
+                                    <a href="/" >Home</a>
+
+                                
+                                </li>
+                              
+                                <li class="megamenu-container ">
+                                    <a href="/fullpdt/Men" >Shop For Men</a>
+
+                                
+                                </li><li class="megamenu-container ">
+                                    <a href="/fullpdt/Women" >Shop For Women</a>
+
+                                
+                                </li><li class="megamenu-container ">
+                                    <a href="/fullpdt/Kids" >Shop For Kids</a>
+
+                                
+                                </li>
+                                <li class="megamenu-container ">
+                                    <a href="/fullpdt/0" >See all Product</a>
+
+                                
+                                </li>
+                                    <!-- <a href="#" class="sf-with-ul"></a> for the down arraow -->
+
+                                    <!-- End .megamenu megamenu-sm -->
+                               
+                                   
+                                
+                                
+                            </ul><!-- End .menu -->
+                            
+                            <script>
+                                // Get the current URL
+                                var currentUrl = window.location.href;
+                            
+                                // Select all menu items
+                                var menuItems = document.querySelectorAll('.megamenu-container a');
+                            
+                                // Loop through each menu item
+                                menuItems.forEach(function(item) {
+                                    // Check if the item's href matches the current URL
+                                    if (item.href === currentUrl) {
+                                        // Add the 'active' class to the parent li element
+                                        item.parentElement.classList.add('active');
+                                    }
+                                });
+                            </script>
+                            
+                        </nav><!-- End .main-nav -->
+
+                        <button class="mobile-menu-toggler">
+                            <span class="sr-only">Toggle mobile menu</span>
+                            <i class="icon-bars"></i>
+                        </button>
+                    </div><!-- End .header-left -->
+
+                    <div class="header-right">
+                        <i class="la la-lightbulb-o"></i><p>Offers Up to 30% Off</span></p>
+                    </div>
+                </div><!-- End .container -->
+            </div><!-- End .header-bottom -->
+        </header><!-- End .header -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+           <!-- izitoast -->
+   <script>
+    function searchProducts(event) {
+        event.preventDefault(); // Prevent the form from submitting traditionally
+      
+        const searchQuery = document.getElementById('q').value;
+        // Update filters after form submission
+        const url = `/fullpdt/0?search=${encodeURIComponent(searchQuery)}`;
+        window.location.href = url; 
+    }
+</script>

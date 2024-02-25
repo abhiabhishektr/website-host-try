@@ -1,0 +1,458 @@
+<%-include('../layout/adminHeader')-%>
+
+  <div class="container-fluid" style="margin-top: 30px;">
+
+    <div class="row">
+      <div class="col-md-10">
+        <h2  style="margin-bottom: 20px;">Add Coupons</h2>
+        
+      </div>
+      <div class="col-md-2">
+        <button  type="button" class="btn btn-primary" onclick="toggleForm()">Add Coupons</button>
+      </div>
+    </div>
+
+    <form id="addCouponForm" style="display: none;">
+      <div class="form-row">
+        <div class="form-group col-md-6" style="margin-bottom: 16px;">
+          <label for="code">Coupon Code:</label>
+          <input type="text" class="form-control" id="code" name="code" required pattern="^[a-zA-Z0-9]+$" title="Coupon code can only contain letters and numbers, and spaces are not allowed">
+        </div>
+        
+        
+
+        <div class="form-group col-md-6" style="margin-bottom: 16px;">
+          <label for="discountType">Discount Type:</label>
+          <select class="form-control" id="discountType" name="discountType" required>
+            <option value="fixed">Fixed Amount</option>
+            <option value="percentage">Percentage</option>
+           
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group col-md-6" style="margin-bottom: 16px;">
+          <label for="startDate">Start Date:</label>
+          <input type="date" class="form-control" id="startDate" name="startDate" required>
+        </div>
+
+
+        <div class="form-group col-md-6" style="margin-bottom: 16px;">
+          <label for="expirationDate">Expiration Date:</label>
+          <input type="date" class="form-control" id="expirationDate" name="expirationDate" required>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group col-md-6" style="margin-bottom: 16px;">
+          <label for="discountAmount">Discount Amount:</label>
+          <input type="number" class="form-control" id="discountAmount" name="discountAmount" value="0" min="0" required>
+        </div>
+
+        <div class="form-group col-md-6" style="margin-bottom: 16px;">
+          <label for="minOrderAmount">Minimum Order Amount:</label>
+          <input type="number" class="form-control" id="minOrderAmount" name="minOrderAmount" value="0" min="0" required>
+        </div>
+      </div>
+      <div id="errorContainer" style="color: red; margin-bottom: 16px;"></div>
+      <button type="button" class="btn btn-success" onclick="addCoupon()"
+        style="background-color: #28a745; color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer;">Add
+        Coupon</button>
+    </form>
+
+    <h2 style="margin-top: 40px;">Existing Coupons</h2>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th> </th>
+          <th>Coupon Code</th>
+          <th>Discount Type</th>
+          <th>Start Date</th>
+          <th>Expiration Date</th>
+          <th>Discount Amount</th>
+          <th>Min Order Amount</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% let i=1 %>
+        <% if (existingCoupons.length === 0) { %>
+          <tr>
+            <td colspan="1" class="no-coupon-message text-danger font-weight">No coupons exist</td>        
+            </tr>
+          <% } else { %>
+        <% existingCoupons.reverse().forEach(coupon=> { %>
+          <tr id="couponRow-<%= coupon._id %>">
+            <td><%= i++ %></td>
+            <td class="coupon-code"><%= coupon.code %></td>
+            <td class="discount-type"><%= coupon.discountType %></td>
+            <td class="start-date"><%= coupon.startDate.toISOString().split('T')[0] %></td>
+            <td class="expiration-date"><%= coupon.expirationDate.toISOString().split('T')[0] %></td>
+            <td class="discount-amount">
+               <%= coupon.discountType === 'percentage' ? coupon.discountAmount * 100 + '%' : coupon.discountAmount %>
+            </td>
+            <td class="min-order-amount"><%= coupon.minOrderAmount %></td>
+            
+            <td>
+              <% if (coupon.couponActive=="Active") { %>
+                <button class="btn btn-sm btn-primary" onclick="activateCoupon('<%= coupon._id %>')">Activate</button>
+                <% } else { %>
+                  <button class="btn btn-sm btn-warning"
+                    onclick="deactivateCoupon('<%= coupon._id %>')">Deactivate</button>
+                  <% } %>
+                    <button class="btn btn-sm btn-danger" onclick="deleteCoupon('<%= coupon._id %>')">Delete</button>
+                    <button class="btn btn-sm btn-info" onclick="openUpdateCouponModal('<%= JSON.stringify(coupon) %>')">Update</button>           
+                   </td>
+
+          </tr>
+          <% }) %>
+          <% } %>
+      </tbody>
+    </table>
+  </div>
+
+
+  <!-- Modal for Update Coupon -->
+<div class="modal fade" id="updateCouponModal" tabindex="-1" role="dialog" aria-labelledby="updateCouponModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="updateCouponModalLabel">Update Coupon</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- Your form contents -->
+        <form id="updateCouponForm">
+          <div class="form-row">
+            <div class="form-group col-md-6" style="margin-bottom: 16px;">
+              <label for="code">Coupon Code:</label>
+              <input type="text" class="form-control" id="updateCode" name="updateCode" required>
+            </div>
+
+            <div class="form-group col-md-6" style="margin-bottom: 16px;">
+              <label for="discountType">Discount Type:</label>
+              <select class="form-control" id="updateDiscountType" name="updateDiscountType" required>
+                <option value="percentage">Percentage</option>
+                <option value="fixed">Fixed Amount</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-6" style="margin-bottom: 16px;">
+              <label for="startDate">Start Date:</label>
+              <input type="date" class="form-control" id="updateStartDate" name="updateStartDate" required>
+            </div>
+
+            <div class="form-group col-md-6" style="margin-bottom: 16px;">
+              <label for="expirationDate">Expiration Date:</label>
+              <input type="date" class="form-control" id="updateExpirationDate" name="updateExpirationDate" required>
+            </div>
+          </div>
+         
+          <input type="hidden" id="hiddenFieldcoupunId" name="coupunId">
+          <div class="form-row">
+            <div class="form-group col-md-6" style="margin-bottom: 16px;">
+              <label for="updateDiscountAmount">Discount Amount:</label>
+              <input type="number" class="form-control" id="updateDiscountAmount" name="updateDiscountAmount" value="0" min="0" required>
+            </div>
+
+            <div class="form-group col-md-6" style="margin-bottom: 16px;">
+              <label for="updateMinOrderAmount">Minimum Order Amount:</label>
+              <input type="number" class="form-control" id="updateMinOrderAmount" name="updateMinOrderAmount" value="0" min="0" required>
+            </div>
+          </div>
+          <div id="updateErrorContainer" style="color: red; margin-bottom: 16px;"></div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" onclick="saveUpdatedCoupon()">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  <script>
+    function toggleForm() {
+      const addCouponForm = document.getElementById('addCouponForm');
+      const toggleButton = document.querySelector('.btn-primary');
+      
+      if (addCouponForm.style.display === 'none') {
+        addCouponForm.style.display = 'block';
+        toggleButton.textContent = 'Cancel';
+      } else {
+        addCouponForm.style.display = 'none';
+        toggleButton.textContent = 'Add Coupons';
+      }
+    }
+  
+//================= modal data inserting ==================
+function openUpdateCouponModal(couponId) {
+
+  const couponDetails = JSON.parse(couponId);
+
+
+  document.getElementById('updateCode').value = couponDetails.code;
+  document.getElementById('updateDiscountType').value = couponDetails.discountType;
+  document.getElementById('updateStartDate').value = couponDetails.startDate.split('T')[0];
+  document.getElementById('updateExpirationDate').value = couponDetails.expirationDate.split('T')[0];
+  document.getElementById('updateDiscountAmount').value = couponDetails.discountAmount;
+  document.getElementById('updateMinOrderAmount').value = couponDetails.minOrderAmount;
+  document.getElementById('hiddenFieldcoupunId').value = couponDetails._id;
+
+  // Show the modal
+  $('#updateCouponModal').modal('show');
+}
+//================= update post method ==================
+
+
+function saveUpdatedCoupon() {
+  // Get the updated coupon details from the form
+
+  const updatedCoupon = {
+    code: document.getElementById('updateCode').value,
+    discountType: document.getElementById('updateDiscountType').value,
+    startDate: document.getElementById('updateStartDate').value,
+    expirationDate: document.getElementById('updateExpirationDate').value,
+    discountAmount: document.getElementById('updateDiscountAmount').value,
+    minOrderAmount: document.getElementById('updateMinOrderAmount').value,
+    couponId: document.getElementById('hiddenFieldcoupunId').value
+  };
+
+  // Make a POST request to your server endpoint to save the updated coupon
+  fetch(`/CouponsAdminManagements/update?couponId=${updatedCoupon.couponId}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(updatedCoupon)
+  })
+  .then(response => {
+    if (response.ok) {
+ 
+      $('#updateCouponModal').modal('hide');
+      return response.json();
+
+    } else {
+      // Handle errors if any
+      console.error('Failed to update coupon');
+      // Optionally, you can display an error message to the user
+    }
+  })
+  .then(data => {
+    // Update the HTML with the new coupon data
+    updateCouponInHTML(data.updatedCoupon);
+ 
+    // Hide the modal
+    $('#updateCouponModal').modal('hide');
+ })
+  .catch(error => {
+    console.error('Error updating coupon:', error);
+    // Handle errors if any
+    // Optionally, you can display an error message to the user
+  });
+}
+
+//====================================
+// Inside your browser-side JavaScript code
+function updateCouponInHTML(updatedCoupon) {
+  // Find the HTML element corresponding to the updated coupon using its ID or other unique identifier
+  const couponRow = document.getElementById(`couponRow-${updatedCoupon._id}`); // Example using _id
+
+  // Update the relevant HTML elements with the new data
+  couponRow.querySelector('.coupon-code').textContent = updatedCoupon.code;
+  couponRow.querySelector('.discount-type').textContent = updatedCoupon.discountType;
+  couponRow.querySelector('.start-date').textContent = updatedCoupon.startDate.toISOString().split('T')[0];
+  couponRow.querySelector('.expiration-date').textContent = updatedCoupon.expirationDate.toISOString().split('T')[0];
+  couponRow.querySelector('.discount-amount').textContent = 
+     updatedCoupon.discountType === 'percentage' ? updatedCoupon.discountAmount * 100 + '%' : updatedCoupon.discountAmount;
+  couponRow.querySelector('.min-order-amount').textContent = updatedCoupon.minOrderAmount;
+
+  // Optionally, you can highlight or animate the updated row to draw attention
+  couponRow.classList.add('updated-row');
+  setTimeout(() => couponRow.classList.remove('updated-row'), 2000);  // Remove the class after 2 seconds
+}
+
+//====================================
+function activateCoupon(couponId) {
+ 
+  // Make a POST request to your server endpoint to activate the coupon
+  fetch(`/CouponsAdminManagements/activate?couponId=${couponId}`, {
+     method: 'POST',
+     headers: {
+        'Content-Type': 'application/json'
+     },
+  })
+  .then(response => {
+     if (response.ok) {
+        // Optionally, you can perform additional actions after successful activation
+        console.log('Coupon activated successfully');
+     } else {
+        console.error('Failed to activate coupon');
+     }
+  })
+  .catch(error => {
+     console.error('Error activating coupon:', error);
+  });
+}
+
+function deactivateCoupon(couponId) {
+
+  // Make a POST request to your server endpoint to deactivate the coupon
+  fetch(`/CouponsAdminManagements/deactivate?couponId=${couponId}`, {
+     method: 'POST',
+     headers: {
+        'Content-Type': 'application/json'
+     },
+  })
+  .then(response => {
+     if (response.ok) {
+        // Optionally, you can perform additional actions after successful deactivation
+        console.log('Coupon deactivated successfully');
+     } else {
+        console.error('Failed to deactivate coupon');
+     }
+  })
+  .catch(error => {
+     console.error('Error deactivating coupon:', error);
+  });
+}
+
+function deleteCoupon(couponId) {
+
+  // Make a POST request to your server endpoint to delete the coupon
+  fetch(`/CouponsAdminManagements/delete?couponId=${couponId}`, {
+     method: 'POST',
+     headers: {
+        'Content-Type': 'application/json'
+     },
+  })
+  .then(response => {
+     if (response.ok) {
+        // Optionally, you can perform additional actions after successful deletion
+        console.log('Coupon deleted successfully');
+     } else {
+        console.error('Failed to delete coupon');
+     }
+  })
+  .catch(error => {
+     console.error('Error deleting coupon:', error);
+  });
+}
+
+
+ 
+  </script>
+
+
+
+  </div>
+
+
+
+  <script>
+    async function addCoupon() {
+      const code = document.getElementById('code').value;
+      const discountType = document.getElementById('discountType').value;
+      const discountAmount = parseFloat(document.getElementById('discountAmount').value);      
+      const startDate = document.getElementById('startDate').value; // Add this line
+      const expirationDate = document.getElementById('expirationDate').value;
+      const minOrderAmount = parseFloat(document.getElementById('minOrderAmount').value);
+
+
+      const errorContainer = document.getElementById('errorContainer');
+      errorContainer.innerHTML = ''; // Clear previous errors
+
+      if (!code || code.includes(' ')) {
+        errorContainer.innerHTML = 'Please enter a valid coupon code without spaces.';
+        return;
+      }
+
+      if (minOrderAmount< discountAmount) {
+        errorContainer.innerHTML = 'Discount amount should not be greater than the Minimum order amount.';
+        return;
+      }
+
+      const startDateObj = new Date(startDate);
+      const expirationDateObj = new Date(expirationDate);
+
+      if (startDateObj > expirationDateObj) {
+        errorContainer.innerHTML = 'Start date should not be greater than expiration date.';
+        return;
+      }
+
+      if (discountAmount < 0 || minOrderAmount < 0) {
+        errorContainer.innerHTML = 'Discount amount and minimum order amount must not be negative.';
+        return;
+      }
+
+
+
+
+
+      try {
+        const response = await fetch('/CouponsAdmin', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            code,
+            discountType,
+            discountAmount: parseFloat(discountAmount),
+            startDate,
+            expirationDate,
+            minOrderAmount: minOrderAmount ? parseFloat(minOrderAmount) : undefined,
+          }),
+        });
+       
+
+        if (response.ok) {
+          const data = await response.json();
+
+          // Update the HTML to display the new list of coupons
+         
+
+          Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: 'Coupon added successfully!',
+          });
+          
+          window.location.reload();
+                  
+        } else {
+          const data = await response.json();
+          // Assuming you have a variable 'data' with an 'error' property
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: `Error: ${data.error}`,
+            });
+
+        }
+      } catch (error) {
+        console.error('Error adding coupon:', error);
+        if (response) {
+          console.error('Response from server:', response);
+        }
+        alert('An error occurred while adding the coupon. Please try again.');
+      }
+      
+    }
+
+
+  </script>
+
+
+
+
+
+  <%-include('../layout/adminFoot')-%>

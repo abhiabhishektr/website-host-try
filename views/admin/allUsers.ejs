@@ -1,0 +1,149 @@
+<%-include('../layout/adminHeader')-%>
+
+        <table class="table caption-top">
+            <caption>List of users</caption>
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Gmail</th>
+                <th scope="col">Status</th>
+               
+              </tr>
+            </thead>
+            <tbody>
+                <% let serialNumber=1; %>
+                <% users.forEach(user => { %>
+                    <% if(user.isadmin!==1){ %>
+
+
+
+              <tr>
+
+
+
+                <th scope="row"><%=serialNumber %></th>
+                <td>  <%= user.name %>  </td>
+                <td><%= user.email %></td>
+              
+                <td style="color:<%= user.Status ? 'green' : 'red' %>;">
+                    <% if (user.Status) { %>
+                      User Active
+                    <% } else { %>
+                      User blocked
+                    <% } %>
+                  </td>
+                  
+                  
+                  
+              
+                  
+                  <td>
+                    <form action="/userdelete/<%= user._id %>" method="post" onsubmit="return confirm('Are you sure you want to delete this user?');">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </td>
+                
+                <% if (user.Status) { %>
+                  <td>
+                    <form action="/userblock/<%= user._id %>" method="post">
+                      <button type="submit" class="btn btn-warning">Block</button>
+                    </form>
+                  </td>
+                <% } else { %>
+                  <td>
+                    <form action="/userunblock/<%= user._id %>" method="post">
+                      <button type="submit" class="btn btn-success">Unblock</button>
+                    </form>
+                  </td>
+                <% } %>
+                  <!-- For Blocking -->
+                  
+                  
+                  <!-- For Unblocking -->
+                
+                  
+  
+
+              </tr>
+              <% serialNumber++; %>
+              <% }; %>
+              <% }); %>
+            </tbody>
+          </table>  
+
+         
+ <!-- Pagination -->
+
+<nav aria-label="Page navigation" class="d-flex justify-content-center mt-4">
+  <ul class="pagination">
+      <% if (currentPage > 1) { %>
+          <li class="page-item">
+              <a class="page-link" href="?page=<%= currentPage - 1 %>" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+              </a>
+          </li>
+      <% } %>
+
+      <% for (let i = 1; i <= totalPages; i++) { %>
+          <li class="page-item <%= i === currentPage ? 'active' : '' %>">
+              <a class="page-link" href="?page=<%= i %>"><%= i %></a>
+          </li>
+      <% } %>
+
+      <% if (currentPage < totalPages) { %>
+          <li class="page-item">
+              <a class="page-link" href="?page=<%= currentPage + 1 %>" aria-label="Next">
+                  <span aria-hidden="true">&raquo;</span>
+              </a>
+          </li>
+      <% } %>
+  </ul>
+</nav>
+
+
+
+    <!-- ============================================================== -->
+<!-- Footer -->
+<!-- ============================================================== -->
+<footer class="footer text-center">
+    All rights reserved &copy; 2023 Shoe Rack
+</footer>
+<!-- ============================================================== -->
+<!-- End Footer -->
+<!-- ============================================================== -->
+
+
+ 
+</div>
+
+
+
+
+
+
+
+
+
+        <script src="/admin/src/assets/libs/jquery/dist/jquery.min.js"></script>
+        <script src="/admin/src/assets/libs/popper.js/dist/umd/popper.min.js"></script>
+        <script src="/admin/src/assets/libs/bootstrap/dist/js/bootstrap.min.js"></script>
+        <!-- apps -->
+        <!-- apps -->
+        <script src="/admin/src/dist/js/app-style-switcher.js"></script>
+        <script src="/admin/src/dist/js/feather.min.js"></script>
+        <script src="/admin/src/assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js"></script>
+        <script src="/admin/src/dist/js/sidebarmenu.js"></script>
+        <!--Custom JavaScript -->
+        <script src="/admin/src/dist/js/custom.min.js"></script>
+        <!--This page JavaScript -->
+        <script src="/admin/src/assets/extra-libs/c3/d3.min.js"></script>
+        <script src="/admin/src/assets/extra-libs/c3/c3.min.js"></script>
+        <script src="/admin/src/assets/libs/chartist/dist/chartist.min.js"></script>
+        <script src="/admin/src/assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
+        <script src="/admin/src/assets/extra-libs/jvector/jquery-jvectormap-2.0.2.min.js"></script>
+        <script src="/admin/src/assets/extra-libs/jvector/jquery-jvectormap-world-mill-en.js"></script>
+        <script src="/admin/src/dist/js/pages/dashboards/dashboard1.min.js"></script>
+    </body>
+    
+    </html>

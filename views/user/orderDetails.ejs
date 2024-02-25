@@ -1,0 +1,521 @@
+<%-include("../layout/userHeader")%>
+
+
+
+
+
+
+
+<main class="main">
+  <div class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">
+    <div class="container">
+      <h1 class="page-title">My Account<span>Shop</span></h1>
+    </div><!-- End .container -->
+  </div><!-- End .page-header -->
+    <nav aria-label="breadcrumb" class="breadcrumb-nav mb-3">
+        <div class="container">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-item"><a href="#">Shop</a></li>
+                <li class="breadcrumb-item active" aria-current="page">My Account</li>
+            </ol>
+        </div><!-- End .container -->
+    </nav><!-- End .breadcrumb-nav -->
+
+    <div class="page-content">
+      <div class="dashboard">
+          <div class="container">
+            <div class="row">
+              <aside class="col-md-4 col-lg-3">
+                <ul class="nav nav-dashboard flex-column mb-3 mb-md-0" role="tablist">
+            <li class="nav-item"> 
+                <a class="nav-link " id="tab-dashboard-link"  href="/profile?tab=dashboard" role="tab" aria-controls="tab-dashboard" aria-selected="true">User Details</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" id="tab-orders-link"  href="/profile?tab=orders" role="tab" aria-controls="tab-orders" aria-selected="false">Orders</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="tab-downloads-link"  href="/profile?tab=downloads" role="tab" aria-controls="tab-downloads" aria-selected="false">Downloads</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="tab-address-link"  href="/profile?tab=address" role="tab" aria-controls="tab-address" aria-selected="false">Adresses</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="tab-account-link"  href="/profile?tab=wallet" role="tab" aria-controls="tab-account" aria-selected="false">Wallet Details</a>
+            </li>
+            <li class="nav-item">
+                <a style="color: rgb(23, 108, 253);" class="nav-link" href="#">Sign Out</a>
+            </li>
+        </ul>
+              </aside><!-- End .col-lg-3 -->
+
+              <div class="col-md-8 col-lg-9">
+                <div class="tab-content">
+            <div class="tab-pane fade show active" id="#tab-address" role="tabpanel" aria-labelledby="tab-dashboard-link">
+
+
+
+
+
+              <div class="container mt-4">
+                <div class="row">
+                  <div class="col-md-12">
+              
+                    <!-- Loop through orders -->
+                    <% orders.forEach(order => { %>
+              
+                      <!-- Bootstrap Card -->
+                      <div class="card mb-4" style="width: 100%;">
+                        <div class="card-body">
+              
+                          <!-- Order Details -->
+                          <h5 class="card-title"><%= orderId %></h5>
+                          <p class="card-text">Customer: <%= order.address.firstName %> <%= order.address.lastName %></p>
+                          <p class="card-text">Date: <%= new Date(order.date).toDateString() %></p>
+              
+
+                          
+
+
+<% order.Products.forEach(product => { %>
+    <div class="container">
+        <div class="row ">
+            <div class="col-md-6">
+    <div class="media mt-2">
+        <div class="container">
+            <div class="row ">
+                <div class="col-md-6">
+      <a href="/product/<%=product.products%>">
+      <img src="/uploads/<%= product.image %>" alt="Product Image" class="mr-3" style="max-width: 100px; max-height: 100px; object-fit: cover;">
+    </a>
+      <div class="media-body d-flex flex-column align-items-start">
+        <!-- Product Details -->
+        <h5 class="mt-2"><%= product.name %></h5>
+        <p style="margin: 0;">Quantity: <%= product.quantity %></p>
+        <p style="margin: 0;">Total: $<%= product.total %></p>
+        
+        <% if (order.onlinePaymentStatus === 'intiated') { %>
+          <p style="margin: 0;">orderStatus: Payment failed</p>
+        <% } else { %>
+          <p style="margin: 0;">orderStatus: <%= product.orderStatus %></p>
+          <!-- Add more product details as needed -->
+        </div>
+       
+            <div class="row ">
+          
+              <div class="col-md-6">
+          
+         <!-- Button for Cancel/Return based on order status -->
+         <% if (order.onlinePaymentStatus !== 'intiated') { %>
+            <% if (product.orderStatus === 'placed') { %>
+              <button type="button" class="btn btn-danger align-self-start mt-2 mb=2" onclick="handleOrderAction('<%= order._id %>','<%= product._id %>', 'cancel')">Cancel</button>
+            <% } else if (product.orderStatus === 'delivered') { %>
+              <button type="button" class="btn btn-warning align-self-start mt-2  mb=2" onclick="handleOrderAction('<%= order._id %>','<%= product._id %>', 'return')">Return</button>
+            <% } %>
+          <% } %>
+          
+    </div>
+    <div class="col-md-6" style="   margin-top: 20px;">
+          <% if (product.orderStatus === 'delivered') { %>
+            <a href="/downloadInvoice/<%=order._id%>?productID=<%=product.products%>">
+              <button a style="background: linear-gradient(to bottom right, #4c78af, #4c78af); border: 0; border-radius: 8px; color: #FFFFFF; cursor: pointer; font-family: -apple-system, system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 14px; font-weight: 500; line-height: 2; outline: transparent; padding: 0.5rem 1rem; text-align: center; text-decoration: none; transition: box-shadow .2s ease-in-out; user-select: none; -webkit-user-select: none; touch-action: manipulation; white-space: nowrap;" 
+              onmouseover="this.style.background = 'linear-gradient(to bottom right, #2196F3, #1976D2)'; this.style.boxShadow = '0 0 .25rem rgba(0, 0, 0, 0.5), -.125rem -.125rem 1rem rgba(33, 150, 243, 0.5), .125rem .125rem 1rem rgba(25, 118, 210, 0.5)';" 
+              onmouseout="this.style.background = 'linear-gradient(to bottom right, #4CAF50, #45a049)'; this.style.boxShadow = 'none';" >See Invoice</button></a>
+              <% }%>
+            </div>
+        
+    </div>
+    </div>
+    
+
+    <div class="col-md-6">
+        <!-- Combined Ratings and Reviews Form -->
+       
+            <!-- Input fields for Ratings -->
+            <div style="margin-bottom: 10px;">
+                <input type="radio" id="form1" name="rating" value="1" <% if (product.rating >= 1) { %> checked <% } %>>
+                <label for="form1"> 1</label>
+        
+                <input type="radio" id="form2" name="rating" value="2" <% if (product.rating >= 2) { %> checked <% } %>>
+                <label for="form2"> 2</label>
+        
+                <input type="radio" id="form3" name="rating" value="3" <% if (product.rating >= 3) { %> checked <% } %>>
+                <label for="form3"> 3</label>
+        
+                <input type="radio" id="form4" name="rating" value="4" <% if (product.rating >= 4) { %> checked <% } %>>
+                <label for="form4"> 4</label>
+        
+                <input type="radio" id="form5" name="rating" value="5" <% if (product.rating >= 5) { %> checked <% } %>>
+                <label for="form5"> 5</label>
+            </div>
+    
+            <!-- Input field for Review -->
+            <div class="form-group">
+                <label for="review">Review:</label>
+                <textarea class="form-control" id="review" name="review" rows="3" <% if (product.review) { %> disabled <% } %>> <%= product.review %> </textarea>
+                <p id="reviewError" style="color: red;"></p>
+            </div>
+    
+            <!-- Submit button for the combined form -->
+            <button onclick="postReview('<%= product.products %>', '<%= order._id %>')" type="button" id="submitBtn" disabled>Post Review</button>
+      
+    </div>
+    
+    
+ <% } %>
+
+
+</div>
+
+ <script >
+    function postReview(ProductId,orderId) {
+     
+        const ratingSelected = document.querySelector('input[name="rating"]:checked');
+        const reviewInput = document.getElementById('review');
+        const reviewError = document.getElementById('reviewError');
+        let reviewValue 
+        if (ratingSelected) {
+            const ratingValue = ratingSelected.value;
+            if (reviewInput) {
+             reviewValue = reviewInput.value;
+          //  console.log(reviewValue)
+            if (reviewValue.length > 0 && (reviewValue.length < 4 || reviewValue.length > 100)) {
+                reviewError.textContent = 'Review must be between 4 and 100 characters.';
+                return; // Stop execution if the review length is invalid
+            }
+                 }
+     
+                 fetch('/addReview', {
+                     method: 'POST',
+                     headers: {
+                         'Content-Type': 'application/json',
+                     },
+                     body: JSON.stringify({ rating: ratingValue, review: reviewValue ,ProductId,orderId}),
+                 })
+                 .then(response => response.json())
+                 .then(data => {
+                    if (data && data.message === "Review added successfully") {
+                        // Display SweetAlert success message
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Review Added Successfully',
+                            text: 'Thank you for your review!',
+                        }).then((result) => {
+                            // You can add additional actions after the user clicks 'OK' if needed
+                            if (result.isConfirmed) {
+                                // Redirect or perform other actions
+                            }
+                        });
+                    } else {
+                        // Handle unexpected response or error from the backend
+                        console.error('Unexpected response from the backend:', data);
+                    }
+                 })
+                 .catch(error => {
+                     console.error('Error:', error);
+                     // Handle error
+                 });
+           
+        } else {
+            alert('Please select a rating before submitting your review.');
+        }
+    }
+
+    // Enable submit button and review textarea when a rating is selected
+   // Enable submit button and review textarea when a rating is selected
+const ratingInputs = document.querySelectorAll('input[name="rating"]');
+ratingInputs.forEach(input => {
+input.addEventListener('change', () => {
+    const submitBtn = document.getElementById('submitBtn');
+    const reviewInput = document.getElementById('review');
+    const reviewError = document.getElementById('reviewError');
+
+    if (input.checked) {
+        // Rating is selected
+        submitBtn.removeAttribute('disabled');
+        reviewInput.removeAttribute('disabled');
+        reviewError.textContent = ''; // Clear any previous error message
+    } else {
+        // No rating selected
+        submitBtn.setAttribute('disabled', 'true');
+        reviewInput.setAttribute('disabled', 'true');
+    }
+});
+});
+
+
+
+</script>
+
+ 
+
+       
+     </div>
+ 
+
+</div>
+  <% }); %>
+  
+
+              
+                          <!-- Additional Order Details -->
+                          <p class="card-text" style="margin: 0;">Payment Mode: <%= order.paymentMode %></p>
+                          <p class="card-text" style="margin: 0;">Subtotal: ₹ <%= order.subtotal %></p>
+              
+                          <!-- Address Details -->
+                          <p class="card-text" style="margin: 0;">Address: <%= order.address.streetAddress1 %>, <%= order.address.townCity %>, <%= order.address.stateCounty %> <%= order.address.postcodeZIP %></p>
+                          <p class="card-text" style="margin: 0;">Phone: <%= order.address.phone %></p>
+              
+                        </div>
+                      </div>
+                      
+                    <% }); %>
+                    
+                  </div>
+            
+                 
+                </div>
+              </div>
+              
+
+
+
+              
+              </div>  
+              </div><!-- End .col-lg-9 -->
+            </div><!-- End .row -->
+          </div><!-- End .container -->
+        </div><!-- End .dashboard -->
+    </div><!-- End .page-content -->
+  </div><!-- End .page-content -->
+</main><!-- End .main -->
+
+</div><!-- End .page-wrapper -->
+<button id="scroll-top" title="Back to Top"><i class="icon-arrow-up"></i></button>
+
+<!-- Mobile Menu -->  
+<div class="mobile-menu-overlay"></div><!-- End .mobil-menu-overlay -->
+
+<div class="mobile-menu-container">
+
+</div><!-- End .mobile-menu-container -->
+
+<!-- Sign in / Register Modal -->
+<div class="modal fade" id="signin-modal" tabindex="-1" role="dialog" aria-hidden="true">
+
+</div><!-- End .modal -->
+
+
+
+
+
+
+
+
+
+
+
+<script>
+
+  function handleOrderAction(orderId,productId, action) {
+      let actionText;
+  
+      if (action === 'cancel') {
+          actionText = 'cancel';
+      } else if (action === 'return') {
+          actionText = 'return';
+      }
+  
+      Swal.fire({
+          title: 'Are you sure?',
+          text: `You are about to ${actionText} your order. We're sad to see you go.`,
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Yes, proceed',
+          cancelButtonText: 'No, keep my order',
+          input: 'text',
+          inputPlaceholder: 'Enter your reason here',
+          preConfirm: async (reason) => {
+              if (!reason) {
+                  Swal.showValidationMessage('Please enter a reason for the cancellation');
+              } else {
+                  const response = await fetch(`/orderStatusUpdation/${orderId}`, {
+                      method: 'PUT',
+                      headers: {
+                          'Content-Type': 'application/json',
+                      },
+                      body: JSON.stringify({ 
+                        reason: reason,
+                        productId:productId
+                      
+                      }),
+                  });
+  
+                  if (response.ok) {
+                      Swal.fire('Updated!', `Your ${actionText} request has been submitted`, 'success');
+                      // window.location.reload()
+                      const urlWithTabParam = window.location.href.split('?')[0] + '?tab=orders';
+                      window.location.href = urlWithTabParam;
+                  } else {
+                      Swal.showValidationMessage('Failed to submit your request');
+                  }
+              }
+          }
+      });
+  }
+  
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+	  function removefromorder(orderId,productid) {
+        // Show SweetAlert confirmation dialog
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'You are about to cancel the order. This action cannot be undone!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, cancel it!',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // If user clicks "Yes" on the confirmation dialog
+
+                // Make a fetch request to your server to cancel the product from the order
+                fetch(`/cancelOrder/${orderId}/${productid}`, {
+                    method: 'POST',
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        // Handle the response from the server
+                        console.log('Order cancelled successfully:', data);
+
+                        // Show SweetAlert success message
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Order Cancelled!',
+                            text: 'Your order has been cancelled successfully.',
+                        }).then(() => {
+						window.location.reload()
+                        });
+                    })
+                    .catch(error => {
+                        // Handle errors
+                        console.error('There was a problem cancelling the order:', error.message);
+
+                        // Show SweetAlert error message
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'There was a problem cancelling the order. Please try again.',
+                        });
+                    });
+            }
+        });
+    }
+
+
+	function returnRequest(orderId, productid) {
+    // Disable the button
+    const returnRequestButton = document.getElementById('returnRequestButton'); // Replace 'returnRequestButton' with the actual ID or class of your button
+    returnRequestButton.disabled = true;
+
+    // Show SweetAlert confirmation dialog with input field for the reason
+    Swal.fire({
+        title: 'Return Request',
+        text: 'Please provide a reason for the return:',
+        input: 'text',
+        inputPlaceholder: 'Enter reason...',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Submit',
+    }).then((result) => {
+        if (result.isConfirmed && result.value) {
+            const reason = result.value;
+
+            // Make a fetch request to your server to handle the return request
+            fetch(/returnrequest/${orderId}/${productid}, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ reason }),
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Return request submitted successfully:', data);
+
+                    // Show SweetAlert success message
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Return Request Submitted!',
+                        text: 'Your return request has been submitted successfully.',
+                    }).then(() => {
+                        // Enable the button after the SweetAlert is closed
+                        returnRequestButton.disabled = false;
+                        window.location.reload();
+                    });
+                })
+                .catch(error => {
+                    console.error('There was a problem submitting the return request:', error.message);
+
+                    // Show SweetAlert error message
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'There was a problem submitting the return request. Please try again.',
+                    }).then(() => {
+                        // Enable the button after the SweetAlert is closed
+                        returnRequestButton.disabled = false;
+                    });
+                });
+        } else {
+            // Enable the button if the user cancels the SweetAlert
+            returnRequestButton.disabled = false;
+        }
+    });
+}
+
+
+
+
+
+
+
+</script>
+
+
+<%-include("../layout/userFoot")%>

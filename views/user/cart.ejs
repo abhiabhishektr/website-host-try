@@ -1,0 +1,290 @@
+<%-include('../layout/userHeader')-%>
+  
+
+    <main class="main">
+        <div class="page-header text-center" style="background-image: url('/user/assets/images/page-header-bg.jpg')">
+            <div class="container">
+                <h1 class="page-title">Shopping Cart<span>Shop</span></h1>
+            </div><!-- End .container -->
+        </div><!-- End .page-header -->
+
+
+        <div class="page-content mt-5">
+            <div class="cart">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-9">
+                            <table class="table table-cart table-mobile">
+                                <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>Price</th>
+                                        <th>Quantity</th>
+                                        <th>Total</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <% let subtotal=0; %>
+                                    <% let  items=0; %>
+                                        <% if (cartData && cartData.products && cartData.products.length> 0) { %>
+                                            <% cartData.products.forEach(product=> { %>
+                                                <tr data-product-id="<%=product.productId._id %>">
+                                                    <td class="product-col">
+                                                        <div class="product">
+                                                            <figure class="product-media">
+                                                                <a href="/product/<%= product.productId._id %>">
+                                                                    <img src="/uploads/<%= product.image %>" alt="">
+                                                                </a>
+                                                            </figure>
+
+                                                            <h3 class="product-title">
+                                                                <a href="/product/<%= product.productId._id %>">
+                                                                    <%= product.name %>
+                                                                </a>
+                                                            </h3>
+                                                        </div>
+                                                        <p id="proid" hidden>
+                                                            <%= product.productId._id %>
+                                                        </p>
+                                                    </td>
+                                                    <td class="price-col">₹ <%= product.productPrice %>
+                                                    </td>
+                                                    <% subtotal +=product.totalPrice; %>
+                                                        <input type="text" id="cartid" value="<%=cartData._id%>" hidden>
+                                                        <td class="quantity-col">
+                                                            <div class="cart-product-quantity">
+                                                                <!-- <input type="number" class="form-control" value="<%= product.quantity %>" min="1" max="<%= product.productId.Quantity %>" step="1" data-decimals="0" required id="<%= product.productId._id %>"> -->
+                                                                <input type="number" class="form-control" value="<%= product.quantity %>" min="1" max="<%= productQuantities[items] %>" step="1" data-decimals="0" required id="<%= product.productId._id %>">
+                                                            </div>
+                                                        </td>
+                                                        <td class="total-col" id="total-<%= product.productId._id %>">₹
+                                                            <%= product.totalPrice.toFixed(2) %>
+                                                        </td>
+                                                        <td class="remove-col">
+                                                            <button class="btn-remove"
+                                                                onclick="removeFromCart('<%= product.productId._id %>')"><i
+                                                                    class="icon-close"></i></button>
+                                                        </td>
+                                                </tr>
+                                                    <% items++  %>
+                                                <% }); %>
+                                                    <% } %>
+                                </tbody>
+
+                            </table><!-- End .table table-wishlist -->
+
+                            <div class="cart-bottom">
+                                <div class="cart-discount" hidden < form action="#">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" required placeholder="coupon code">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-outline-primary-2" type="submit"><i
+                                                    class="icon-long-arrow-right"></i></button>
+                                        </div><!-- .End .input-group-append -->
+                                    </div>
+                                    </form>
+                                </div>
+
+                                <a href="/" class="btn btn-outline-dark-2"><span>Continue Shopping</span><i
+                                        class="icon-refresh"></i></a>
+                            </div><!-- End .cart-bottom -->
+                        </div><!-- End .col-lg-9 -->
+                        <aside class="col-lg-3">
+                          
+                            <div class="summary summary-cart">
+
+                                <form action="/paymentmethod" method="GET">
+                                    <h3 class="summary-title">Cart Total</h3><!-- End .summary-title -->
+
+                                    <table class="table table-summary">
+                                        <tbody>
+                                            <tr class="summary-subtotal">
+                                                <td>Subtotal:</td>
+                                                <td>₹<%= subtotal.toFixed(2) %>
+                                                </td>
+                                            </tr><!-- End .summary-subtotal -->
+                                            <tr class="summary-shipping">
+                                                <td>Shipping:</td>
+                                                <td>&nbsp;</td>
+                                            </tr>
+                                            <tr class="summary-shipping-row">
+                                                <td>
+                                                    <div>
+                                                        <!-- Remove the radio input -->
+                                                        <label class="custom-control-label">Free Shipping</label>
+                                                    </div><!-- End .custom-control -->
+                                                </td>
+                                                <td>₹ 0.00</td>
+                                            </tr><!-- End .summary-shipping-row -->
+                                            
+
+                                            <tr class="summary-shipping-row" hidden>
+                                                <td>
+                                                    <div class="custom-control custom-radio">
+                                                        <input type="radio" id="standart-shipping" name="shipping"
+                                                            class="custom-control-input">
+                                                        <label class="custom-control-label"
+                                                            for="standart-shipping">Standart:</label>
+                                                    </div><!-- End .custom-control -->
+                                                </td>
+                                                <td>$10.00</td>
+                                            </tr><!-- End .summary-shipping-row -->
+
+                                            <tr class="summary-shipping-row" hidden>
+                                                <td>
+                                                    <div class="custom-control custom-radio">
+                                                        <input type="radio" id="express-shipping" name="shipping"
+                                                            class="custom-control-input">
+                                                        <label class="custom-control-label"
+                                                            for="express-shipping">Express:</label>
+                                                    </div><!-- End .custom-control -->
+                                                </td>
+                                                <td>$20.00</td>
+                                            </tr><!-- End .summary-shipping-row -->
+
+
+                                            <tr class="summary-total">
+                                                <td>Total:</td>
+                                                <td>$<%= subtotal.toFixed(2) %>
+                                                </td>
+                                            </tr><!-- End .summary-total -->
+
+                                        </tbody>
+                                    </table><!-- End .table table-summary -->
+
+                                    <!-- <button type="submit" class="btn btn-outline-primary-2 btn-order btn-block">PROCEED TO CHECKOUT</button> -->
+                                    <button type="submit" class="btn btn-outline-primary-2 btn-order btn-block" <% if
+                                        (!(cartData && cartData.products && cartData.products.length> 0)) { %> disabled
+                                        style="opacity: 0.5; cursor: not-allowed;" <% } %>>
+                                            PROCEED TO CHECKOUT
+                                    </button>
+
+                                </form>
+                            </div><!-- End .summary -->
+
+
+                            <a href="/" class="btn btn-outline-dark-2 btn-block mb-3"><span>CONTINUE SHOPPING</span><i
+                                    class="icon-refresh"></i></a>
+
+
+                        </aside><!-- End .col-lg-3 -->
+                    </div><!-- End .row -->
+                </div><!-- End .container -->
+            </div><!-- End .cart -->
+
+        </div><!-- End .page-content -->
+    </main><!-- End .main -->
+
+    <footer class="footer">
+
+
+        <div class="footer-bottom">
+            <div class="container">
+                <p class="footer-copyright">Copyright © 2019 Molla Store. All Rights Reserved.</p>
+                <!-- End .footer-copyright -->
+                <figure class="footer-payments">
+                    <img src="/user/assets/images/payments.png" alt="Payment methods" width="272" height="20">
+                </figure><!-- End .footer-payments -->
+            </div><!-- End .container -->
+        </div><!-- End .footer-bottom -->
+    </footer><!-- End .footer -->
+    </div><!-- End .page-wrapper -->
+    <button id="scroll-top" title="Back to Top"><i class="icon-arrow-up"></i></button>
+
+
+    <!-- Add this in the head section of your HTML file -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- Plugins JS File -->
+    <script src="/user/assets/js/jquery.min.js"></script>
+    <script src="/user/assets/js/bootstrap.bundle.min.js"></script>
+    <script src="/user/assets/js/jquery.hoverIntent.min.js"></script>
+    <script src="/user/assets/js/jquery.waypoints.min.js"></script>
+    <script src="/user/assets/js/superfish.min.js"></script>
+    <script src="/user/assets/js/owl.carousel.min.js"></script>
+    <script src="/user/assets/js/bootstrap-input-spinner.js"></script>
+    <!-- Main JS File -->
+    <script src="/user/assets/js/main.js"></script>
+    <script>
+        // In your client-side JavaScript
+        function removeFromCart(productId) {
+            fetch(`/cart/${productId}`, {
+                method: 'PUT', // Use PUT instead of POST
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({  })   // No need for JSON.stringify if the payload is a simple object
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        window.location.reload();
+                        // Optionally, you can update the UI to reflect the removal
+                    } else {
+                        alert('Failed to remove the product from the cart.'); // Display error message
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while removing the product from the cart.');
+                });
+        }
+
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const quantityInputs = document.querySelectorAll('[id]');
+
+            quantityInputs.forEach(function (quantityInput) {
+                quantityInput.addEventListener("input", function () {
+                    const cartId = document.getElementById('cartid').value;
+
+
+                    fetch('/updatequantity', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ cartId: cartId, productId: quantityInput.id, quantity: quantityInput.value }),
+                    })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error(`HTTP error! Status: ${response.status}`);
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            console.log('Server response:', data);
+                            const totalCol = document.querySelector(`[id="${quantityInput.id}"]`).closest('tr').querySelector('.total-col');
+                            totalCol.innerHTML = `$${data.updatedTotalPrice}`;
+
+                            const totalPriceTotalElement = document.querySelector('.summary-total td:last-child');
+                            totalPriceTotalElement.innerHTML = `$${data.totalPriceTotal}`;
+
+                            const subtotalElement = document.querySelector('.summary-subtotal td:last-child');
+                            if (subtotalElement) {
+                                subtotalElement.innerHTML = `$${data.totalPriceTotal}`;
+                            } else {
+                                console.error('Unable to find element for subtotal update.');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                        });
+                });
+            });
+        });
+    </script>
+
+
+    </body>
+
+
+    <!-- molla/cart.html  22 Nov 2019 09:55:06 GMT -->
+
+    </html>
+
+
+

@@ -1,0 +1,787 @@
+<%-include('../layout/userHeader')-%>
+<!-- ===========================================================intro=================================================================== -->
+        <main class="main">
+            <div class="intro-section">
+                <div class="intro-section-slider">
+                    <div class="container">
+                        <div class="intro-slider-container slider-container-ratio mb-0">
+                            <div class="intro-slider owl-carousel owl-simple owl-light" data-toggle="owl" 
+                                data-owl-options='{
+                                    "nav": false, 
+                                    "dots": true,
+                                    "responsive": {
+                                        "1200": {
+                                            "nav": true,
+                                            "dots": false
+                                        }
+                                    }
+                                }'>
+
+                                <div class="intro-slide">
+                                    <% if (banner && banner!==1) { %>
+                                        <figure class="slide-image">
+                                            <picture>
+                                                <source media="(max-width: 480px)" srcset="/user/assets/images/demos/demo-9/slider/slide-1-480w.jpg">
+                                                <img src="/uploads/uploaded_image.jpg" alt="Image Desc">
+                                            </picture>
+                                        </figure><!-- End .slide-image -->
+                                
+                                        <div class="intro-content">
+                                            <h3 class="intro-subtitle">New Collection</h3><!-- End .h3 intro-subtitle -->
+                                            <h1 class="intro-title text-white">Best<br> Shoes & Accessories</h1><!-- End .intro-title -->
+                                            <div class="intro-text text-white">2024</div><!-- End .intro-text -->
+                                            <a href="<%=banner.link%>" class="btn btn-primary">
+                                                <span>DISCOVER NOW</span>
+                                            </a>
+                                        </div>
+                                    <% } else { %>
+                                        <figure class="slide-image">
+                                            <picture>
+                                                <source media="(max-width: 480px)" srcset="/user/assets/images/demos/demo-9/slider/slide-1-480w.jpg">
+                                                <img src="/img/main.jpg" alt="Image Desc">
+                                            </picture>
+                                        </figure><!-- End .slide-image -->
+                                
+                                        <div class="intro-content">
+                                            <h3 class="intro-subtitle">New Collection</h3><!-- End .h3 intro-subtitle -->
+                                            <h1 class="intro-title text-white">Best<br> Shoes & Accessories</h1><!-- End .intro-title -->
+                                            <div class="intro-text text-white">2024</div><!-- End .intro-text -->
+                                            <a href="/fullpdt/0" class="btn btn-primary">
+                                                <span>DISCOVER NOW</span>
+                                            </a>
+                                        </div>
+                                    <% } %>
+                                </div><!-- End .intro-slide -->
+                                
+
+                                <div class="intro-slide">   
+                                    <figure class="slide-image">
+                                        <picture>
+                                            <source media="(max-width: 480px)" srcset="/user/assets/images/demos/demo-9/slider/slide-2-480w.jpg">
+                                            <img src="/img/women.jpg" alt="Image Desc">
+                                        </picture>
+                                    </figure><!-- End .slide-image -->
+
+                                    <div class="intro-content">
+                                        <h3 class="intro-subtitle">New Collection</h3><!-- End .h3 intro-subtitle -->
+                                        <h1 class="intro-title text-white">Women’s <br>Shoes & Accessories</h1><!-- End .intro-title -->
+
+                                        <a href="/fullpdt/Women" class="btn btn-primary">
+                                            <span>DISCOVER NOW</span>
+                                        </a>
+                                    </div><!-- End .intro-content -->
+                                </div><!-- End .intro-slide -->
+
+                                <div class="intro-slide">
+                                    <figure class="slide-image">
+                                        <picture>
+                                            <source media="(max-width: 480px)" srcset="/user/assets/images/demos/demo-9/slider/slide-3-480w.jpg">
+                                            <img src="/img/men.jpg" alt="Image Desc">
+                                        </picture>
+                                    </figure><!-- End .slide-image -->
+
+                                    <div class="intro-content">
+                                        <h3 class="intro-subtitle text-muted">Deals and Promotions</h3><!-- Use text-muted for grey -->
+                                        <h1 class="intro-title text-muted">Shoes & Accessories</h1><!-- Use text-muted for grey -->
+                                    
+                                        <div class="intro-text text-muted">from $9.99</div><!-- Use text-muted for grey -->
+                                    
+                                        <a href="/fullpdt/Men" class="btn btn-primary">
+                                            <span>SHOP NOW</span>
+                                        </a>
+                                    </div>
+                                  
+                                </div><!-- End .intro-slide -->
+                            </div><!-- End .intro-slider owl-carousel owl-simple -->
+                                    
+                            <span class="slider-loader"></span><!-- End .slider-loader -->
+                        </div><!-- End .intro-slider-container -->
+                    </div><!-- End .container -->
+                </div><!-- End .intro-section-slider -->
+
+                <div class="icon-boxes-container pt-0 pb-0">
+                    <div class="container">
+                        <div class="owl-carousel owl-simple" data-toggle="owl" 
+                            data-owl-options='{
+                                "nav": false, 
+                                "dots": false,
+                                "margin": 30,
+                                "loop": false,
+                                "autoplay": true,
+                                "autoplayTimeout": 8000,
+                                "responsive": {
+                                    "0": {
+                                        "items":1
+                                    },
+                                    "480": {
+                                        "items":2
+                                    },
+                                    "992": {
+                                        "items":3
+                                    },
+                                    "1200": {
+                                        "items":4
+                                    }
+                                }
+                            }'>
+                                <div class="icon-box icon-box-side">
+                                    <span class="icon-box-icon">
+                                        <i class="icon-rocket"></i>
+                                    </span>
+
+                                    <div class="icon-box-content">
+                                        <h3 class="icon-box-title">Free Shipping</h3><!-- End .icon-box-title -->
+                                        <p>Orders $50 or more</p>
+                                    </div><!-- End .icon-box-content -->
+                                </div><!-- End .icon-box -->
+                            
+                                <div class="icon-box icon-box-side">
+                                    <span class="icon-box-icon">
+                                        <i class="icon-rotate-left"></i>
+                                    </span>
+
+                                    <div class="icon-box-content">
+                                        <h3 class="icon-box-title">Free Returns</h3><!-- End .icon-box-title -->
+                                        <p>Within 30 days</p>
+                                    </div><!-- End .icon-box-content -->
+                                </div><!-- End .icon-box -->
+
+                                <div class="icon-box icon-box-side">
+                                    <span class="icon-box-icon">
+                                        <i class="icon-info-circle"></i>
+                                    </span>
+
+                                    <div class="icon-box-content">
+                                        <h3 class="icon-box-title">Get 20% Off 1 Item</h3><!-- End .icon-box-title -->
+                                        <p>When you sign up</p>
+                                    </div><!-- End .icon-box-content -->
+                                </div><!-- End .icon-box -->
+
+                                <div class="icon-box icon-box-side">
+                                    <span class="icon-box-icon">
+                                        <i class="icon-life-ring"></i>
+                                    </span>
+
+                                    <div class="icon-box-content">
+                                        <h3 class="icon-box-title">We Support</h3><!-- End .icon-box-title -->
+                                        <p>24/7 amazing services</p>
+                                    </div><!-- End .icon-box-content -->
+                                </div><!-- End .icon-box -->
+                        </div><!-- End .owl-carousel -->
+                    </div><!-- End .container -->
+                </div><!-- End .icon-boxes-container -->
+            </div><!-- End .intro-section -->
+
+            <div class="pt-3 pb-3">
+                <div class="container">
+                    <div class="banner-group">
+                        <div class="row">
+                            <div class="col-sm-6 col-lg-4">
+                                <div class="banner banner-overlay banner-lg">
+                                    <a href="#">
+                                        <img src="/user/assets/images/demos/demo-9/banners/banner-1.jpg" alt="Banner">
+                                    </a>
+
+                                    <div class="banner-content banner-content-bottom">
+                                        <h4 class="banner-subtitle text-white"><a href="#">Clearance</a></h4><!-- End .banner-subtitle -->
+                                        <h3 class="banner-title text-white"><a href="#">Waterproof</a></h3><!-- End .banner-title -->
+                                        <div class="banner-text text-white"><a href="#">from $19.00</a></div><!-- End .banner-text -->
+                                        <a href="#" class="btn btn-outline-white banner-link">Discover Now</a>
+                                    </div><!-- End .banner-content -->
+                                </div><!-- End .banner -->
+                            </div><!-- End .col-lg-4 -->
+
+                            <div class="col-sm-6 col-lg-4 order-lg-last">
+                                <div class="banner banner-overlay banner-lg">
+                                    <a href="#">
+                                        <img src="/user/assets/images/demos/demo-9/banners/banner-4.jpg" alt="Banner">
+                                    </a>
+
+                                    <div class="banner-content banner-content-top">
+                                        <h4 class="banner-subtitle text-white"><a href="#">On Sale</a></h4><!-- End .banner-subtitle -->
+                                        <h3 class="banner-title text-white"><a href="#">Women's<br>Sportswear</a></h3><!-- End .banner-title -->
+                                        <div class="banner-text text-white"><a href="#">from $39.00</a></div><!-- End .banner-text -->
+                                        <a href="#" class="btn btn-outline-white banner-link">Discover Now</a>
+                                    </div><!-- End .banner-content -->
+                                </div><!-- End .banner -->
+                            </div><!-- End .col-lg-4 -->
+
+                            <div class="col-12 col-lg-4">
+                                <div class="row">
+                                    <div class="col-sm-6 col-lg-12">
+                                        <div class="banner banner-overlay">
+                                            <a href="#">
+                                                <img src="/user/assets/images/demos/demo-9/banners/banner-2.jpg" alt="Banner">
+                                            </a>
+
+                                            <div class="banner-content">
+                                                <h4 class="banner-subtitle text-white"><a href="#">New Arrivals</a></h4><!-- End .banner-subtitle -->
+                                                <h3 class="banner-title text-white"><a href="#">Accessories<br>and Shoes</a></h3><!-- End .banner-title -->
+                                                <a href="#" class="btn btn-outline-white banner-link">Shop Now</a>
+                                            </div><!-- End .banner-content -->
+                                        </div><!-- End .banner -->
+                                    </div><!-- End .col-sm-6 col-lg-12 -->
+
+                                    <div class="col-sm-6 col-lg-12">
+                                        <div class="banner banner-overlay">
+                                            <a href="#">
+                                                <img src="/user/assets/images/demos/demo-9/banners/banner-3.jpg" alt="Banner">
+                                            </a>
+
+                                            <div class="banner-content">
+                                                <h4 class="banner-subtitle text-white"><a href="#">New Arrivals</a></h4><!-- End .banner-subtitle -->
+                                                <h3 class="banner-title text-white"><a href="#">Spring 2019</a></h3><!-- End .banner-title -->
+                                                <a href="#" class="btn btn-outline-white banner-link">Shop Now</a>
+                                            </div><!-- End .banner-content -->
+                                        </div><!-- End .banner -->
+                                    </div><!-- End .col-sm-6 col-lg-12 -->
+                                </div><!-- End .row -->
+                            </div><!-- End .col-lg-4 -->
+                        </div><!-- End .row -->
+                    </div><!-- End .banner-group -->
+
+                    <div class="owl-carousel mt-4 mb-3 owl-simple" data-toggle="owl" 
+                        data-owl-options='{
+                            "nav": false, 
+                            "dots": false,
+                            "margin": 30,
+                            "loop": false,
+                            "responsive": {
+                                "0": {
+                                    "items":2
+                                },
+                                "420": {
+                                    "items":3
+                                },
+                                "600": {
+                                    "items":4
+                                },
+                                "900": {
+                                    "items":5
+                                },
+                                "1024": {
+                                    "items":6
+                                }
+                            }
+                        }'>
+                        <a href="#" class="brand">
+                            <img src="/user/assets/images/brands/1.png" alt="Brand Name">
+                        </a>
+
+                        <a href="#" class="brand">
+                            <img src="/user/assets/images/brands/2.png" alt="Brand Name">
+                        </a>
+
+                        <a href="#" class="brand">
+                            <img src="/user/assets/images/brands/3.png" alt="Brand Name">
+                        </a>
+
+                        <a href="#" class="brand">
+                            <img src="/user/assets/images/brands/4.png" alt="Brand Name">
+                        </a>
+
+                        <a href="#" class="brand">
+                            <img src="/user/assets/images/brands/5.png" alt="Brand Name">
+                        </a>
+
+                        <a href="#" class="brand">
+                            <img src="/user/assets/images/brands/6.png" alt="Brand Name">
+                        </a>
+
+                        <a href="#" class="brand">
+                            <img src="/user/assets/images/brands/7.png" alt="Brand Name">
+                        </a>
+                    </div><!-- End .owl-carousel -->
+                </div><!-- End .container -->
+            </div><!-- End .bg-lighter -->
+
+            <div class="bg-lighter pt-6">
+                <div class="container">
+                    <div class="heading heading-flex mb-3">
+                        <div class="heading-left">
+                            <h2 class="title">Trending Now</h2><!-- End .title -->
+                        </div><!-- End .heading-left -->
+
+                       <div class="heading-right">
+                            <ul class="nav nav-pills nav-border-anim justify-content-center" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="trending-women-link" data-toggle="tab" href="#trending-women-tab" role="tab" aria-controls="trending-women-tab" aria-selected="true">See More</a>
+                                </li>
+                                    <!-- <li class="nav-item">
+                                        <a class="nav-link" id="trending-men-link" data-toggle="tab" href="#trending-men-tab" role="tab" aria-controls="trending-men-tab" aria-selected="false">Men's Clothing</a>
+                                    </li> -->
+                            </ul>
+                       </div><!-- End .heading-right -->
+                    </div><!-- End .heading -->
+
+                    <div class="tab-content tab-content-carousel">
+
+
+
+
+
+
+
+
+
+
+
+
+   <div class="row">
+                <div class="owl-carousel owl-simple carousel-equal-height carousel-with-shadow" data-toggle="owl" 
+                        data-owl-options='{
+                            "nav": false, 
+                            "dots": true,
+                            "margin": 20,
+                            "loop": false,
+                            "responsive": {
+                                "0": {
+                                    "items":1
+                                },
+                                "480": {
+                                    "items":2
+                                },
+                                "768": {
+                                    "items":3
+                                },
+                                "992": {
+                                    "items":4
+                                },
+                                "1200": {
+                                    "items":4,
+                                    "nav": true,
+                                    "dots": false
+                                }
+                            }
+                        }'>
+             
+                    <% products.forEach(product => { %>
+                        <div class="product product-<%= product.id %> text-center" >
+                            <figure class="product-media">
+                                <a href="/product/<%= product.id %>" class="card-link">
+                                    <div style="width: 300px; height: 200px; background-color: white; overflow: hidden; display: flex; justify-content: center; align-items: center;">
+                                        <img src="/uploads/<%= product.imageUrls[0] %>" alt="Product image" style="max-width: 100%; max-height: 100%; width: auto; height: auto;">
+                                    </div>
+                                                                    </a>
+                
+                                                                    <div class="product-action-vertical" id="<%= product._id %>">
+                                                                        <% if (product.isInWishlist) { %>
+                                                                            <a  onclick="addToWishlist('<%= product.id %>')" style="cursor: pointer;">
+                                                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="25" height="25" style="fill: #fe0ebe;">
+                                                                                    <path d="M47.6 300.4L228.3 469.1c7.5 7 17.4 10.9 27.7 10.9s20.2-3.9 27.7-10.9L464.4 300.4c30.4-28.3 47.6-68 47.6-109.5v-5.8c0-69.9-50.5-129.5-119.4-141C347 36.5 300.6 51.4 268 84L256 96 244 84c-32.6-32.6-79-47.5-124.6-39.9C50.5 55.6 0 115.2 0 185.1v5.8c0 41.5 17.2 81.2 47.6 109.5z"/>
+                                                                                </svg>
+                                                                                <span></span>
+                                                                            </a>
+                                                                        <% } else { %>
+                                                                            <a  onclick="addToWishlist('<%= product.id %>')" class="btn-product-icon btn-wishlist btn-expandable" style="cursor: pointer;">
+                                                                                <span>Add to Wishlist</span>
+                                                                            </a>
+                                                                        <% } %>
+                                                                    </div>
+                
+                                                                    <div class="product-action" id="cart<%= product.id %>">
+                                                                        <% if (product.isInCart) { %>
+                                                                            <a href="/cart" class="btn-product btn-cart"><span> Go to Cart</span></a>
+                                                                        <% } else { %>
+                                                                            <a onclick="addToCart('<%= product.id %>', '<%= product.price %>')" class="btn-product btn-cart" <% if (product.stockQuantity === 0) { %> disabled style="opacity: 0.5; cursor: not-allowed;" <% } %>><span>Add to Cart</span></a>
+                                                                        <% } %>
+                                                                    </div>
+                                                                    
+                            </figure>
+                
+                            <div class="product-body">
+                                <div class="product-cat">
+                                    <a href="<%= product.categoryUrl %>"><%= product.category %></a>
+                                </div>
+                                <h3 class="product-title"><a href="<%= product.productUrl %>"><%= product.name %></a></h3>
+                                <div class="product-price">
+                                    <% if (product.priceoffer && product.priceoffer !== null) { %>
+                                        <span class="new-price"> ₹ <%=product.price %></span>
+                                        <span class="old-price">₹ <%=  product.priceoffer %></span>
+                                    <% } else { %>
+                                        ₹ <%= product.price %>
+                                    <% } %>
+                                </div>
+                                
+                                <div class="ratings-container">
+                                    <div class="ratings">
+                                        <div class="ratings-val" style="width: <%= product.averageRating*20 %>%;"></div>
+                                    </div>
+                                    <span class="ratings-text">( <%= product.totalRatings %> Reviews )</span>
+                                </div>
+                            </div>
+                        </div>
+                    <% }); %>
+                </div>
+            </div>
+                
+                          
+    
+            <script>
+                function addToCart(productId, productPrice) {
+                    console.log(1111)
+                    $.ajax({
+                        url: '/updatecart/' + productId,
+                        type: 'PUT',
+                        success: function(response) {
+                            if (response.status === 'success') {
+                                Swal.fire('Success!', response.message, 'success');
+                                updateCartUI(response,productId);
+                            } else if (response.status === 'error') {
+                                Swal.fire('Error!', response.message, 'error');
+                            }
+                        },
+                        error: function(error) {
+                            Swal.fire('Error!', 'An error occurred while updating the cart.', 'error');
+                        }
+                    });
+                }
+            
+                function updateCartUI(response, productId, productPrice) {
+                    var currentCount = $('.cart-count').text();
+                    var currentAmt = $('.cart-txt').text().replace(/[^\d]/g, '');
+                    var newCount = parseInt(currentCount) + 1;
+                    productPrice = parseFloat(productPrice); // Ensure product price is numeric
+                    var newAmt = '₹ ' + (parseFloat(currentAmt) + productPrice);
+                
+                    // Update UI with new count and amount
+                    $('.cart-count').text(newCount).css({
+                        'transition': 'all 0.5s ease',
+                        'transform': 'scale(1.2)',
+                    });
+                
+                    $('.cart-txt').text(newAmt);
+                
+                    // Reset transition and scale after a delay
+                    setTimeout(function () {
+                        $('.cart-count').css({
+                            'transition': 'none',
+                            'transform': 'scale(1)',
+                        });
+                
+                        // Replace the button with "Go to Cart" link
+                        $(`#cart${productId}`).html('<a href="/cart" class="btn-product btn-cart">Go to Cart</a>');
+                    }, 500);
+                }
+                
+            </script>
+            
+
+
+
+
+
+
+
+
+                        <div class="tab-pane p-0 fade" id="trending-men-tab" role="tabpanel" aria-labelledby="trending-men-link">
+                            <div class="owl-carousel owl-simple carousel-equal-height carousel-with-shadow" data-toggle="owl" 
+                                data-owl-options='{
+                                    "nav": false, 
+                                    "dots": true,
+                                    "margin": 20,
+                                    "loop": false,
+                                    "responsive": {
+                                        "0": {
+                                            "items":2
+                                        },
+                                        "480": {
+                                            "items":2
+                                        },
+                                        "768": {
+                                            "items":3
+                                        },
+                                        "992": {
+                                            "items":4
+                                        },
+                                        "1200": {
+                                            "items":4,
+                                            "dots": false
+                                        }
+                                    }
+                                }'>
+                                
+                            </div><!-- End .owl-carousel -->
+                        </div><!-- .End .tab-pane -->
+                    </div><!-- End .tab-content -->
+                </div><!-- End .container -->
+            </div>
+
+            
+
+            <div class="container">
+                <hr class="mt-3 mb-4">
+            </div><!-- End .container -->
+
+           
+
+            <div class="container">
+                <hr class="mt-3 mt-xl-1 mb-0">
+            </div><!-- End .container -->
+
+            
+
+            <div class="owl-carousel owl-simple" data-toggle="owl" 
+                data-owl-options='{
+                    "nav": false, 
+                    "dots": false,
+                    "items": 6,
+                    "margin": 0,
+                    "loop": false,
+                    "responsive": {
+                        "0": {
+                            "items":2
+                        },
+                        "360": {
+                            "items":2
+                        },
+                        "600": {
+                            "items":3
+                        },
+                        "992": {
+                            "items":4
+                        },
+                        "1200": {
+                            "items":5
+                        },
+                        "1500": {
+                            "items":6
+                        }
+                    }
+                }'>
+                <div class="instagram-feed">
+                    <img src="/user/assets/images/demos/demo-9/instagram/1.jpg" alt="img">
+
+                    <div class="instagram-feed-content">
+                        <a href="#"><i class="icon-heart-o"></i>466</a>
+                        <a href="#"><i class="icon-comments"></i>65</a>
+                    </div><!-- End .instagram-feed-content -->
+                </div><!-- End .instagram-feed -->
+
+                <div class="instagram-feed">
+                    <img src="/user/assets/images/demos/demo-9/instagram/2.jpg" alt="img">
+
+                    <div class="instagram-feed-content">
+                        <a href="#"><i class="icon-heart-o"></i>39</a>
+                        <a href="#"><i class="icon-comments"></i>78</a>
+                    </div><!-- End .instagram-feed-content -->
+                </div><!-- End .instagram-feed -->
+
+                <div class="instagram-feed">
+                    <img src="/user/assets/images/demos/demo-9/instagram/3.jpg" alt="img">
+
+                    <div class="instagram-feed-content">
+                        <a href="#"><i class="icon-heart-o"></i>691</a>
+                        <a href="#"><i class="icon-comments"></i>87</a>
+                    </div><!-- End .instagram-feed-content -->
+                </div><!-- End .instagram-feed -->
+
+                <div class="instagram-feed">
+                    <img src="/user/assets/images/demos/demo-9/instagram/4.jpg" alt="img">
+
+                    <div class="instagram-feed-content">
+                        <a href="#"><i class="icon-heart-o"></i>508</a>
+                        <a href="#"><i class="icon-comments"></i>124</a>
+                    </div><!-- End .instagram-feed-content -->
+                </div><!-- End .instagram-feed -->
+
+                <div class="instagram-feed">
+                    <img src="/user/assets/images/demos/demo-9/instagram/5.jpg" alt="img">
+
+                    <div class="instagram-feed-content">
+                        <a href="#"><i class="icon-heart-o"></i>433</a>
+                        <a href="#"><i class="icon-comments"></i>27</a>
+                    </div><!-- End .instagram-feed-content -->
+                </div><!-- End .instagram-feed -->
+
+                <div class="instagram-feed">
+                    <img src="/user/assets/images/demos/demo-9/instagram/6.jpg" alt="img">
+
+                    <div class="instagram-feed-content">
+                        <a href="#"><i class="icon-heart-o"></i>122</a>
+                        <a href="#"><i class="icon-comments"></i>55</a>
+                    </div><!-- End .instagram-feed-content -->
+                </div><!-- End .instagram-feed -->
+            </div><!-- End .owl-carousel -->
+        </main><!-- End .main -->
+
+        <footer class="footer footer-2">
+            <div class="footer-middle">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-12 col-lg-6">
+                            <div class="widget widget-about">
+                                <img src="/user/assets/images/demos/demo-9/logo-footer.png" class="footer-logo" alt="Footer Logo" width="82" height="25">
+                                <p>"ShoeRack: Elevating Style, Engineered by Abhishek. A Showcase of Front-end Finesse and Back-end Expertise."
+                                </p>
+                                
+                                <div class="widget-about-info">
+                                    <div class="row">
+                                        <div class="col-sm-6 col-md-4">
+                                            <span class="widget-about-title">Got Question? Call us 24/7</span>
+                                            <a href="tel:123456789"> Trial Number</a>
+                                        </div><!-- End .col-sm-6 -->
+                                        <div class="col-sm-6 col-md-8">
+                                            <span class="widget-about-title">Payment Method</span>
+                                            <figure class="footer-payments">
+                                                <img src="/user/assets/images/payments.png" alt="Payment methods" width="140" height="15">
+                                            </figure><!-- End .footer-payments -->
+                                        </div><!-- End .col-sm-6 -->
+                                    </div><!-- End .row -->
+                                </div><!-- End .widget-about-info -->
+                            </div><!-- End .widget about-widget -->
+                        </div><!-- End .col-sm-12 col-lg-3 -->
+
+                        <div class="col-sm-4 col-lg-2">
+                            <div class="widget">
+                                <h4 class="widget-title">Information</h4><!-- End .widget-title -->
+
+                                <ul class="widget-list">
+                                    <li><a href="about.html">About Molla</a></li>
+                                    <li><a href="#">How to shop on Molla</a></li>
+                                    <li><a href="faq.html">FAQ</a></li>
+                                    <li><a href="contact.html">Contact us</a></li>
+                                    <li><a href="login.html">Log in</a></li>
+                                </ul><!-- End .widget-list -->
+                            </div><!-- End .widget -->
+                        </div><!-- End .col-sm-4 col-lg-3 -->
+
+                        <div class="col-sm-4 col-lg-2">
+                            <div class="widget">
+                                <h4 class="widget-title">Customer Service</h4><!-- End .widget-title -->
+
+                                <ul class="widget-list">
+                                    <li><a href="#">Payment Methods</a></li>
+                                    <li><a href="#">Money-back guarantee!</a></li>
+                                    <li><a href="#">Returns</a></li>
+                                    <li><a href="#">Shipping</a></li>
+                                    <li><a href="#">Terms and conditions</a></li>
+                                    <li><a href="#">Privacy Policy</a></li>
+                                </ul><!-- End .widget-list -->
+                            </div><!-- End .widget -->
+                        </div><!-- End .col-sm-4 col-lg-3 -->
+
+                        <div class="col-sm-4 col-lg-2">
+                            <div class="widget">
+                                <h4 class="widget-title">My Account</h4><!-- End .widget-title -->
+
+                                <ul class="widget-list">
+                                    <li><a href="#">Sign In</a></li>
+                                    <li><a href="cart.html">View Cart</a></li>
+                                    <li><a href="#">My Wishlist</a></li>
+                                    <li><a href="#">Track My Order</a></li>
+                                    <li><a href="#">Help</a></li>
+                                </ul><!-- End .widget-list -->
+                            </div><!-- End .widget -->
+                        </div><!-- End .col-sm-64 col-lg-3 -->
+                    </div><!-- End .row -->
+                </div><!-- End .container -->
+            </div><!-- End .footer-middle -->
+
+            <div class="footer-bottom">
+                <div class="container">
+             
+
+                    <div class="social-icons social-icons-color">
+                        <span class="social-label">Connect the Developer</span>
+                        <a href="/about" class="social-icon social-facebook" title="Facebook" target="_blank"><i class="icon-facebook-f"></i></a>
+                        <a href="/about" class="social-icon social-twitter" title="Twitter" target="_blank"><i class="icon-twitter"></i></a>
+                        <a href="/about" class="social-icon social-instagram" title="Instagram" target="_blank"><i class="icon-instagram"></i></a>
+                        <a href="/about" class="social-icon social-youtube" title="Youtube" target="_blank"><i class="icon-youtube"></i></a>
+                        <a href="/about" class="social-icon social-pinterest" title="Pinterest" target="_blank"><i class="icon-pinterest"></i></a>
+                    </div><!-- End .soial-icons -->
+                </div><!-- End .container -->
+            </div><!-- End .footer-bottom -->
+        </footer><!-- End .footer -->
+    </div><!-- End .page-wrapper -->
+    <button id="scroll-top" title="Back to Top"><i class="icon-arrow-up"></i></button>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu-overlay"></div><!-- End .mobil-menu-overlay -->
+
+    <div class="mobile-menu-container">
+        <div class="mobile-menu-wrapper">
+            <span class="mobile-menu-close"><i class="icon-close"></i></span>
+
+            <form action="#" method="get" class="mobile-search">
+                <label for="mobile-search" class="sr-only">Search</label>
+                <input type="search" class="form-control" name="mobile-search" id="mobile-search" placeholder="Search in..." required>
+                <button class="btn btn-primary" type="submit"><i class="icon-search"></i></button>
+            </form>
+            
+                    
+
+            <div class="social-icons">
+                <a href="#" class="social-icon" target="_blank" title="Facebook"><i class="icon-facebook-f"></i></a>
+                <a href="#" class="social-icon" target="_blank" title="Twitter"><i class="icon-twitter"></i></a>
+                <a href="#" class="social-icon" target="_blank" title="Instagram"><i class="icon-instagram"></i></a>
+                <a href="#" class="social-icon" target="_blank" title="Youtube"><i class="icon-youtube"></i></a>
+            </div><!-- End .social-icons -->
+        </div><!-- End .mobile-menu-wrapper -->
+    </div><!-- End .mobile-menu-container -->
+
+    <script>
+        function addToWishlist(productId) {
+            // You can use fetch or any other method to send a PUT request with the product ID in the request body
+            fetch('/wishlistManagement', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ productId: productId }),
+            })
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error('Failed to add to wishlist');
+                    }
+                })
+                .then(data => {
+                    // Handle the response data as needed
+                    const productDiv = document.getElementById(productId);
+                    const wishlistLink = document.querySelector('.wishlist-link');
+                    const wishlistCountElement = wishlistLink.querySelector('.wishlist-count');
+    
+                    if (data.message == "Product removed from wishlist") {
+                        // Update the DOM to show "Add to Wishlist"
+                        productDiv.innerHTML = `
+                            <a onclick="addToWishlist('${productId}')" class="btn-product-icon btn-wishlist btn-expandable" style="cursor: pointer;">
+                                <span>Add to Wishlist</span>
+                            </a>
+                        `;
+                        // Reduce the wishlistCount by 1
+                        wishlistCountElement.textContent = parseInt(wishlistCountElement.textContent, 10) - 1;
+                    } else if (data.message == "Product added to wishlist") {
+                        // Update the DOM to show "Remove from Wishlist"
+                        productDiv.innerHTML = `
+                            <a onclick="addToWishlist('${productId}')" style="cursor: pointer;">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="25" height="25" style="fill: #fe0ebe;">
+                                    <path d="M47.6 300.4L228.3 469.1c7.5 7 17.4 10.9 27.7 10.9s20.2-3.9 27.7-10.9L464.4 300.4c30.4-28.3 47.6-68 47.6-109.5v-5.8c0-69.9-50.5-129.5-119.4-141C347 36.5 300.6 51.4 268 84L256 96 244 84c-32.6-32.6-79-47.5-124.6-39.9C50.5 55.6 0 115.2 0 185.1v5.8c0 41.5 17.2 81.2 47.6 109.5z"/>
+                                </svg>
+                                <span></span>
+                            </a>
+                        `;
+                        // Increase the wishlistCount by 1
+                        wishlistCountElement.textContent = parseInt(wishlistCountElement.textContent, 10) + 1;
+                      } else if (data.message == "No Login") {
+                        // Display SweetAlert for login
+                        Swal.fire({
+                          title: "Login Required",
+                          text: "Please log in to add products to your wishlist.",
+                          icon: "warning",
+                          showConfirmButton: false, // Hide the default "OK" button
+                          timer: 1000, // Set the timer to 2000 milliseconds (2 seconds)
+                      });
+                      
+                                                          }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+    </script>
+
+
+  
+    <%-include('../layout/userFoot')-%>

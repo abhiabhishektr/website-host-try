@@ -1,0 +1,241 @@
+<%-include('../layout/adminHeader')-%>
+
+
+<div class="container mt-5">
+    <h1>Edit Product</h1>
+
+    <% if (locals.msg) { %>
+        <%= msg %>
+    <% } %>
+
+    <form action="/updateproduct/<%= product._id %>" method="POST" enctype="multipart/form-data">
+        <!-- ... other form fields ... -->
+
+        <div class="form-group" >
+            <label for="name">Product Name:</label>
+            <input type="text" class="form-control" id="name" name="name" value="<%= product.name %>" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="description">Product Description:</label>
+            <input class="form-control" id="description" name="description" value ="<%= product.description %>" required> 
+        </div>
+        
+        <div class="form-group">
+            <label for="price">Product Price:</label>
+            <input type="number" class="form-control" id="price" name="price" value="<%= product.price %>" required>
+        </div>
+        
+
+        <div class="form-group">
+            <label for="size">Product Size:</label>
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-outline-secondary btn-sm">
+                    <input type="radio" name="size" id="size3" value="3" autocomplete="off"> 3
+                </label>
+                <label class="btn btn-outline-secondary btn-sm">
+                    <input type="radio" name="size" id="size4" value="4" autocomplete="off"> 4
+                </label>
+                <label class="btn btn-outline-secondary btn-sm">
+                    <input type="radio" name="size" id="size5" value="5" autocomplete="off"> 5
+                </label>
+                <label class="btn btn-outline-secondary btn-sm">
+                    <input type="radio" name="size" id="size6" value="6" autocomplete="off"> 6
+                </label>
+                <label class="btn btn-outline-secondary btn-sm">
+                    <input type="radio" name="size" id="size7" value="7" autocomplete="off"> 7
+                </label>
+                <label class="btn btn-outline-secondary btn-sm">
+                    <input type="radio" name="size" id="size8" value="8" autocomplete="off"> 8
+                </label>
+                <label class="btn btn-outline-secondary btn-sm">
+                    <input type="radio" name="size" id="size9" value="9" autocomplete="off"> 9
+                </label>
+                <label class="btn btn-outline-secondary btn-sm">
+                    <input type="radio" name="size" id="size10" value="10" autocomplete="off"> 10
+                </label>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label for="category">Gender:</label>
+            <select class="form-control" id="gender" name="gender">
+                <option value="Men" <% if (product.gender === 'Men') { %>selected<% } %>>Men</option>
+                <option value="Women" <% if (product.gender === 'Women') { %>selected<% } %>>Women</option>
+                <option value="Kids" <% if (product.gender === 'Kids') { %>selected<% } %>>Kids</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="category">Product Category:</label>
+            <select class="form-control" id="category" name="category" required>
+                <% Category.forEach((cate) => { %>
+                    <option value="<%= cate.subName %>" <% if (product.category === cate.subName) { %>selected<% } %>>
+                        <%= cate.subName %>
+                    </option>
+                <% }) %>
+            </select>
+        </div>
+        
+        <script>
+        // Get references to the select elements
+        const genderSelect = document.getElementById('gender');
+        const categorySelect = document.getElementById('category');
+        
+        // Add an event listener to the gender select
+        genderSelect.addEventListener('change', updateSubcategories);
+        
+        // Function to update subcategories based on the selected main category
+        function updateSubcategories() {
+            // Get the selected main category
+            const selectedMainCategory = genderSelect.value;
+        
+            // Remove existing options from the subcategory select
+            while (categorySelect.firstChild) {
+                categorySelect.removeChild(categorySelect.firstChild);
+            }
+        
+            // Add subcategory options based on the selected main category
+            <% Category.forEach((cate) => { %>
+                if ("<%= cate.Name %>" === selectedMainCategory) {
+                    const option = document.createElement('option');
+                    option.value = "<%= cate.subName %>";
+                    option.textContent = "<%= cate.subName %>";
+                    // Check if the option matches the existing product category
+                    option.selected = "<%= product.category %>" === "<%= cate.subName %>";
+                    categorySelect.appendChild(option);
+                }
+            <% }) %>
+        }
+        
+        // Trigger the initial update
+        updateSubcategories();
+        </script>
+        
+        
+        
+        <div class="form-group">
+            <label for="manufacturer">Product Manufacturer:</label>
+            <input type="text" class="form-control" id="manufacturer" name="manufacturer" value="<%= product.manufacturer %>">
+        </div>
+        
+        <div class="form-group">
+            <label for="stockQuantity">Stock Quantity:</label>
+            <input type="number" class="form-control" id="stockQuantity" name="stockQuantity" value="<%= product.stockQuantity %>">
+        </div>
+       
+
+
+        <div class="mb-4">New Images</label>
+            <input type="file" class="form-control" name="replaceImages" accept="image/*" multiple id="replaceImagesInput">
+        </div>
+
+        <div class="mb-4">
+            <label class="form-label">All Images</label>
+            <% product.imageUrls.forEach((image, index) => { %>
+                
+                <div class="d-flex justify-content-between align-items-center">
+                    <img src="/uploads/<%= image %>" alt="Product Image" style="width: 30px; height: 30px; margin-right: 5px;">
+                    <a href="/deleteimage?index=<%= index %>&amp;id=<%=product._id %>" class="text-danger deleteButton" >Delete</a>
+                </div>
+            <% }) %>
+        </div>
+
+     
+
+
+
+
+
+        <button type="submit" class="btn btn-primary">Update Product</button>
+
+    </form>
+</div>
+
+
+
+
+
+
+
+    <!-- ============================================================== -->
+<!-- Footer -->
+<!-- ============================================================== -->
+<footer class="footer text-center">
+    All rights reserved &copy; 2023 Shoe Rack
+</footer>
+<!-- ============================================================== -->
+<!-- End Footer -->
+<!-- ============================================================== -->
+
+</div>
+<script>
+    document.getElementById('replaceImagesInput').addEventListener('change', function(event) {
+        const fileInput = event.target;
+        const selectedFiles = fileInput.files;
+    
+        // Check if more than 4 images are selected
+        if (selectedFiles.length > 4) {
+            // Show a SweetAlert notification
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'You can only upload up to 4 images.',
+            });
+    
+            // Clear the file input to prevent further uploads
+            fileInput.value = '';
+        }
+    });
+    </script>
+<script>
+    // Function to validate the form
+    function validateForm() {
+        var name = document.getElementById('name').value;
+        var description = document.getElementById('description').value;
+        var price = document.getElementById('price').value;
+        var size = document.querySelector('input[name="size"]:checked');
+        var gender = document.getElementById('category').value;
+        var category = document.getElementById('category').value;
+        var manufacturer = document.getElementById('manufacturer').value;
+        var stockQuantity = document.getElementById('stockQuantity').value;
+
+        // Check if any field is empty
+        if (!name || !description || !price || !size || !gender || !category || !manufacturer || !stockQuantity) {
+            alert('All fields except images must be filled!');
+            return false;
+        }
+
+        // You can add more specific validation rules if needed
+
+        return true; // Form is valid
+    }
+</script>
+
+
+<!-- Add this in your HTML file -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+        <script src="/admin/src/assets/libs/jquery/dist/jquery.min.js"></script>
+        <script src="/admin/src/assets/libs/popper.js/dist/umd/popper.min.js"></script>
+        <script src="/admin/src/assets/libs/bootstrap/dist/js/bootstrap.min.js"></script>
+        <!-- apps -->
+        <!-- apps -->
+        <script src="/admin/src/dist/js/app-style-switcher.js"></script>
+        <script src="/admin/src/dist/js/feather.min.js"></script>
+        <script src="/admin/src/assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js"></script>
+        <script src="/admin/src/dist/js/sidebarmenu.js"></script>
+        <!--Custom JavaScript -->
+        <script src="/admin/src/dist/js/custom.min.js"></script>
+        <!--This page JavaScript -->
+        <script src="/admin/src/assets/extra-libs/c3/d3.min.js"></script>
+        <script src="/admin/src/assets/extra-libs/c3/c3.min.js"></script>
+        <script src="/admin/src/assets/libs/chartist/dist/chartist.min.js"></script>
+        <script src="/admin/src/assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
+        <script src="/admin/src/assets/extra-libs/jvector/jquery-jvectormap-2.0.2.min.js"></script>
+        <script src="/admin/src/assets/extra-libs/jvector/jquery-jvectormap-world-mill-en.js"></script>
+        <script src="/admin/src/dist/js/pages/dashboards/dashboard1.min.js"></script>
+    </body>
+    
+    </html>

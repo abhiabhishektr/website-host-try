@@ -1,0 +1,275 @@
+<%-include('../layout/adminHeader')-%>
+
+            
+            <div class="card mb-4">
+                <div class="container-fluid">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>category</th>
+                                <th>Price</th>
+                                <th>Gender</th>
+                                <th>Brand</th>
+
+                                <th>Status</th>
+                                <th class="text-center">Images</th>
+                                <th class="text-end">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% let serialNumber=1; %>
+                            <% if (product.length > 0) { %>
+                                <% product.forEach((product) => { %>
+                                    <tr>
+                                        <th scope="row"><%=serialNumber %></th>
+                                        <td><%= product?.name %></td>
+                                        <td><%= product.category ? product.category : 'N/A' %></td>
+                                        <td><%if(product.priceoffer ){ %>
+                                            <span style="font-size: 80%;"><%= product.price  %>/<%= product.priceoffer %></span>
+                                            <%}else{%>
+
+                                                <span style="font-size: 80%;"><%= product.price  %></span>
+                                                <%}%>
+                                                
+                                                
+                                            
+                                        </td>
+                                        
+                                        
+                                        <td>
+                                            
+                                            <span style="font-size: 80%;"><%= product.gender %></span>
+                                        </td>
+
+                                        <td>
+                                            <span style="font-size: 80%;"><%= product.manufacturer %></span></td>
+                                        <td>
+                                            <span class="badge rounded-pill <%= product.status === 'Active' ? 'alert-success' : 'alert-warning' %>">
+                                                <%= product.status %>
+                                            </span>
+                                        </td>
+                                        
+                                        <td>
+                                            <% for (let j = 0; j < product.imageUrls.length; j++) { %>
+                                                <img src="/uploads/<%= product.imageUrls[j]%>" alt="Product Image" style="width: 30px; height: 30px; margin-left: 5px;">
+                                            <% } %>
+                                        </td>
+                                        <td class="text-end">
+                                            <a href="/editproduct/<%= product._id %>" class="btn btn-sm font-sm btn-dark rounded-circle">
+                                                <i class="material-icons"></i> Edit
+                                            </a>
+                                            <a href="/product/<%= product.id %>" class="btn btn-sm btn-info rounded-circle">
+                                                <i class="material-icons">details</i>
+                                            </a>
+                                            <!-- <form action="/deleteproduct/<%= product._id %>" method="post" class="btn btn-sm font-sm btn-info rounded">
+                                             
+                                              <button class="material-icons"> D</button>  
+                                              
+                                            </form> -->
+                                            <form action="/deleteproduct/<%= product._id %>" method="post" onsubmit="return confirm('Are you sure you want to delete this product?');" style="display:inline;">
+                                                <button type="submit" class="btn btn-sm font-sm btn-info rounded">
+                                                    <span class="material-icons">delete</span>
+                                                </button>
+                                            </form>
+                                            
+
+                                            <% if (product.status === 'Active') { %>
+                                                <a href="/blockproduct/<%= product._id %>" class="btn btn-sm font-sm btn-warning rounded-circle">
+                                                    <i class="material-icons"></i> Block
+                                                </a>
+                                            <% } else { %>
+                                                <a href="/productunblock/<%= product._id %>" class="btn btn-sm font-sm btn-success rounded-circle">
+                                                    <i class="material-icons"></i> Unblock
+                                                </a>
+                                               
+                                            <% } %>
+
+                                            <% if (product.priceoffer&&product.priceoffer!==null) { %>
+                                                <button onclick="cancelOfferWithConfirmation('<%= product._id %>')" class="btn btn-sm btn-success rounded-circle">
+                                                    <i class="material-icons"></i> Cancel Offer
+                                                </button>
+                                            <% } else { %>
+                                                <button onclick="applyOfferWithConfirmation('<%= product._id %>')" class="btn btn-sm btn-warning rounded-circle">
+                                                    <i class="material-icons"></i> Apply Offer
+                                                </button>
+                                            <% } %>
+                                        </td>
+
+
+                                    </tr>
+                                    <% serialNumber++; %>
+                                <% }) %>
+                            <% } %>
+                         
+                        </tbody> 
+                    </table>
+                </div>
+            </div>
+
+
+<!-- Add this script in your HTML file -->
+
+<script>
+    // Function to apply an offer with SweetAlert confirmation
+    function applyOfferWithConfirmation(productId) {
+        Swal.fire({
+            title: 'Enter Discount Percentage',
+            input: 'number',
+            inputAttributes: {
+                min: 1,
+                max: 100,
+                step: 1,
+            },
+            showCancelButton: true,
+            confirmButtonText: 'Apply',
+            cancelButtonText: 'Cancel',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const discountPercentage = result.value;
+                // Call the applyOffer function with the discountPercentage
+                applyOffer(productId, discountPercentage);
+            }
+        });
+    }
+
+    // Function to apply an offer
+    function applyOffer(productId, discountPercentage) {
+        // Make a fetch request with the productId and discountPercentage
+        fetch(`/applyoffer/${productId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ discountPercentage }),
+        })
+        .then(response => {
+            // Handle the response as needed
+            if (response.ok) {
+                console.log('Offer applied successfully');
+                // You may want to update the UI accordingly
+                window.location.reload();
+                        } else {
+                console.error('Failed to apply offer');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+
+    function cancelOfferWithConfirmation(productId) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'This will cancel the offer. Do you want to proceed?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, cancel it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // If the user confirms, call the cancelOffer function
+                cancelOffer(productId);
+            }
+        });
+    }
+    
+    function cancelOffer(productId) {
+        // Make a fetch request to cancel the offer
+        fetch(`/canceloffer/${productId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+        .then(response => {
+            // Handle the response as needed
+            if (response.ok) {
+                console.log('Offer canceled successfully');
+                // You may want to update the UI accordingly
+                window.location.reload();
+            } else {
+                console.error('Failed to cancel offer');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+    
+</script>
+
+
+
+<nav aria-label="Page navigation" class="d-flex justify-content-center mt-4">
+    <ul class="pagination">
+        <% if (currentPage > 1) { %>
+            <li class="page-item">
+                <a class="page-link" href="?page=<%= currentPage - 1 %>" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+        <% } %>
+  
+        <% for (let i = 1; i <= totalPages; i++) { %>
+            <li class="page-item <%= i === currentPage ? 'active' : '' %>">
+                <a class="page-link" href="?page=<%= i %>"><%= i %></a>
+            </li>
+        <% } %>
+  
+        <% if (currentPage < totalPages) { %>
+            <li class="page-item">
+                <a class="page-link" href="?page=<%= currentPage + 1 %>" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        <% } %>
+    </ul>
+  </nav>
+  
+
+    <!-- ============================================================== -->
+<!-- Footer -->
+<!-- ============================================================== -->
+<footer class="footer text-center">
+    All rights reserved &copy; 2023 Shoe Rack
+</footer>
+<!-- ============================================================== -->
+<!-- End Footer -->
+<!-- ============================================================== -->
+
+        
+</div>
+
+
+
+
+
+
+<!-- Add SweetAlert library -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+        <script src="/admin/src/assets/libs/jquery/dist/jquery.min.js"></script>
+        <script src="/admin/src/assets/libs/popper.js/dist/umd/popper.min.js"></script>
+        <script src="/admin/src/assets/libs/bootstrap/dist/js/bootstrap.min.js"></script>
+        <!-- apps -->
+        <!-- apps -->
+        <script src="/admin/src/dist/js/app-style-switcher.js"></script>
+        <script src="/admin/src/dist/js/feather.min.js"></script>
+        <script src="/admin/src/assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js"></script>
+        <script src="/admin/src/dist/js/sidebarmenu.js"></script>
+        <!--Custom JavaScript -->
+        <script src="/admin/src/dist/js/custom.min.js"></script>
+        <!--This page JavaScript -->
+        <script src="/admin/src/assets/extra-libs/c3/d3.min.js"></script>
+        <script src="/admin/src/assets/extra-libs/c3/c3.min.js"></script>
+        <script src="/admin/src/assets/libs/chartist/dist/chartist.min.js"></script>
+        <script src="/admin/src/assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
+        <script src="/admin/src/assets/extra-libs/jvector/jquery-jvectormap-2.0.2.min.js"></script>
+        <script src="/admin/src/assets/extra-libs/jvector/jquery-jvectormap-world-mill-en.js"></script>
+        <script src="/admin/src/dist/js/pages/dashboards/dashboard1.min.js"></script>
+    </body>
+    
+    </html>

@@ -1,0 +1,1269 @@
+<%-include('../layout/userHeader')-%>
+
+
+
+
+
+
+
+
+
+    <main class="main">
+        <div class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">
+            <div class="container">
+                <h1 class="page-title">My Account<span>Shop</span></h1>
+            </div><!-- End .container -->
+        </div><!-- End .page-header -->
+        <nav aria-label="breadcrumb" class="breadcrumb-nav mb-3">
+            <div class="container">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                    <li class="breadcrumb-item"><a href="#">Shop</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">My Account</li>
+                </ol>
+            </div><!-- End .container -->
+        </nav><!-- End .breadcrumb-nav -->
+
+        <div class="page-content">
+            <div class="dashboard">
+                <div class="container">
+                    <div class="row">
+                        <aside class="col-md-4 col-lg-3">
+                            <ul class="nav nav-dashboard flex-column mb-3 mb-md-0" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="tab-dashboard-link" data-toggle="tab"
+                                        href="#tab-dashboard" role="tab" aria-controls="tab-dashboard"
+                                        aria-selected="true">User Details</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="tab-orders-link" data-toggle="tab" href="#tab-orders"
+                                        role="tab" aria-controls="tab-orders" aria-selected="false">Orders</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="tab-address-link" data-toggle="tab" href="#tab-address"
+                                        role="tab" aria-controls="tab-address" aria-selected="false">Adresses</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="tab-wallet-link" data-toggle="tab" href="#tab-wallet"
+                                        role="tab" aria-controls="tab-wallet" aria-selected="false">Wallet Details</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="tab-downloads-link" data-toggle="tab" href="#tab-downloads"
+                                        role="tab" aria-controls="tab-downloads" aria-selected="false">Referal
+                                        Programe</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a style="color: rgb(23, 108, 253);" class="nav-link" href="/signOutUser">Sign Out</a>
+                                </li>
+                            </ul>
+                        </aside><!-- End .col-lg-3 -->
+
+                        <div class="col-md-8 col-lg-9">
+                            <div class="tab-content">
+                                <div class="tab-pane fade show active" id="tab-dashboard" role="tabpanel"
+                                    aria-labelledby="tab-dashboard-link">
+
+
+
+                                    <p>Hello <span class="font-weight-normal text-dark"> <%= userdata.name %></span>
+                                        <br>
+
+                                      
+                                    </p>
+
+                                    <!-- Main -->
+
+                                    <!-- Add these script tags in the head section if not already present -->
+
+                                    <div class="container-fluid mt-3">
+                                        <div class="col-md-8">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <table>
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td><strong>Name</strong></td>
+                                                                        <td>:</td>
+                                                                        <td id="Nname">
+                                                                            <%= userdata.name %>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td><strong>Email</strong></td>
+                                                                        <td>:</td>
+                                                                        <td id="myUserEmail">
+                                                                            <%= userdata.email %>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td><strong>Mobile </strong></td>
+                                                                        <td>:</td>
+                                                                        <td>
+                                                                            <% if (userdata.phoneNo) { %>
+                                                                                <span id="mobile">
+                                                                                    <%= userdata.phoneNo %>
+                                                                                </span>
+                                                                                <% } else { %>
+                                                                                    <span id="noMobile">No mobile no
+                                                                                        added</span>
+                                                                                    <% } %>
+
+                                                                        </td>
+
+
+                                                                        <td>
+
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td><strong>Password</strong></td>
+                                                                        <td>:</td>
+                                                                        <td>******</td>
+                                                                        <td>
+
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+
+
+
+
+                                                    </div>
+
+                                                    <button type="button" class="btn btn-primary"
+                                                        onclick="showPasswordInput()">Change</button>
+                                                    <button type="button" class="btn btn-primary"
+                                                        onclick="showMobileInput()">Update Details</button>
+
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <!-- Mobile Input -->
+                                                    <div id="mobileInput" style="display: none;">
+                                                        <label for="newMobile">Mobile No</label>
+                                                        <input type="text" class="form-control" id="newMobile" required>
+                                                        <label for="newMobile">Name</label>
+                                                        <input type="text" class="form-control" id="newName" required>
+                                                        <div class="row mt-2">
+                                                            <div class="col-md-6">
+                                                                <button type="button" class="btn btn-primary mr-2"
+                                                                    onclick="changeMobile()">Submit</button>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <button type="button" class="btn btn-secondary"
+                                                                    onclick="cancelMobileChange()">Cancel</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                        <span id="mobileTd"
+                                                            style="color: red; font-weight:  padding: 5px;"></span>
+                                                    </div>
+
+                                                    <!-- Password Input -->
+                                                    <div id="passwordInput" style="display: none;">
+                                                        <label for="newPassword">New Password</label>
+                                                        <input placeholder="Enter the Password" type="password"
+                                                            class="form-control" id="newPassword" required>
+                                                        <label for="confirmPassword">Confirm Password</label>
+                                                        <input type="password" class="form-control" id="confirmPassword"
+                                                            required>
+                                                        <div class="row mt-2">
+                                                            <div class="col-md-6">
+                                                                <button type="button" class="btn btn-primary mt-2"
+                                                                    onclick="changePassword()">Submit</button>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <button type="button" class="btn btn-secondary mt-2"
+                                                                    onclick="cancelPasswordChange()">Cancel</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <script>
+                                    function cancelPasswordChange() {
+                                        document.getElementById('passwordInput').style.display = 'none';
+                                    }
+                                    function showMobileInput() {
+                                        document.getElementById('mobileInput').style.display = 'block';
+                                        document.getElementById('noMobile').style.display = 'none';
+                                    }
+
+                                    function showPasswordInput() {
+
+                                        document.getElementById('passwordInput').style.display = 'block';
+                                    }
+
+                                    async function changeMobile() {
+                                        const newMobile = document.getElementById('newMobile').value;
+                                        const newName = document.getElementById('newName').value;
+                                        if (!/^\d{10}$/.test(newMobile)) {
+                                            // Create an error message element
+                                            const errorMessage = document.createElement('div');
+                                            errorMessage.className = 'error-message';
+                                            errorMessage.textContent = 'Please enter a 10-digit mobile number.';
+
+                                            // Append the error message to the same <td> element
+                                            const mobileTd = document.getElementById('mobileTd');
+                                            mobileTd.innerHTML = ''; // Clear existing content
+                                            mobileTd.appendChild(errorMessage);
+
+                                            return;
+                                        }
+                                        // Make a PATCH request to update mobile number
+                                        //  const userEmail =  document.getElementById("myUserEmail").innerHTML;
+                                        // Replace with your actual order ID
+                                        const response = await fetch(`/updateMobile`, {
+                                            method: 'PATCH',
+                                            headers: {
+                                                'Content-Type': 'application/json',
+                                            },
+                                            body: JSON.stringify({ newMobile: newMobile, newName: newName }),
+                                        });
+
+                                        if (response.ok) {
+                                            // Reload specific part of the page
+                                            document.getElementById('mobile').innerHTML = newMobile
+                                            document.getElementById('Nname').innerHTML = newName
+                                            const orderDetailsElement = document.getElementById('orderDetails');
+                                            if (orderDetailsElement) {
+                                                const updatedContent = await fetch(`/getOrderDetails/${orderId}`).then(response => response.text());
+                                                orderDetailsElement.innerHTML = updatedContent;
+                                            } else {
+                                                console.error('Element with id "orderDetails" not found.');
+                                            }
+
+                                            // Hide the mobile input after successful update
+                                            document.getElementById('mobileInput').style.display = 'none';
+                                        } else {
+                                            console.error('Failed to update mobile number');
+                                        }
+                                    }
+
+
+
+
+
+                                    function cancelMobileChange() {
+                                        document.getElementById('mobileInput').style.display = 'none';
+                                        // You can add additional logic here if needed
+                                    }
+
+                                    async function changePassword() {
+                                        var newPassword = document.getElementById('newPassword').value;
+                                        var confirmPassword = document.getElementById('confirmPassword').value;
+
+                                        // Validate if passwords match
+                                        if (newPassword !== confirmPassword) {
+                                            // Passwords do not match
+                                            displayErrorMessage('Passwords do not match.');
+                                            return;
+                                        } else if (newPassword.length < 6) {
+                                            // Password is too short
+                                            displayErrorMessage('Password must be at least 6 characters long.');
+                                            return;
+                                        } else if (/\s/.test(newPassword)) {
+                                            // Password contains spaces
+                                            displayErrorMessage('Password cannot contain spaces.');
+                                            return;
+                                        } else {
+                                            // Passwords match and meet criteria
+                                            // You can implement your logic here
+                                            displaySuccessMessage('Password changed successfully.');
+
+                                            document.getElementById('passwordInput').style.display = 'none';
+
+                                            try {
+                                                const response = await fetch(`/passwordChange`, {
+                                                    method: 'PATCH',
+                                                    headers: {
+                                                        'Content-Type': 'application/json',
+                                                    },
+                                                    body: JSON.stringify({ passChange: newPassword }),
+                                                });
+
+                                                if (!response.ok) {
+                                                    // Handle error if needed
+                                                    console.error('Failed to change password');
+                                                }
+                                            } catch (error) {
+                                                // Handle fetch error
+                                                console.error('Error during fetch:', error);
+                                            }
+                                        }
+                                    }
+
+                                    function displayErrorMessage(message) {
+                                        const errorMessage = document.createElement('div');
+                                        errorMessage.className = 'error-message';
+                                        errorMessage.textContent = message;
+
+                                        // Append the error message to the same <td> element
+                                        const mobileTd = document.getElementById('mobileTd');
+                                        mobileTd.innerHTML = ''; // Clear existing content
+                                        mobileTd.appendChild(errorMessage);
+                                    }
+
+                                    function displaySuccessMessage(message) {
+                                        const successMessage = document.createElement('div');
+                                        successMessage.className = 'success-message';
+                                        successMessage.textContent = message;
+
+                                        // Append the success message to the same <td> element
+                                        const mobileTd = document.getElementById('mobileTd');
+                                        mobileTd.innerHTML = ''; // Clear existing content
+                                        mobileTd.appendChild(successMessage);
+                                    }
+
+                                </script>
+
+
+
+
+
+
+
+
+
+
+                                <div class="tab-pane fade" id="tab-orders" role="tabpanel"
+                                    aria-labelledby="tab-orders-link">
+
+                                    <% if (orders.length===0) { %>
+                                        <h4>There are no orders. Shop now!</h4>
+                                        <% } %>
+
+
+                                            <table>
+                                                <tbody>
+                                                    <% if (orders.length===0) { %>
+                                                        <tr>
+                                                            <td colspan="10" class="text-center">No orders yet</td>
+                                                        </tr>
+                                                        <% } else { %>
+                                                            <% orders.reverse().forEach(order=> { %>
+                                                                <% order.Products.reverse().forEach(product=> { %>
+                                                                    <tr>
+                                                                        <td colspan="2">
+                                                                            <div class="d-flex align-items-center">
+                                                                                <a href="/orderDetails/<%=order._id%>">
+                                                                                    <img src="/uploads/<%= product.image %>"
+                                                                                        alt="Product Image"
+                                                                                        class="img-fluid rounded mr-3"
+                                                                                        style="max-width: 120px; max-height: 120px;">
+                                                                                </a>
+                                                                                <div>
+                                                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                                </div>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td
+                                                                            style="font-size: 1.1em; font-weight: bold; color: #474747ba;">
+                                                                            <%= product.name %>&nbsp;&nbsp;
+                                                                        </td>
+
+                                                                        <td>$<%= product.price.toFixed(2) %>
+                                                                                &nbsp;&nbsp;</td>
+
+                                                                        <td> qty:<%= product.quantity %> &nbsp;&nbsp;
+                                                                        </td>
+
+                                                                        <td>total <%= product.total.toFixed(2) %>
+                                                                                &nbsp;&nbsp;&nbsp;</td>
+
+                                                                        <% if (order.onlinePaymentStatus==="intiated" )
+                                                                            { %>
+                                                                            <td
+                                                                                style="font-size: 1.1em; color: #ff0303;">
+                                                                                Order Failed &nbsp;&nbsp;</td>
+                                                                            <% } else { %>
+                                                                                <% if
+                                                                                    (product.orderStatus==="Cancellation requested"
+                                                                                    ||
+                                                                                    product.orderStatus==="Return requested"
+                                                                                    ) { %>
+                                                                                    <td
+                                                                                        style="font-size: 1.1em; color: #c99a00;">
+                                                                                        <%= product.orderStatus %>
+                                                                                            &nbsp;&nbsp;
+                                                                                    </td>
+                                                                                    <% } else if
+                                                                                        (product.orderStatus==="delivered"
+                                                                                        ) { %>
+                                                                                        <td
+                                                                                            style="font-size: 1.1em; color: #03b03d;">
+                                                                                            <%= product.orderStatus %>
+                                                                                                &nbsp;&nbsp;
+                                                                                        </td>
+                                                                                        <% } else { %>
+                                                                                            <td
+                                                                                                style="font-size: 1.1em; color: #0059ffd4;">
+                                                                                                <%= product.orderStatus
+                                                                                                    %> &nbsp;&nbsp;
+                                                                                            </td>
+                                                                                            <% } %>
+                                                                                                <% } %>
+
+                                                                                                    <td>
+                                                                                                        <%= order.paymentMode
+                                                                                                            %>
+                                                                                                            &nbsp;&nbsp;
+                                                                                                    </td>
+
+                                                                                                    <td>
+                                                                                                        <%= order.date.toLocaleDateString()
+                                                                                                            %>
+                                                                                                            &nbsp;&nbsp;
+                                                                                                    </td>
+                                                                                                    <!-- <td>
+                                                                <% if (order.orderStatus === 'delivered') { %>
+                                                                    &nbsp;&nbsp;
+                                                                    <button class="btn btn-warning return-button" data-order-id="<%= order._id %>">Return</button>
+                                                                <% } else { %>
+                                                                    &nbsp;&nbsp;
+                                                                    <button class="btn btn-danger cancel-button" data-order-id="<%= order._id %>">Cancel</button>
+                                                                <% } %>
+                                                            </td> -->
+
+                                                                    </tr>
+                                                                    <% }); %>
+
+                                                                        <% }); %>
+
+                                                                            <% } %>
+
+                                                </tbody>
+
+                                            </table>
+
+
+                                            <br><br>
+                                            <a href="/" class="btn btn-outline-primary-2"><span>Continue
+                                                    Shopping</span><i class="icon-long-arrow-right"></i></a>
+
+                                                    <nav aria-label="Page navigation">
+                                                        <ul class="pagination justify-content-center">
+                                                          <!-- Previous page link -->
+                                                          <li class="page-item <%= currentPage === 1 ? 'disabled' : '' %>">
+                                                            <a class="page-link page-link-prev" href="<%= prevPageUrl %>" aria-label="Previous" tabindex="-1" aria-disabled="<%= currentPage === 1 %>">
+                                                              <span aria-hidden="true"><i class="icon-long-arrow-left"></i></span>Prev
+                                                            </a>
+                                                          </li>
+                                                      
+                                                          <!-- Page numbers -->
+                                                          <% for (let i=1; i <=totalPages; i++) { %>
+                                                            <li class="page-item <%= currentPage === i ? 'active' : '' %>">
+                                                              <a class="page-link" href="<%= pageUrls[i] %>">
+                                                                <%= i %>
+                                                              </a>
+                                                            </li>
+                                                          <% } %>
+                                                      
+                                                          <!-- Total number of pages -->
+                                                          <li class="page-item-total">of <%= totalPages %></li>
+                                                      
+                                                          <!-- Next page link -->
+                                                          <li class="page-item <%= currentPage === totalPages ? 'disabled' : '' %>">
+                                                            <a class="page-link page-link-next" href="<%= nextPageUrl %>" aria-label="Next">
+                                                              Next <span aria-hidden="true"><i class="icon-long-arrow-right"></i></span>
+                                                            </a>
+                                                          </li>
+                                                        </ul>
+                                                      </nav>
+                                                      
+                                            
+                                </div><!-- .End .tab-pane -->
+
+
+                                <!-- ================================ -->
+
+
+                                <!-- <p>Welcome to our exclusive referral program!</p>
+                                        
+                                        <p>Refer a friend and both of you will enjoy a fantastic $200 discount on your next purchase. But that's not all - we have some special offers exclusively for our loyal customers!</p>
+                                        
+                                        <p>It's simple! Share your referral link with friends and family. When they make a purchase using your link, you both get rewarded. The more you refer, the more you save!</p>
+                                        
+                                        <p>Spread the joy of shopping and savings with your loved ones. Every referral not only gets you great discounts but also makes your shopping experience even more delightful!</p>
+                                         -->
+                                         <div class="tab-pane fade" id="tab-downloads" role="tabpanel" aria-labelledby="tab-downloads-link">
+                                            <p>Welcome to our exclusive referral program!</p>
+                                        
+                                            <!-- Mentioning the $200 discount for both referrer and new user -->
+                                            <p>Introduce a friend to us, and they will enjoy a special ₹200 discount on their
+                                                first purchase. As a token of our appreciation, you, the referrer, will also receive a ₹200 credit
+                                                in your account when your friend makes their first purchase!</p>
+                                        
+                                            <!-- Providing information on how to refer -->
+                                            <p>It's simple! Share your referral link with friends and family. When they make
+                                                their first purchase using your link, they'll instantly receive a ₹200 discount, and you'll get a ₹200
+                                                credit as well. The more you refer, the more savings for everyone!</p>
+                                        
+                                            <!-- Adding a pleasant message about the mutual benefits of the referral offer -->
+                                            <p>Spread the joy of shopping and savings with your loved ones. Every referral not
+                                                only benefits your friends but also adds extra joy to your shopping experience with exclusive credits!</p>
+                                        
+                                            <!-- Button to open the referral interface popup -->
+                                            <a href="javascript:void(0);" class="btn btn-outline-primary-2" id="goShopBtn" onclick="openReferralInterface()">
+                                                <span>Refer Now</span> <i class="icon-long-arrow-right"></i>
+                                            </a>
+                                        </div><!-- .End .tab-pane -->
+                                        
+
+                                <script>
+                                    function openReferralInterface() {
+                                        // Display SweetAlert with input and buttons
+                                        Swal.fire({
+                                            title: 'Your Referral Code',
+                                            html: '<p>Your Referral Code: <%= referal %></p><input type="text" value="<%= referal %>" id="referralCodeInput" readonly>',
+                                            showCancelButton: true,
+                                            confirmButtonText: 'Generate Referral Link',
+                                            cancelButtonText: 'Copy Code',
+                                        }).then((result) => {
+                                            if (result.isConfirmed) {
+                                                // User clicked "Generate Referral Link"
+                                                generateReferralLink();
+                                            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                                                // User clicked "Copy Code"
+                                                copyReferralCode();
+                                            }
+                                        });
+                                    }
+
+                                    function generateReferralLink() {
+                                        // Generate and display the referral link using SweetAlert
+                                        var referralCode = document.getElementById('referralCodeInput').value;
+                                        var referralLink = "localhost:3000/login?referal=" + referralCode;
+
+                                        Swal.fire({
+                                            title: 'Referral Link',
+                                            text: referralLink,
+                                            icon: 'info',
+                                            confirmButtonText: 'Copy Link',
+                                        }).then((result) => {
+                                            if (result.isConfirmed) {
+                                                // Copy the referral link to the clipboard
+                                                navigator.clipboard.writeText(referralLink);
+                                                Swal.fire('Copied!', 'Referral link copied to clipboard', 'success');
+                                            }
+                                        });
+                                    }
+
+                                    function copyReferralCode() {
+                                        // Copy the referral code to the clipboard
+                                        var copyText = document.getElementById('referralCodeInput');
+                                        copyText.select();
+                                        document.execCommand('copy');
+                                        Swal.fire('Copied!', 'Referral code copied to clipboard', 'success');
+                                    }
+                                </script>
+
+
+
+                                <div class="tab-pane fade" id="tab-address" role="tabpanel"
+                                    aria-labelledby="tab-address-link">
+
+                                    <h2 class="checkout-title">Saved Address :</h2>
+
+                                    <div class="d-flex flex-wrap">
+
+                                        <% let selectedAddressIndex=-1; %>
+                                            <% addresses.forEach(function(address, index) { %>
+                                                <!-- <P><%=  index%></P> -->
+                                                <div class="col-sm-6 col-md-4 col-lg-3 mb-3">
+                                                    <div class="p-3 border rounded"
+                                                        style="cursor: pointer; transition: background-color 0.3s ease;">
+                                                        <p class="mb-1"><strong>Name:</strong>
+                                                            <%= address.firstName %>
+                                                                <%= address.lastName %>
+                                                        </p>
+                                                        <p class="mb-1"><strong>Pin Code:</strong>
+                                                            <%= address.postcodeZIP %>
+                                                        </p>
+                                                        <p class="mb-1"><strong>Address Name:</strong>
+                                                            <%= address.streetAddress1 %>
+                                                        </p>
+                                                        <p class="mb-1"><strong>Phone No:</strong>
+                                                            <%= address.phone %>
+                                                        </p>
+                                                        <!-- Add other address fields as needed -->
+
+                                                        <!-- Add a hidden input field to store the address ID -->
+                                                        <input type="hidden" class="address-id"
+                                                            value="<%= address._id %>">
+
+                                                        <!-- Checkmark icon for selected address -->
+                                                        <% if (selectedAddressIndex===index) { %>
+                                                            <span class="selected-icon">&#10003;</span>
+                                                            <% } %>
+
+                                                                <!-- Edit and Delete buttons -->
+                                                                <div class="mt-0 d-flex justify-content-between">
+                                                                    <button
+                                                                        style="background: linear-gradient(to bottom right, #4CAF50, #45a049); border: 0; border-radius: 8px; color: #FFFFFF; cursor: pointer; font-family: -apple-system, system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 14px; font-weight: 500; line-height: 2; outline: transparent; padding: 0.5rem 1rem; text-align: center; text-decoration: none; transition: box-shadow .2s ease-in-out; user-select: none; -webkit-user-select: none; touch-action: manipulation; white-space: nowrap;"
+                                                                        onmouseover="this.style.background = 'linear-gradient(to bottom right, #2196F3, #1976D2)'; this.style.boxShadow = '0 0 .25rem rgba(0, 0, 0, 0.5), -.125rem -.125rem 1rem rgba(33, 150, 243, 0.5), .125rem .125rem 1rem rgba(25, 118, 210, 0.5)';"
+                                                                        onmouseout="this.style.background = 'linear-gradient(to bottom right, #4CAF50, #45a049)'; this.style.boxShadow = 'none';"
+                                                                        onclick="buttoneffect(1, <%= index  %>,'<%= address.id  %>','<%= address.firstName %>', '<%= address.lastName %>', '<%= address.companyName %>', '<%= address.country %>', '<%= address.streetAddress1 %>', '<%= address.streetAddress2 %>', '<%= address.townCity %>', '<%= address.stateCounty %>', '<%= address.postcodeZIP %>', '<%= address.phone %>')">Update</button>
+                                                                    <!-- <%=address.id%> -->
+
+                                                                    <button
+                                                                        style="background: linear-gradient(to bottom right, #EF4765, #FF9A5A); border: 0; border-radius: 8px; color: #FFFFFF; cursor: pointer; font-family: -apple-system, system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 14px; font-weight: 500; line-height: 2; outline: transparent; padding: 0.5rem 1rem; text-align: center; text-decoration: none; transition: box-shadow .2s ease-in-out; user-select: none; -webkit-user-select: none; touch-action: manipulation; white-space: nowrap;"
+                                                                        onmouseover="this.style.background = 'linear-gradient(to bottom right, #000, #000)'; this.style.boxShadow = '0 0 .25rem rgba(0, 0, 0, 0.5), -.125rem -.125rem 1rem rgba(0, 0, 0, 0.5)';"
+                                                                        onmouseout="this.style.background = 'linear-gradient(to bottom right, #EF4765, #FF9A5A)'; this.style.boxShadow = 'none';"
+                                                                        onclick=" buttoneffect(2, <%= index  %>)">Delete</button>
+                                                                </div>
+
+
+
+                                                    </div>
+                                                </div>
+                                                <% }); %>
+                                    </div>
+                                    <!-- ============== delete and Edit Address=============== -->
+
+                                    <script>
+
+
+                                        // let firstName=address[index].firstName
+                                        // let lastName =address[index].lastName
+                                        // let companyName=address[index].companyName
+                                        // let country=address[index].country
+                                        // let streetAddress1=address[index].streetAddress1
+                                        // let streetAddress2  =address[index].streetAddress2
+                                        // let townCity      =address[index].townCity
+                                        // 
+                                        // let stateCounty=address[index].stateCounty
+                                        // let postcodeZIP=address[index].postcodeZIP
+                                        // let phone=address[index].phone
+                                        // buttoneffect (2, index)
+
+
+                                        function buttoneffect(action, index, id, firstName, lastName, companyName, country, streetAddress1, streetAddress2, townCity, stateCounty, postcodeZIP, phone) {
+
+
+                                            if (action === 1) {
+                                                // Handle Update button click
+                                                var address = {
+                                                    firstName: firstName,
+                                                    lastName: lastName,
+                                                    companyName: companyName,
+                                                    country: country,
+                                                    streetAddress1: streetAddress1,
+                                                    streetAddress2: streetAddress2,
+                                                    townCity: townCity,
+                                                    stateCounty: stateCounty,
+                                                    postcodeZIP: postcodeZIP,
+                                                    phone: phone
+                                                };
+
+                                                console.log(address, id);
+
+
+                                                toggleAddAddressFormWithData(address, id)
+                                                //editaddress(index);
+                                                // You can add your custom logic for the Update action here
+                                            } else if (action === 2) {
+                                                // Handle Delete button click
+                                                console.log('Delete button clicked for address ID:', index);
+                                                // You can add your custom logic for the Delete action here
+                                                try {
+                                                    const response = fetch(`/deleteAddress/${index}`, {
+                                                        method: 'POST',
+                                                        headers: {
+                                                            'Content-Type': 'application/json',
+                                                        },
+                                                    }).then((response) => {
+                                                        if (response.ok) {
+                                                            console.log(response)
+                                                            reloadAddressTab()
+                                                        }
+
+                                                    })
+
+                                                } catch (error) {
+                                                    console.error('Error during fetch:', error.message);
+                                                    // Handle fetch error
+                                                }
+                                            }
+                                        }
+                                        // for reloading the page 
+                                        function reloadAddressTab() {
+                                            // Use vanilla JavaScript to fetch the content and update the specific div
+                                            fetch(window.location.href, { method: 'GET' })
+                                                .then(response => response.text())
+                                                .then(html => {
+                                                    // Extract the content of the 'tab-address' div from the fetched HTML
+                                                    const tabAddressContent = new DOMParser().parseFromString(html, 'text/html')
+                                                        .getElementById('tab-address').innerHTML;
+
+                                                    // Update the content of the 'tab-address' div
+                                                    document.getElementById('tab-address').innerHTML = tabAddressContent;
+                                                })
+                                                .catch(error => {
+                                                    console.error('Error reloading address tab:', error);
+                                                });
+                                        }
+                                    </script>
+                                    <!-- ============== delete and Edit Address=============== -->
+
+                                    <button type="button" class="btn btn-outline-primary-2 btn-order btn-block btn-auto"
+                                        onclick="toggleAddAddressForm()">
+                                        <span class="btn-text">Add Address</span>
+                                        <span class="btn-hover-text"> ↓ Proceed to Add New Address ↓ </span>
+                                    </button>
+
+                                    <!-- Add Address Form -->
+                                    <div id="addAddressForm" style="display: none;">
+
+
+
+                                        <form id="addAddressFormOg" action="" method="post">
+
+
+                                            <!-- Add Address Form fields here... -->
+                                            <div class="col-lg-12">
+                                                <h2 class="checkout-title">Shipping Details</h2>
+                                                <!-- End .checkout-title -->
+                                                <div class="row">
+                                                    <div class="col-sm-6">
+                                                        <label>First Name *</label>
+                                                        <input type="text" class="form-control" name="firstName"
+                                                            value="<%=locals.firstName ? locals.firstName : '' %>"
+                                                            required pattern="^\S+$">
+                                                        <div class="invalid-feedback">Please provide a First name.</div>
+
+                                                    </div><!-- End .col-sm-6 -->
+
+                                                    <div class="col-sm-6">
+                                                        <label>Last Name *</label>
+                                                        <input type="text" class="form-control" name="lastName"
+                                                            value="<%= locals.lastName ? locals.lastName : '' %>"
+                                                            required pattern="^\S.*\S$">
+                                                        <div class="invalid-feedback">Please provide a Last name.</div>
+                                                    </div><!-- End .col-sm-6 -->
+                                                </div><!-- End .row -->
+
+                                                <label>Company Name (Optional)</label>
+                                                <input type="text" class="form-control" name="companyName"
+                                                    value="<%=locals.companyName ? locals.companyName : '' %>">
+
+                                                <label>Country *</label>
+                                                <input type="text" class="form-control" name="country"
+                                                    value="<%=locals.country ? locals.country : '' %>" required
+                                                    pattern="^\S.*\S$">
+                                                <div class="invalid-feedback">Please provide a Country.</div>
+
+                                                <label>Street address *</label>
+                                                <input type="text" class="form-control" name="streetAddress1"
+                                                    placeholder="House number and Street name"
+                                                    value="<%= locals.streetAddress1 ? locals.streetAddress1 : '' %>"
+                                                    required pattern="^\S.*\S$">
+                                                <div class="invalid-feedback">Please provide a Main Street address.
+                                                </div>
+
+                                                <input type="text" class="form-control" name="streetAddress2"
+                                                    placeholder="Appartments, suite, unit etc ..."
+                                                    value="<%= locals.streetAddress2 ? locals.streetAddress2 : '' %>"
+                                                    required pattern="^\S.*\S$">
+                                                <div class="invalid-feedback">Please provide a Sub Street.</div>
+
+
+                                                <div class="row">
+                                                    <div class="col-sm-6">
+                                                        <label>Town / City *</label>
+                                                        <input type="text" class="form-control" name="townCity"
+                                                            value="<%= locals.townCity ? locals.townCity : '' %>"
+                                                            required pattern="^\S.*\S$">
+                                                        <div class="invalid-feedback">Please provide a City.</div>
+
+                                                    </div><!-- End .col-sm-6 -->
+
+                                                    <div class="col-sm-6">
+                                                        <label>State / County *</label>
+                                                        <input type="text" class="form-control" name="stateCounty"
+                                                            value="<%= locals.stateCounty ? locals.stateCounty : '' %>"
+                                                            required pattern="^\S.*\S$">
+                                                        <div class="invalid-feedback">Please provide a State.</div>
+
+                                                    </div><!-- End .col-sm-6 -->
+                                                </div><!-- End .row -->
+
+                                                <div class="row">
+                                                    <div class="col-sm-6">
+                                                        <label>Postcode / ZIP *</label>
+                                                        <input type="text" class="form-control" name="postcodeZIP"
+                                                            value="<%= locals.postcodeZIP ? locals.postcodeZIP : '' %>"
+                                                            pattern="[0-9]{6}" required>
+                                                    </div><!-- End .col-sm-6 -->
+
+                                                    <div class="col-sm-6">
+                                                        <label>Phone *</label>
+                                                        <input type="tel" class="form-control" name="phone"
+                                                            value="<%= locals.phone ? locals.phone : '' %>"
+                                                            pattern="[789]\d{9}" required>
+                                                    </div><!-- End .col-sm-6 -->
+                                                </div><!-- End .row -->
+
+                                            </div><!-- End .col-lg-9 -->
+
+
+
+                                            <button id="submitButton" type="submit"
+                                                class="btn btn-outline-primary-2 btn-order btn-block">
+                                                <span class="btn-text">Add Address</span>
+                                                <span class="btn-hover-text">Proceed to Add Address</span>
+                                            </button>
+
+
+                                        </form>
+                                    </div>
+                                </div>
+
+                                <script>
+                                    //              // buttoneffect(2, index);
+                                    //               //console.log("this is my index",+index)
+                                    //               function toggleAddAddressFormWithData(address, index) {
+                                    //                   const addAddressForm = document.getElementById('addAddressForm');
+                                    //                   const submitButton = document.getElementById('submitButton');
+                                    //               
+                                    //                   // Set the form action based on the provided address data
+                                    //                   addAddressFormOg.action = address.companyName ? `/updateAddress/${index}` : '/addAddress/1';
+                                    //                   console.log('Form action set to:', addAddressForm.action);
+                                    //               
+                                    //                   if (addAddressForm.style.display === 'none') {
+                                    //                       addAddressForm.style.display = 'block';
+                                    //               
+                                    //                       // Set values for each input field based on the provided address data
+                                    //                       const formFields = [
+                                    //                           'firstName', 'lastName', 'companyName', 'country',
+                                    //                           'streetAddress1', 'streetAddress2', 'townCity',
+                                    //                           'stateCounty', 'postcodeZIP', 'phone'
+                                    //                       ];
+                                    //               
+                                    //                       formFields.forEach(field => {
+                                    //                           const inputElement = document.querySelector(`#addAddressForm [name="${field}"]`);
+                                    //                           if (inputElement) {
+                                    //                               inputElement.value = address[field] || '';
+                                    //                           }
+                                    //                       });
+                                    //               
+                                    //                       // Update the button text based on whether it's an update or an add action
+                                    //                       submitButton.innerHTML = address.companyName ?
+                                    //                           '<span class="btn-text">Update Address</span><span class="btn-hover-text">Proceed to Update Address</span>' :
+                                    //                           '<span class="btn-text">Add Address</span><span class="btn-hover-text">Proceed to Add Address</span>';
+                                    //                   } else {
+                                    //                       addAddressForm.style.display = 'none';
+                                    //                         //                   }
+                                    //                         //               }
+                                    //                         //               
+
+                                    function toggleAddAddressFormWithData(address, index) {
+                                        const addAddressForm = document.getElementById('addAddressForm');
+                                        const submitButton = document.getElementById('submitButton');
+
+                                        // Set the form action based on the provided address data
+                                        addAddressFormOg.action = address.firstName ? `/updateAddress/${index}` : '/addAddress/1';
+                                        console.log('Form action set to:', addAddressForm.action);
+
+                                        if (addAddressForm.style.display === 'none') {
+                                            addAddressForm.style.display = 'block';
+
+                                            // Set values for each input field based on the provided address data
+                                            const formFields = [
+                                                'firstName', 'lastName', 'companyName', 'country',
+                                                'streetAddress1', 'streetAddress2', 'townCity',
+                                                'stateCounty', 'postcodeZIP', 'phone'
+                                            ];
+
+                                            formFields.forEach(field => {
+                                                const inputElement = document.querySelector(`#addAddressForm [name="${field}"]`);
+                                                if (inputElement) {
+                                                    inputElement.value = address[field] || '';
+                                                }
+                                            });
+
+                                            // Update the button text based on whether it's an update or an add action
+                                            submitButton.innerHTML = address.companyName ?
+                                                '<span class="btn-text">Update Address</span><span class="btn-hover-text">Proceed to Update Address</span>' :
+                                                '<span class="btn-text">Add Address</span><span class="btn-hover-text">Proceed to Add Address</span>';
+
+                                            // Make a fetch request to update the address on the server
+                                            fetch(`/updateAddress/${index}`, {
+                                                method: 'POST',
+                                                headers: {
+                                                    'Content-Type': 'application/json',
+                                                },
+                                                body: JSON.stringify({
+                                                    // Include the updated address data in the request body
+                                                    firstName: document.querySelector('#addAddressForm [name="firstName"]').value,
+                                                    lastName: document.querySelector('#addAddressForm [name="lastName"]').value,
+                                                    companyName: document.querySelector('#addAddressForm [name="companyName"]').value,
+                                                    country: document.querySelector('#addAddressForm [name="country"]').value,
+                                                    streetAddress1: document.querySelector('#addAddressForm [name="streetAddress1"]').value,
+                                                    streetAddress2: document.querySelector('#addAddressForm [name="streetAddress2"]').value,
+                                                    townCity: document.querySelector('#addAddressForm [name="townCity"]').value,
+                                                    stateCounty: document.querySelector('#addAddressForm [name="stateCounty"]').value,
+                                                    postcodeZIP: document.querySelector('#addAddressForm [name="postcodeZIP"]').value,
+                                                    phone: document.querySelector('#addAddressForm [name="phone"]').value,
+                                                }),
+                                            })
+                                                .then((response) => {
+                                                    if (response.ok) {
+                                                        console.log(response)
+                                                        // reloadAddressTab()
+                                                    }
+
+                                                })
+                                                .catch(error => {
+                                                    console.error('Update Address error:', error);
+                                                    // Handle errors as needed
+                                                });
+                                        } else {
+                                            addAddressForm.style.display = 'none';
+                                        }
+                                    }
+
+
+                                    function toggleAddAddressForm() {
+                                        const addAddressForm = document.getElementById('addAddressForm');
+
+                                        if (addAddressForm.style.display === 'none') {
+                                            // Show the form
+                                            addAddressForm.style.display = 'block';
+                                            // Set the form action for adding a new address
+                                            addAddressFormOg.action = '/addAddress/1';
+                                            // Clear all form fields
+                                            const formFields = addAddressForm.querySelectorAll('input');
+                                            formFields.forEach(field => {
+                                                field.value = '';
+                                            });
+
+                                        } else {
+                                            // Hide the form
+                                            addAddressForm.style.display = 'none';
+                                        }
+                                    }
+                                </script>
+
+
+                                <div class="tab-pane fade" id="tab-wallet" role="tabpanel"
+                                    aria-labelledby="tab-wallet-link">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <label>Balance</label>
+                                            <input type="text" class="form-control"
+                                                value="<%= walletData ? walletData.balance : 'N/A' %>" readonly>
+                                        </div><!-- End .col-sm-6 -->
+
+                                        <div class="col-sm-6">
+                                            <label>Last Transaction</label>
+                                            <input type="text" class="form-control"
+                                                value="<%= walletData && walletData.history.length > 0 ? walletData.history[walletData.history.length-1].description : 'No transactions' %>"
+                                                readonly>
+                                        </div><!-- End .col-sm-6 -->
+                                    </div><!-- End .row -->
+
+                                    <label>Transaction History</label>
+
+                                    <% if (walletData && walletData.history.length> 0) { %>
+                                        <!-- Display transaction history -->
+                                        <ul>
+                                            <% walletData.history.reverse().forEach(transaction=> { %>
+                                                <li>
+                                                    <%= transaction.description %> - <%= transaction.amount %>
+                                                </li>
+                                                <% }) %>
+                                        </ul>
+                                        <% } else if (walletData) { %>
+                                            <p>No transactions in the history yet.</p>
+                                            <% } else { %>
+                                                <p style="color: rgba(255, 89, 0, 0.88);">Wallet not initialized.</p>
+                                                <% } %>
+                                </div><!-- .End .tab-pane -->
+
+
+
+                            </div>
+                        </div><!-- End .col-lg-9 -->
+                    </div><!-- End .row -->
+                </div><!-- End .container -->
+            </div><!-- End .dashboard -->
+        </div><!-- End .page-content -->
+    </main><!-- End .main -->
+
+    <footer class="footer">
+        <div class="footer-middle">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="widget widget-about">
+                            <img src="assets/images/logo.png" class="footer-logo" alt="Footer Logo" width="105"
+                                height="25">
+                            <p>Praesent dapibus, neque id cursus ucibus, tortor neque egestas augue, eu vulputate magna
+                                eros eu erat. </p>
+
+                            <div class="social-icons">
+                                <a href="#" class="social-icon" target="_blank" title="Facebook"><i
+                                        class="icon-facebook-f"></i></a>
+                                <a href="#" class="social-icon" target="_blank" title="Twitter"><i
+                                        class="icon-twitter"></i></a>
+                                <a href="#" class="social-icon" target="_blank" title="Instagram"><i
+                                        class="icon-instagram"></i></a>
+                                <a href="#" class="social-icon" target="_blank" title="Youtube"><i
+                                        class="icon-youtube"></i></a>
+                                <a href="#" class="social-icon" target="_blank" title="Pinterest"><i
+                                        class="icon-pinterest"></i></a>
+                            </div><!-- End .soial-icons -->
+                        </div><!-- End .widget about-widget -->
+                    </div><!-- End .col-sm-6 col-lg-3 -->
+
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="widget">
+                            <h4 class="widget-title">Useful Links</h4><!-- End .widget-title -->
+
+                            <ul class="widget-list">
+                                <li><a href="about.html">About Molla</a></li>
+                                <li><a href="#">How to shop on Molla</a></li>
+                                <li><a href="#">FAQ</a></li>
+                                <li><a href="contact.html">Contact us</a></li>
+                                <li><a href="login.html">Log in</a></li>
+                            </ul><!-- End .widget-list -->
+                        </div><!-- End .widget -->
+                    </div><!-- End .col-sm-6 col-lg-3 -->
+
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="widget">
+                            <h4 class="widget-title">Customer Service</h4><!-- End .widget-title -->
+
+                            <ul class="widget-list">
+                                <li><a href="#">Payment Methods</a></li>
+                                <li><a href="#">Money-back guarantee!</a></li>
+                                <li><a href="#">Returns</a></li>
+                                <li><a href="#">Shipping</a></li>
+                                <li><a href="#">Terms and conditions</a></li>
+                                <li><a href="#">Privacy Policy</a></li>
+                            </ul><!-- End .widget-list -->
+                        </div><!-- End .widget -->
+                    </div><!-- End .col-sm-6 col-lg-3 -->
+
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="widget">
+                            <h4 class="widget-title">My Account</h4><!-- End .widget-title -->
+
+                            <ul class="widget-list">
+                                <li><a href="#">Sign In</a></li>
+                                <li><a href="cart.html">View Cart</a></li>
+                                <li><a href="#">My Wishlist</a></li>
+                                <li><a href="#">Track My Order</a></li>
+                                <li><a href="#">Help</a></li>
+                            </ul><!-- End .widget-list -->
+                        </div><!-- End .widget -->
+                    </div><!-- End .col-sm-6 col-lg-3 -->
+                </div><!-- End .row -->
+            </div><!-- End .container -->
+        </div><!-- End .footer-middle -->
+
+        <div class="footer-bottom">
+            <div class="container">
+                <p class="footer-copyright">Copyright © 2019 Molla Store. All Rights Reserved.</p>
+                <!-- End .footer-copyright -->
+                <figure class="footer-payments">
+                    <img src="assets/images/payments.png" alt="Payment methods" width="272" height="20">
+                </figure><!-- End .footer-payments -->
+            </div><!-- End .container -->
+        </div><!-- End .footer-bottom -->
+    </footer><!-- End .footer -->
+    </div><!-- End .page-wrapper -->
+    <button id="scroll-top" title="Back to Top"><i class="icon-arrow-up"></i></button>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu-overlay"></div><!-- End .mobil-menu-overlay -->
+
+    <div class="mobile-menu-container">
+        <div class="mobile-menu-wrapper">
+            <span class="mobile-menu-close"><i class="icon-close"></i></span>
+
+            <form action="#" method="get" class="mobile-search">
+                <label for="mobile-search" class="sr-only">Search</label>
+                <input type="search" class="form-control" name="mobile-search" id="mobile-search"
+                    placeholder="Search in..." required>
+                <button class="btn btn-primary" type="submit"><i class="icon-search"></i></button>
+            </form>
+
+
+
+            <div class="social-icons">
+                <a href="#" class="social-icon" target="_blank" title="Facebook"><i class="icon-facebook-f"></i></a>
+                <a href="#" class="social-icon" target="_blank" title="Twitter"><i class="icon-twitter"></i></a>
+                <a href="#" class="social-icon" target="_blank" title="Instagram"><i class="icon-instagram"></i></a>
+                <a href="#" class="social-icon" target="_blank" title="Youtube"><i class="icon-youtube"></i></a>
+            </div><!-- End .social-icons -->
+        </div><!-- End .mobile-menu-wrapper -->
+    </div><!-- End .mobile-menu-container -->
+
+    <!-- Sign in / Register Modal -->
+    <div class="modal fade" id="signin-modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"><i class="icon-close"></i></span>
+                    </button>
+
+                    <div class="form-box">
+                        <div class="form-tab">
+                            <ul class="nav nav-pills nav-fill" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="signin-tab" data-toggle="tab" href="#signin"
+                                        role="tab" aria-controls="signin" aria-selected="true">Sign In</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="register-tab" data-toggle="tab" href="#register" role="tab"
+                                        aria-controls="register" aria-selected="false">Register</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content" id="tab-content-5">
+                                <div class="tab-pane fade show active" id="signin" role="tabpanel"
+                                    aria-labelledby="signin-tab">
+                                    <form action="#">
+                                        <div class="form-group">
+                                            <label for="singin-email">Username or email address *</label>
+                                            <input type="text" class="form-control" id="singin-email"
+                                                name="singin-email" required>
+                                        </div><!-- End .form-group -->
+
+                                        <div class="form-group">
+                                            <label for="singin-password">Password *</label>
+                                            <input type="password" class="form-control" id="singin-password"
+                                                name="singin-password" required>
+                                        </div><!-- End .form-group -->
+
+                                        <div class="form-footer">
+                                            <button type="submit" class="btn btn-outline-primary-2">
+                                                <span>LOG IN</span>
+                                                <i class="icon-long-arrow-right"></i>
+                                            </button>
+
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input"
+                                                    id="signin-remember">
+                                                <label class="custom-control-label" for="signin-remember">Remember
+                                                    Me</label>
+                                            </div><!-- End .custom-checkbox -->
+
+                                            <a href="#" class="forgot-link">Forgot Your Password?</a>
+                                        </div><!-- End .form-footer -->
+                                    </form>
+                                    <div class="form-choice">
+                                        <p class="text-center">or sign in with</p>
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <a href="#" class="btn btn-login btn-g">
+                                                    <i class="icon-google"></i>
+                                                    Login With Google
+                                                </a>
+                                            </div><!-- End .col-6 -->
+                                            <div class="col-sm-6">
+                                                <a href="#" class="btn btn-login btn-f">
+                                                    <i class="icon-facebook-f"></i>
+                                                    Login With Facebook
+                                                </a>
+                                            </div><!-- End .col-6 -->
+                                        </div><!-- End .row -->
+                                    </div><!-- End .form-choice -->
+                                </div><!-- .End .tab-pane -->
+                                <div class="tab-pane fade" id="register" role="tabpanel" aria-labelledby="register-tab">
+                                    <form action="#">
+                                        <div class="form-group">
+                                            <label for="register-email">Your email address *</label>
+                                            <input type="email" class="form-control" id="register-email"
+                                                name="register-email" required>
+                                        </div><!-- End .form-group -->
+
+                                        <div class="form-group">
+                                            <label for="register-password">Password *</label>
+                                            <input type="password" class="form-control" id="register-password"
+                                                name="register-password" required>
+                                        </div><!-- End .form-group -->
+
+                                        <div class="form-footer">
+                                            <button type="submit" class="btn btn-outline-primary-2">
+                                                <span>SIGN UP</span>
+                                                <i class="icon-long-arrow-right"></i>
+                                            </button>
+
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="register-policy"
+                                                    required>
+                                                <label class="custom-control-label" for="register-policy">I agree to the
+                                                    <a href="#">privacy policy</a> *</label>
+                                            </div><!-- End .custom-checkbox -->
+                                        </div><!-- End .form-footer -->
+                                    </form>
+                                    <div class="form-choice">
+                                        <p class="text-center">or sign in with</p>
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <a href="#" class="btn btn-login btn-g">
+                                                    <i class="icon-google"></i>
+                                                    Login With Google
+                                                </a>
+                                            </div><!-- End .col-6 -->
+                                            <div class="col-sm-6">
+                                                <a href="#" class="btn btn-login  btn-f">
+                                                    <i class="icon-facebook-f"></i>
+                                                    Login With Facebook
+                                                </a>
+                                            </div><!-- End .col-6 -->
+                                        </div><!-- End .row -->
+                                    </div><!-- End .form-choice -->
+                                </div><!-- .End .tab-pane -->
+                            </div><!-- End .tab-content -->
+                        </div><!-- End .form-tab -->
+                    </div><!-- End .form-box -->
+                </div><!-- End .modal-body -->
+            </div><!-- End .modal-content -->
+        </div><!-- End .modal-dialog -->
+    </div><!-- End .modal -->
+
+
+
+
+
+
+
+    <!-- ================= for Switching between Tags ========== -->
+    <script>
+        // Function to get URL parameters
+        function getParameterByName(name, url) {
+            if (!url) url = window.location.href;
+            name = name.replace(/[\[\]]/g, "\\$&");
+            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, " "));
+        }
+
+        // Use JavaScript to switch to the specified tab
+        $(document).ready(function () {
+            const selectedTab = getParameterByName('tab');
+            if (selectedTab) {
+                $(`#tab-${selectedTab}-link`).tab('show');
+            }
+        });
+    </script>
+
+
+
+
+
+
+    <%-include('../layout/userFoot')-%>

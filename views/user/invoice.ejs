@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Example 1</title>
+    <link rel="stylesheet" href="/invoice/styleforInvoice.css" media="all" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
+
+
+    <body>
+    <header class="clearfix">
+      <div id="logo">
+        <img src="/invoice/logo.png">
+      </div>
+      <h1>INVOICE</h1>
+      <div id="company" class="clearfix">
+        <div>Shoe Rack</div>
+        <div>455 Foggy Heights,<br /> AZ 85004, US</div>
+        <div>(602) 519-0450</div>
+        <div><a href="mailto:company@example.com">company@example.com</a></div>
+      </div>
+      <% orders.forEach(order => { %>
+      <div id="project">
+        
+      <tr>
+        <td colspan="5">
+          <strong>Address:</strong><br>
+          <%= orders[0].address.streetAddress1 %><br>
+          <%= orders[0].address.streetAddress2 %><br>
+          <%= orders[0].address.townCity %>, <%= orders[0].address.stateCounty %>, <%= orders[0].address.postcodeZIP %><br>
+          Country: <%= orders[0].address.country %><br>
+          Phone: <%= orders[0].address.phone %>
+        </td>
+      </tr>
+      </div>
+    </header>
+    <main>
+      <table>
+        <thead>
+          <tr>
+            <th class="service">SERVICE</th>
+            <th class="desc">Product</th>
+            <th>PRICE</th>
+            <th>QTY</th>
+            <th>TOTAL</th>
+          </tr>
+        </thead>
+        <tbody>
+        
+            <% order.Products.forEach(product => { %>
+              <tr>
+                <td class="service">Online Purchase</td>
+                <td class="desc"><%= product.name %></td>
+                <td class="unit">₹<%= product.price %></td>
+                <td class="qty"><%= product.quantity %></td>
+                <td class="total">₹<%= product.total %></td>
+              </tr>
+              <% }); %>
+      
+ 
+            <tr>
+              <td colspan="4">SUBTOTAL</td>
+              <td class="total">₹<%= order.subtotal %></td>
+            </tr>
+        
+            <tr>
+              <td colspan="4" class="grand total">GRAND TOTAL</td>
+              <td class="grand total">₹<%= order.subtotal %></td>
+            </tr>
+            <% if (order.coupon) { %>
+              <tr>
+                <td colspan="4">Coupon Discount (Code: <%= order.coupon.code %>)</td>
+                <td class="total">-₹<%= order.coupon.originalAmount %></td>
+              </tr>
+              <tr>
+                <td colspan="4" class="grand total">FINAL TOTAL</td>
+                <td class="grand total">₹<%= order.subtotal%></td>
+              </tr>
+            <% } %>
+         
+        </tbody>
+      </table>
+
+  
+      
+      <div id="notices">
+        <div>NOTICE:</div>
+        <div class="notice">A finance charge of 1.5% will be made on unpaid balances after 30 days.</div>
+      </div>
+    </main>
+    <br>
+  <a href="/downloadInvoicePdf/<%=order._id%>">
+    <button id="cmd" style="background: linear-gradient(to bottom right, #4c78af, #4c78af); border: 0; border-radius: 8px; color: #FFFFFF; cursor: pointer; font-family: -apple-system, system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 14px; font-weight: 500; line-height: 2; outline: transparent; padding: 0.5rem 1rem; text-align: center; text-decoration: none; transition: box-shadow .2s ease-in-out; user-select: none; -webkit-user-select: none; touch-action: manipulation; white-space: nowrap;" 
+    onmouseover="this.style.background = 'linear-gradient(to bottom right, #2196F3, #1976D2)'; this.style.boxShadow = '0 0 .25rem rgba(0, 0, 0, 0.5), -.125rem -.125rem 1rem rgba(33, 150, 243, 0.5), .125rem .125rem 1rem rgba(25, 118, 210, 0.5)';" 
+    onmouseout="this.style.background = 'linear-gradient(to bottom right, #4CAF50, #45a049)'; this.style.boxShadow = 'none';" >Generate PDF</button>
+  </a>    <% }); %>
+    <footer>
+      Invoice was created on a computer and is valid without the signature and seal.
+    </footer>
+
+
+    
+    
+      
+    
+  </body>
+</html>

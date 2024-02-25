@@ -1,0 +1,329 @@
+<%-include('../layout/adminHeader')-%>
+
+
+
+
+
+<div class="container mt-5">
+  <h2 class="mb-4">Add Category</h2>
+  <% if (locals.existingCategory) { %>
+  <p>
+    <%= locals.existingCategory %>
+  </p>
+  <% } %>
+
+
+
+  <form action="/category" method="POST" class="needs-validation" novalidate>
+
+    <div class="form-group">
+      <label for="mainCategory">Main Category:</label>
+      <select class="form-control" id="mainCategory" name="main" required>
+        <option value="Men">Men</option>
+        <option value="Women">Women</option>
+        <option value="Kids">Kids</option>
+      </select>
+    </div>
+
+
+    <div class="form-group">
+      <label for="subcategoryName">Subcategory:</label>
+      <input type="text" class="form-control" id="subcategoryName" name="subName" required pattern="^\S+$">
+      <div class="invalid-feedback">Please provide a subcategory name.</div>
+    </div>
+
+
+    <div class="form-group">
+      <label for="categoryDescription">Category Description:</label>
+      <textarea class="form-control" id="categoryDescription" name="Description" required pattern="^\S+$"></textarea>
+      <div class="invalid-feedback">Please provide a category description.</div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Add Category</button>
+  </form>
+</div>
+
+
+
+
+
+<table class="table caption-top">
+  <caption>List of Category</caption>
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Category</th>
+      <th scope="col">Sub Category Name</th>
+      <th scope="col">Category description</th>
+      <th scope="col">Status</th>
+    </tr>
+  </thead>
+  <tbody>
+
+    <% if(Category){ %>
+    <% let serialNumber=1; %>
+
+    <% Category.reverse().forEach(Category=> { %>
+
+
+
+
+    <tr>
+
+
+      <th scope="row">
+        <%=serialNumber %>
+      </th>
+      <td>
+        <%= Category.Name %>
+      </td>
+      <td>
+        <%= Category.subName %>
+      </td>
+      <td>
+        <%= Category.Description %>
+      </td>
+
+      <td style=" color: <%= Category.Status ? 'green' : 'red' %>">
+        <% if (Category.Status) { %>
+        Active
+        <% } else { %>
+        blocked
+        <% } %>
+      </td>
+
+      <td>
+        <!-- ======== -->
+        <% if (Category.OfferApplied && Category.OfferApplied==='yes' ) { %>
+
+        <form action="/cancelOfferCategory/<%= Category._id %>" method="post">
+          <button type="submit" class="btn btn-warning">Canel Offer</button>
+        </form>
+
+        <% } else { %>
+
+        <!-- Your Apply Offer button -->
+        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#applyOfferModal<%= Category._id %>">
+          Apply Offer
+        </button>
+        <!-- Apply Offer Modal for a specific category -->
+        <div class="modal fade" id="applyOfferModal<%= Category._id %>" tabindex="-1" role="dialog" aria-labelledby="applyOfferModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="applyOfferModalLabel">Available Offers for <%= Category.Name %>
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <!-- Loop through available offers -->
+                <% offers.forEach(offer=> { %>
+                <div class="offer-block">
+                  <input type="radio" name="selectedOffer<%= Category._id %>" value="<%= offer._id %>">
+                  <strong>
+                    <%= offer.name %>
+                  </strong><br>
+                  <span>Discount: <%= offer.discountPercentage %>%</span><br>
+                  <!-- Add more details as needed -->
+                </div>
+                <% }); %>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-success" onclick="applyOffer('<%= Category._id %>')">Apply Offer</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </td>
+      <% } %>
+      <!-- ======== -->
+
+
+      <% if (Category.Status) { %>
+      <td>
+        <form action="/Cblock/<%= Category._id %>" method="post">
+          <button type="submit" class="btn btn-warning">Block</button>
+        </form>
+      </td>
+
+      <% } else { %>
+      <td>
+        <form action="/Cunblock/<%= Category._id %>" method="post">
+          <button type="submit" class="btn btn-success">Unblock</button>
+        </form>
+      </td>
+      <% } %>
+      <!-- For Blocking -->
+
+      <!-- For Unblocking -->
+
+
+      <td>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#updateModal">
+          Update
+        </button>
+      </td>
+
+
+      <td>
+        <form action="/Cdelete/<%= Category._id %>" method="post">
+          <button type="submit" class="btn btn-danger">Delete</button>
+        </form>
+      </td>
+
+
+    </tr>
+    <% serialNumber++; %>
+
+    <% }); %>
+    <% } %>
+
+
+  </tbody>
+</table>
+
+
+
+
+
+<!-- Apply button inside the modal body -->
+
+<!-- JavaScript to handle form submission -->
+<script>
+  function applyOffer(categoryId) {
+    const selectedOfferId = document.querySelector('input[name="selectedOffer' + categoryId + '"]:checked').value;
+
+    fetch('/applyOfferCategory', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          categoryId,
+          selectedOfferId
+        }),
+      })
+      .then(response => response.json())
+      .then(data => {
+        // Handle the response from the backend
+        console.log(data);
+        // Optionally, close the modal
+        $('#applyOfferModal' + categoryId).modal('hide');
+        window.location.reload()
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  }
+</script>
+
+
+
+<div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="updateModalLabel">Update Category</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- Your form with the three fields -->
+        <form action="Cupdate/<%= Category._id %>" method="post">
+          <div class="form-group">
+            <label for="mainCategory">Main Category:</label>
+            <select class="form-control" id="mainCategory" name="main" required>
+              <option value="men" <%=Category.main==='men' ? 'selected' : '' %>>Men</option>
+              <option value="women" <%=Category.main==='women' ? 'selected' : '' %>>Women</option>
+              <option value="kids" <%=Category.main==='kids' ? 'selected' : '' %>>Kids</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="subcategoryName">Subcategory:</label>
+            <input type="text" class="form-control" id="subcategoryName" name="subName" required pattern="^\S+$" value="<%= Category.subName %>">
+            <div class="invalid-feedback">Please provide a subcategory name.</div>
+          </div>
+
+          <div class="form-group">
+            <label for="categoryDescription">Category Description:</label>
+            <textarea class="form-control" id="categoryDescription" name="Description" required pattern="^\S+$"><%= Category.Description %></textarea>
+            <div class="invalid-feedback">Please provide a category description.</div>
+          </div>
+
+          <!-- Update button -->
+          <button type="submit" class="btn btn-primary">Update Category</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<footer class="footer text-center">
+  All rights reserved &copy; 2023 Shoe Rack
+</footer>
+
+</div>
+
+
+
+<script>
+  // Enable Bootstrap validation
+  (function() {
+    'use strict';
+    window.addEventListener('load', function() {
+      // Fetch all the forms we want to apply custom Bootstrap validation styles to
+      var forms = document.getElementsByClassName('needs-validation');
+      // Loop over them and prevent submission
+      var validation = Array.prototype.filter.call(forms, function(form) {
+        form.addEventListener('submit', function(event) {
+          if (form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+          form.classList.add('was-validated');
+        }, false);
+      });
+    }, false);
+  })();
+</script>
+
+
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<!-- Bootstrap JS (Popper included) -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<!-- Other scripts in your project -->
+<script src="/admin/src/assets/libs/jquery/dist/jquery.min.js"></script>
+<script src="/admin/src/assets/libs/popper.js/dist/umd/popper.min.js"></script>
+<script src="/admin/src/assets/libs/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="/admin/src/dist/js/app-style-switcher.js"></script>
+<script src="/admin/src/dist/js/feather.min.js"></script>
+<script src="/admin/src/assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js"></script>
+<script src="/admin/src/dist/js/sidebarmenu.js"></script>
+<script src="/admin/src/dist/js/custom.min.js"></script>
+<script src="/admin/src/assets/extra-libs/c3/d3.min.js"></script>
+<script src="/admin/src/assets/extra-libs/c3/c3.min.js"></script>
+<script src="/admin/src/assets/libs/chartist/dist/chartist.min.js"></script>
+<script src="/admin/src/assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
+<script src="/admin/src/assets/extra-libs/jvector/jquery-jvectormap-2.0.2.min.js"></script>
+<script src="/admin/src/assets/extra-libs/jvector/jquery-jvectormap-world-mill-en.js"></script>
+<script src="/admin/src/dist/js/pages/dashboards/dashboard1.min.js"></script>
+
+
+</body>
+
+</html>

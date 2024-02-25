@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="/admin/src/assets/images/favicon.png">
+    <title>Adminmart Template - The Ultimate Multipurpose admin template</title>
+    <!-- Custom CSS -->
+    <link href="/admin/src/assets/extra-libs/c3/c3.min.css" rel="stylesheet">
+    <link href="/admin/src/assets/libs/chartist/dist/chartist.min.css" rel="stylesheet">
+    <link href="/admin/src/assets/extra-libs/jvector/jquery-jvectormap-2.0.2.css" rel="stylesheet" />
+    <!-- Custom CSS -->
+    <link href="/admin/src/dist/css/style.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/izitoast/dist/css/iziToast.min.css">
+
+        <link rel="stylesheet" href="https://unpkg.com/cropperjs/dist/cropper.css">
+
+        <!-- <style>
+          img{
+            display: block;
+            width: 500px;
+            height:600px;
+            max-width: 100%;
+          }
+          .container{
+            display: flex;
+            justify-content: center;
+            justify-items: center;
+          }
+          #output{
+            margin: 0 5px;
+          }
+        </style> -->
+
+
+</head>
+
+<body>
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+    <div class="preloader">
+        <div class="lds-ripple">
+            <div class="lds-pos"></div>
+            <div class="lds-pos"></div>
+        </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+        data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full">
+        <!-- ============================================================== -->
+        <!-- Topbar header - style you can find in pages.scss -->
+        <!-- ============================================================== -->
+        <header class="topbar" data-navbarbg="skin6">
+            <nav class="navbar top-navbar navbar-expand-md">
+                <div class="navbar-header" data-logobg="skin6">
+                    <!-- This is for the sidebar toggle which is visible on mobile only -->
+                    <a class="nav-toggler waves-effect waves-light d-block d-md-none" href="javascript:void(0)"><i
+                            class="ti-menu ti-close"></i></a>
+                    <!-- ============================================================== -->
+                    <!-- Logo -->
+                    <!-- ============================================================== -->
+                    <div class="navbar-brand">
+                        <!-- Logo icon -->
+                        <a href="index.html">
+                            <b class="logo-icon">
+                                <!-- Dark Logo icon -->
+                                <img src="/admin/src/assets/images/logo-icon.png" alt="homepage" class="dark-logo" />
+                                <!-- Light Logo icon -->
+                                <img src="/admin/src/assets/images/logo-icon.png" alt="homepage" class="light-logo" />
+                            </b>
+                            <!--End Logo icon -->
+                            <!-- Logo text -->
+                            <span class="logo-text">
+                                <!-- dark Logo text -->
+                                <img src="/admin/src/assets/images/logo-text.png" alt="homepage" class="dark-logo" />
+                                <!-- Light Logo text -->
+                                <img src="/admin/src/assets/images/logo-light-text.png" class="light-logo"
+                                    alt="homepage" />
+                            </span>
+                        </a>
+                    </div>
+                    <!-- ============================================================== -->
+                    <!-- End Logo -->
+                    <!-- ============================================================== -->
+                    <!-- ============================================================== -->
+                    <!-- Toggle which is visible on mobile only -->
+                    <!-- ============================================================== -->
+                    <a class="topbartoggler d-block d-md-none waves-effect waves-light" href="javascript:void(0)"
+                        data-toggle="collapse" data-target="#navbarSupportedContent"
+                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><i
+                            class="ti-more"></i></a>
+                </div>
+                <!-- ============================================================== -->
+                <!-- End Logo -->
+                <!-- ============================================================== -->
+                <div class="navbar-collapse collapse" id="navbarSupportedContent">
+                    <!-- ============================================================== -->
+                    <!-- toggle and nav items -->
+                    <!-- ============================================================== -->
+                    <ul class="navbar-nav float-left mr-auto ml-3 pl-1">
+                        <!-- Notification -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle pl-md-3 position-relative" href="javascript:void(0)"
+                                id="bell" role="button" data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false">
+                                <span><i data-feather="bell" class="svg-icon"></i></span>
+                                <span class="badge badge-primary notify-no rounded-circle">5</span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-left mailbox animated bounceInDown">
+
+                            </div>
+                        </li>
+                        <!-- End Notification -->
+                        <!-- ============================================================== -->
+                        <!-- create new -->
+                        <!-- ============================================================== -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i data-feather="settings" class="svg-icon"></i>
+                            </a>
+
+                        </li>
+                        <li class="nav-item d-none d-md-block">
+                            <a class="nav-link" href="javascript:void(0)">
+                                <div class="customize-input">
+                                    <select
+                                        class="custom-select form-control bg-white custom-radius custom-shadow border-0">
+                                        <option selected>EN</option>
+
+                                    </select>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                    <!-- ============================================================== -->
+                    <!-- Right side toggle and nav items -->
+                    <!-- ============================================================== -->
+                    <ul class="navbar-nav float-right">
+                        <!-- ============================================================== -->
+                        <!-- Search -->
+                        <!-- ============================================================== -->
+                        <li class="nav-item d-none d-md-block">
+                            <a class="nav-link" href="javascript:void(0)">
+                                <form>
+                                    <div class="customize-input">
+                                        <input class="form-control custom-shadow custom-radius border-0 bg-white"
+                                            type="search" placeholder="Search" aria-label="Search">
+                                        <i class="form-control-icon" data-feather="search"></i>
+                                    </div>
+                                </form>
+                            </a>
+                        </li>
+                        <!-- ============================================================== -->
+                        <!-- User profile and search -->
+                        <!-- ============================================================== -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="javascript:void(0)" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
+                                <img src="/admin/src/assets/images/users/profile-pic.jpg" alt="user"
+                                    class="rounded-circle" width="40">
+                                <span class="ml-2 d-none d-lg-inline-block"><span>Hello,</span> <span
+                                        class="text-dark">Jason Doe</span> <i data-feather="chevron-down"
+                                        class="svg-icon"></i></span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right user-dd animated flipInY">
+                                <a class="dropdown-item" href="javascript:void(0)"><i data-feather="user"
+                                        class="svg-icon mr-2 ml-1"></i>
+                                    My Profile</a>
+
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="javascript:void(0)"><i data-feather="settings"
+                                        class="svg-icon mr-2 ml-1"></i>
+                                    Account Setting</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="javascript:void(0)"><i data-feather="power"
+                                        class="svg-icon mr-2 ml-1"></i>
+                                    Logout</a>
+
+
+                            </div>
+                        </li>
+                        <!-- ============================================================== -->
+                        <!-- User profile and search -->
+                        <!-- ============================================================== -->
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <!-- ============================================================== -->
+        <!-- End Topbar header -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+        <aside class="left-sidebar" data-sidebarbg="skin6">
+            <!-- Sidebar scroll-->
+            <div class="scroll-sidebar" data-sidebarbg="skin6">
+                <!-- Sidebar navigation-->
+                <nav class="sidebar-nav">
+                    <ul id="sidebarnav">
+                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="/admin"
+                                aria-expanded="false"><i data-feather="home" class="feather-icon"></i><span
+                                    class="hide-menu">Dashboard</span></a></li>
+                        <li class="list-divider"></li>
+                        <li class="nav-small-cap"><span class="hide-menu">Applications</span></li>
+
+
+
+                        <!-- <li class="list-divider"></li>
+                        <li class="nav-small-cap"><span class="hide-menu">Authentication</span></li> -->
+
+
+
+                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="/allusers"
+                                aria-expanded="false"><i data-feather="feather" class="feather-icon"></i><span
+                                    class="hide-menu">All Users
+                                </span></a>
+                        </li>
+                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="/allproducts"
+                                aria-expanded="false"><i data-feather="feather" class="feather-icon"></i><span
+                                    class="hide-menu">All Products
+                                </span></a>
+                        </li>
+                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="/newproducts"
+                                aria-expanded="false"><i data-feather="feather" class="feather-icon"></i><span
+                                    class="hide-menu">Add a new Product
+                                </span></a>
+                        </li>
+                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="/category"
+                                aria-expanded="false"><i data-feather="feather" class="feather-icon"></i><span
+                                    class="hide-menu">Category
+                                </span></a>
+                        </li>
+
+
+
+
+                        <li class="nav-small-cap"><span class="hide-menu">Managements</span></li>
+
+
+
+                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="/OrdersAdmin"
+                                aria-expanded="false"><i data-feather="feather" class="feather-icon"></i><span
+                                    class="hide-menu">Orders
+                                </span></a>
+                        </li>
+
+                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="/salesReports"
+                                aria-expanded="false"><i data-feather="feather" class="feather-icon"></i><span
+                                    class="hide-menu">Sales Reports
+                                </span></a>
+                        </li>
+                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="/CouponsAdmin"
+                                aria-expanded="false"><i data-feather="feather" class="feather-icon"></i><span
+                                    class="hide-menu">Coupons
+                                </span></a>
+                        </li>
+                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="/offersAdmin"
+                            aria-expanded="false"><i data-feather="feather" class="feather-icon"></i><span
+                                class="hide-menu">Offers
+                            </span></a>
+                    </li>
+
+                        <li class="nav-small-cap"><span class="hide-menu">Adds and Banners</span></li>
+
+                        <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="/bannersAdmin"
+                                aria-expanded="false"><i data-feather="feather" class="feather-icon"></i><span
+                                    class="hide-menu">Banners
+                                </span></a>
+                        </li>
+                    </ul>
+                </nav>
+                <!-- End Sidebar navigation -->
+            </div>
+            <!-- End Sidebar scroll-->
+        </aside>
+
+        <div class="page-wrapper">
+
+            <!-- ---------------------- -->
+
+
+
+            <!-- <div style="display: flex; justify-content: center; justify-items: center;" >
+
+                <div>
+                  <img src="" id="image" style="display: block; width: 500px; height: 600px; max-width: 100%;">
+                  <button id="cropImageBtn">Crop Image</button>
+                </div>
+              
+                <img src="" id="output" style="margin: 0 5px;">
+              
+              </div> -->
+
+
+              <div class="modal-body">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="title">Title:</label>
+                      <input type="text" class="form-control" id="title" name="title" required>
+                    </div>
+                    <div class="form-group">
+                      <label for="link">Product link:</label>
+                      <input type="text" class="form-control" id="link" name="link" required>
+                    </div>
+                  </div>
+              
+                  <div class="col-md-6">
+                    <div>
+                      <label for="imageInput">Choose Image:</label>
+                      <input type="file" id="imageInput" accept="image/*" onchange="displayImage()" class="form-control-file">
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center">
+                      <button id="cropImageBtn" onclick="cropImage()" class="btn btn-primary">Crop Image</button>
+                      <button  onclick="deleteImage()" class="btn btn-secondary">Make Defualt</button>
+                      <button style="margin: 0 10px;" onclick="submitForm()" class="btn btn-success">Submit</button>
+                    </div>
+                  </div>
+                </div>
+              
+                <div class="row mt-4">
+                  <div class="col-md-6">
+                    <img src="" id="image" style="display: block; width: 100%; max-height: 300px; margin-top: 10px;" alt="image preview">
+                  </div>
+              
+                  <div class="col-md-6">
+                    <img src="" id="output" style="display: block; width: 100%; max-height: 300px; margin-top: 10px;" alt="image preview">
+                  </div>
+                </div>
+              </div>
+              
+              
+              <script src="https://cdn.jsdelivr.net/npm/cropperjs"></script>
+              
+              <script>
+                function deleteImage() {
+                  // Display a confirmation dialog
+                  Swal.fire({
+                    title: 'Are you sure?',
+                    text: 'This action will delete the image. Are you sure you want to proceed?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, delete it!',
+                    cancelButtonText: 'No, cancel!',
+                  }).then((result) => {
+                    if (result.isConfirmed) {
+                      // If the user confirms, send a request to delete the image
+                      axios.post('/bannerAdmin?delete=yes')
+                        .then(response => {
+                          // Check if there is a message in the response
+                          const message = response.data.message || 'Image deleted successfully!';
+                
+                          Swal.fire({
+                            icon: 'success',
+                            title: 'Success',
+                            text: message,
+                          });
+                        })
+                        .catch(error => {
+                          // Handle errors
+                          console.error('Error deleting image', error);
+                
+                          // Check if there is an error message in the response
+                          const errorMessage = error.response ? error.response.data.message : 'Failed to delete image. Please try again later.';
+                
+                          Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: errorMessage,
+                          });
+                        });
+                    }
+                  });
+                }
+                
+              
+
+
+
+                let cropper;
+              
+                function displayImage() {
+                  const input = document.getElementById('imageInput');
+                  if (input.files && input.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                      const image = document.getElementById('image');
+                      image.src = e.target.result;
+              
+                      // Destroy the previous cropper instance (if exists)
+                      if (cropper) {
+                        cropper.destroy();
+                      }
+              
+                      // Create a new Cropper instance
+                      cropper = new Cropper(image, {
+                        aspectRatio: 1170 / 500,
+                        viewMode: 0,
+                      });
+                    };
+                    reader.readAsDataURL(input.files[0]);
+                  }
+                }
+              
+                function cropImage() {
+                  if (cropper) {
+                    const croppedImage = cropper.getCroppedCanvas().toDataURL('image/png');
+                    document.getElementById('output').src = croppedImage;
+                  } else {
+                    console.error("Cropper not initialized.");
+                  }
+                }
+
+
+
+
+
+
+              </script>
+              
+              <script>
+                function isValidURL(url) {
+                  // Regular expression for a valid URL without the protocol
+                  const urlPattern = /^\/[a-zA-Z0-9_]+\/[0-9]+\?search=[a-zA-Z0-9]+$/;
+                  return urlPattern.test(url);
+              }
+              
+              function submitForm() {
+                  // Get values from input fields
+                  const title = document.getElementById('title').value;
+                  const link = document.getElementById('link').value;
+              
+                  // Check if any fields are blank or link is not a valid URL
+                  if (!title || !link || !getCroppedImageData() || !isValidURL(link)) {
+                      // Display a SweetAlert error message with specific details
+                      let errorMessage = 'Please fix the following issues:\n\n';
+              
+                      if (!title) {
+                          errorMessage += '- Title cannot be blank.\n';
+                      }
+              
+                      if (!link) {
+                          errorMessage += '- Link cannot be blank.\n';
+                      } else if (!isValidURL(link)) {
+                          errorMessage += '- Link must be a valid URL with Search Specifed.\n';
+                      }
+              
+                      if (!getCroppedImageData()) {
+                          errorMessage += '- Please crop an image.\n';
+                      }
+              
+                      Swal.fire({
+                          icon: 'error',
+                          title: 'Validation Error',
+                          text: errorMessage,
+                      });
+                      return; // Exit function if validation fails
+                  }
+              
+                  // Get the cropped image data
+                  const croppedImageData = getCroppedImageData();
+              
+                  // Create a FormData object to send data as a multipart/form-data
+                  const formData = new FormData();
+                  formData.append('title', title);
+                  formData.append('link', link);
+                  formData.append('image', croppedImageData);
+              
+                  // Send the data to the backend using Axios
+                  axios.post('/bannerAdmin', formData)
+                      .then(response => {
+                          // Handle the response from the backend
+                          console.log(response.data);
+                          // Display a SweetAlert success message
+                          Swal.fire({
+                              icon: 'success',
+                              title: 'Success',
+                              text: 'Data submitted successfully!',
+                          });
+                      })
+                      .catch(error => {
+                          // Handle errors
+                          console.error('Error sending data to the backend', error);
+                          // Display a SweetAlert error message
+                          Swal.fire({
+                              icon: 'error',
+                              title: 'Error',
+                              text: 'Failed to submit data. Please try again later.',
+                          });
+                      });
+              }
+              
+              
+                function getCroppedImageData() {
+                    // Get the Cropper instance and check if it exists
+                    if (!cropper) {
+                        console.error("Cropper not initialized.");
+                        return '';
+                    }
+                
+                    // Get the cropped image data as a data URL
+                    const croppedImageData = cropper.getCroppedCanvas().toDataURL('image/jpeg', 0.8);
+                
+                    return croppedImageData;
+                }
+                
+              </script>
+
+
+             
+            <script src="https://unpkg.com/cropperjs"></script>
+
+
+            <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<%-include('../layout/adminFoot')-%>

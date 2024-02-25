@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Example 1</title>
+    <link rel="stylesheet" href="/invoice/styleforInvoice.css" media="all" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
+
+
+    <body>
+    <header class="clearfix">
+      <div id="logo">
+        <img src="/invoice/logo.png">
+      </div>
+      <h1>INVOICE</h1>
+      <div id="company" class="clearfix">
+        <div>Shoe Rack</div>
+        <div>455 Foggy Heights,<br /> AZ 85004, US</div>
+        <div>(602) 519-0450</div>
+        <div><a href="mailto:company@example.com">company@example.com</a></div>
+      </div>
+      <% orders.forEach(order => { %>
+      <div id="project">
+        
+      <tr>
+        <td colspan="5">
+          <strong>Address:</strong><br>
+          <%= orders[0].address.streetAddress1 %><br>
+          <%= orders[0].address.streetAddress2 %><br>
+          <%= orders[0].address.townCity %>, <%= orders[0].address.stateCounty %>, <%= orders[0].address.postcodeZIP %><br>
+          Country: <%= orders[0].address.country %><br>
+          Phone: <%= orders[0].address.phone %>
+        </td>
+      </tr>
+      </div>
+    </header>
+    <main>
+      <table>
+        <thead>
+          <tr>
+            <th class="service">SERVICE</th>
+            <th class="desc">Product</th>
+            <th>PRICE</th>
+            <th>QTY</th>
+            <th>TOTAL</th>
+          </tr>
+        </thead>
+        <tbody>
+        
+            <% order.Products.forEach(product => { %>
+              <tr>
+                <td class="service">Online Purchase</td>
+                <td class="desc"><%= product.name %></td>
+                <td class="unit">₹<%= product.price %></td>
+                <td class="qty"><%= product.quantity %></td>
+                <td class="total">₹<%= product.total %></td>
+              </tr>
+              <% }); %>
+      
+ 
+            <tr>
+              <td colspan="4">SUBTOTAL</td>
+              <td class="total">₹<%= order.subtotal %></td>
+            </tr>
+        
+            <tr>
+              <td colspan="4" class="grand total">GRAND TOTAL</td>
+              <td class="grand total">₹<%= order.subtotal %></td>
+            </tr>
+            <% if (orders.coupon) { %>
+              <tr>
+                <td colspan="4">Coupon Discount (Code: <%= order.coupon.code %>)</td>
+                <td class="total">-₹<%= orders.coupon.originalAmount %></td>
+              </tr>
+              <tr>
+                <td colspan="4" class="grand total">FINAL TOTAL</td>
+                <td class="grand total">₹<%= order.subtotal %></td>
+              </tr>
+            <% } %>
+         
+        </tbody>
+      </table>
+
+      <% }); %>
+      
+      <div id="notices">
+        <div>NOTICE:</div>
+        <div class="notice">A finance charge of 1.5% will be made on unpaid balances after 30 days.</div>
+      </div>
+    </main>
+    <br>
+
+      Invoice was created on a computer and is valid without the signature and seal.
+    </footer>
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var doc = new jsPDF({
+                orientation: 'portrait',  // or 'landscape'
+                unit: 'mm',
+                format: 'a4'
+            });
+    
+            // Set a short delay to ensure elements are rendered before capturing the screenshot
+            setTimeout(function () {
+                // Set the page content as an image (screenshot)
+                html2canvas(document.body, { scale: 2 }).then(function (canvas) {
+                    // Crop the canvas to keep only 795 pixels from the vertical axis
+                    var croppedCanvas = document.createElement('canvas');
+                    var ctx = croppedCanvas.getContext('2d');
+                    croppedCanvas.width = 795;
+                    croppedCanvas.height = canvas.height;
+                    ctx.drawImage(canvas, (canvas.width - 795) / 2, 0, 795, canvas.height, 0, 0, 795, canvas.height);
+    
+                    var imgData = croppedCanvas.toDataURL('image/png');
+    
+                    // Add the image to the PDF
+                    doc.addImage(imgData, 'PNG', 10, 10, 190, 277); // Adjust dimensions as needed
+    
+                    // Save the PDF
+                    doc.save('invoice.pdf');
+                });
+            }, 10); // Adjust the delay as needed
+        });
+    </script>
+    
+    
+      
+    
+  </body>
+</html>

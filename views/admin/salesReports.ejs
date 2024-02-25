@@ -1,0 +1,280 @@
+<%-include('../layout/adminHeader')-%>
+
+<div class="container mt-5">
+    <h2 class="mb-4">Sales Report</h2>
+
+    <form id="generateReportForm" class="row" onsubmit="return validateAndSubmitForm()">
+        <div class="form-group col-md-4">
+            <label for="start-date">Start Date:</label>
+            <input type="date" class="form-control" id="start-date" name="start-date" required>
+        </div>
+    
+        <div class="form-group col-md-4">
+            <label for="end-date">End Date:</label>
+            <input type="date" class="form-control" id="end-date" name="end-date" required>
+        </div>
+    
+        <div class="form-group col-md-4 d-flex flex-column mt-auto">
+            <button type="submit" id="generateReportBtn" class="btn btn-primary btn-block">Generate Report</button>
+        </div>
+    </form>
+    
+
+    <br>
+    <div id="flash-message" style="width: 70%;" class="col-md-12 mt-3"></div>
+</div>
+
+
+
+
+    <hr>
+    <div id="reportPreview" style="display:none;">
+        <h3>Sales Report Preview</h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Name</th>
+                    <th>Date</th>
+                    <th>Quantity</th>
+                    <th>total</th>
+                   
+                    <!-- <th>Address</th> -->
+                    <!-- Add more columns if needed -->
+                </tr>
+            </thead>
+            <tbody id="reportContentTableBody"></tbody>
+        </table>
+        <p>Total Orders: <span id="totalOrders"></span></p>
+        <p>Total Amount: INR : <span id="totalAmount"></span></p>
+        <button type="button" id="downloadReportBtn" class="btn btn-success">Download Report</button>
+    </div>
+</div>
+<br>
+<br><br><br>
+<script>
+
+    let ordersDataDownload;
+
+    document.getElementById('generateReportBtn').addEventListener('click', async () => {
+        const userStartDate = document.getElementById('start-date').value;
+        const userEndDate = document.getElementById('end-date').value;
+    
+        try {
+            const response = await fetch('/generate_report', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ 'start-date': userStartDate, 'end-date': userEndDate })
+            });
+    
+            console.log(response);
+    
+            if (response.ok) {
+                const data = await response.json();
+                const { orders, startDate, endDate } = data;
+                ordersDataDownload = data;
+    
+                // Display the report content as a table
+                displayReportTable(orders);
+    
+                // Show the report preview
+                document.getElementById('reportPreview').style.display = 'block';
+            } else {
+                // Handle error responses here
+                console.error('Error:', response.status, response.statusText);
+            }
+        } catch (error) {
+            // Handle network or parsing errors
+            console.error('Error:', error.message);
+        }
+    });
+    
+    // Programmatically handle form submission
+    document.getElementById('generateReportForm').addEventListener('submit', (event) => {
+        event.preventDefault(); // Prevent the default form submission
+        validateAndSubmitForm();
+    });
+    
+    function validateAndSubmitForm() {
+        if (validateDates()) {
+            // If validation passes, trigger the click event on the button
+            document.getElementById('generateReportBtn').click();
+        }
+    }
+    
+    function validateDates() {
+        var startDate = document.getElementById('start-date').value;
+        var endDate = document.getElementById('end-date').value;
+        var flashMessageContainer = document.getElementById('flash-message');
+    
+        // Clear previous flash messages
+        flashMessageContainer.innerHTML = '';
+    
+        if (startDate && endDate) {
+            if (startDate > endDate) {
+                // Create a div element for the flash message
+                var flashMessage = document.createElement('div');
+                flashMessage.className = 'alert alert-danger';
+                flashMessage.textContent = 'Invalid date input: Start Date should not be after End Date';
+    
+                // Append the flash message to the container
+                flashMessageContainer.appendChild(flashMessage);
+    
+                return false; // Prevent form submission
+            }
+        }
+    
+        return true; // Allow form submission
+    }
+    
+
+    document.getElementById('downloadReportBtn').addEventListener('click', async () => {
+        // Download the report as an Excel file
+        const content = document.getElementById('reportContentTableBody').innerHTML;
+        downloadExcel(ordersDataDownload);
+    });
+
+    function displayReportTable(orders) {
+
+        console.log('Data received: orders');
+
+        
+        const tableBody = document.getElementById('reportContentTableBody');
+        const totalOrdersElement = document.getElementById('totalOrders');
+        const totalAmountElement = document.getElementById('totalAmount');
+
+        tableBody.innerHTML = ''; // Clear previous content
+        let totalOrders = 0;
+        let totalAmount = 0;
+
+        for (const order of orders) {
+            const { address, date, Products } = order;
+            
+            for (const product of Products) {
+                const row = `<tr>
+                                <td>${product._id}</td>
+                                <td>${product.name}</td>
+                                <td>${new Date(date).toLocaleDateString()}</td>
+                               
+                                <td>${product.quantity}</td>
+                                <td>${product.total}</td>
+                                <!-- <td>${address.city}, ${address.state}, ${address.zip}</td> -->
+                                
+                                <!-- Add more columns if needed -->
+                            </tr>`;
+                tableBody.innerHTML += row;
+                totalOrders++;
+                totalAmount += product.total;
+            }
+        }
+        totalOrdersElement.textContent = totalOrders;
+        totalAmountElement.textContent = totalAmount.toFixed(2); // Assuming total is a decimal value
+    }
+    
+
+
+    function downloadExcel(data) {
+        try {
+            const { orders, startDate, endDate } = data;
+           
+
+    
+            const ws = XLSX.utils.json_to_sheet(orders);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, 'SalesReport');
+    
+            const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+            const blob = new Blob([wbout], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+    
+            const link = document.createElement('a');
+            link.href = window.URL.createObjectURL(blob);
+            link.download = `sales_report_${startDate}_to_${endDate}.xlsx`;
+    
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        } catch (error) {
+            console.error('Error downloading Excel:', error);
+        }
+    }
+    document.getElementById('generateReportBtn').addEventListener('click', async () => {
+        console.log('Generate Report button clicked');
+        // ... rest of your code
+    });
+    
+    document.getElementById('downloadReportBtn').addEventListener('click', async () => {
+        console.log('Download Report button clicked');
+        // ... rest of your code
+    });
+    
+
+    // to download the displaying contents only 
+
+   // function downloadExcel(content) {
+   //     try {
+   //         const table = document.createElement('table');
+   //         table.innerHTML = content;
+   // 
+   //         const ws = XLSX.utils.table_to_sheet(table);
+   //         const wb = XLSX.utils.book_new();
+   //         XLSX.utils.book_append_sheet(wb, ws, 'SalesReport');
+   // 
+   //         const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+   //         const blob = new Blob([wbout], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+   // 
+   //         const link = document.createElement('a');
+   //         link.href = window.URL.createObjectURL(blob);
+   //         link.download = 'sales_report.xlsx';
+   // 
+   //         document.body.appendChild(link);
+   //         link.click();
+   //         document.body.removeChild(link);
+   //     } catch (error) {
+   //         console.error('Error downloading Excel:', error);
+   //     }
+   // }
+    
+
+
+    
+    
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+<script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
+    
+<script src="/admin/src/assets/libs/jquery/dist/jquery.min.js"></script>
+<script src="/admin/src/assets/libs/popper.js/dist/umd/popper.min.js"></script>
+<script src="/admin/src/assets/libs/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- apps -->
+<!-- apps -->
+<script src="/admin/src/dist/js/app-style-switcher.js"></script>
+<script src="/admin/src/dist/js/feather.min.js"></script>
+<script src="/admin/src/assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js"></script>
+<script src="/admin/src/dist/js/sidebarmenu.js"></script>
+<!--Custom JavaScript -->
+<script src="/admin/src/dist/js/custom.min.js"></script>
+<!--This page JavaScript -->
+<script src="/admin/src/assets/extra-libs/c3/d3.min.js"></script>
+<script src="/admin/src/assets/extra-libs/c3/c3.min.js"></script>
+<script src="/admin/src/assets/libs/chartist/dist/chartist.min.js"></script>
+<script src="/admin/src/assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
+<script src="/admin/src/assets/extra-libs/jvector/jquery-jvectormap-2.0.2.min.js"></script>
+<script src="/admin/src/assets/extra-libs/jvector/jquery-jvectormap-world-mill-en.js"></script>
+<script src="/admin/src/dist/js/pages/dashboards/dashboard1.min.js"></script>
+</body>
+
+</html>
