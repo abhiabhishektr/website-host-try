@@ -31,7 +31,7 @@ app.use('/',admin)
  
 
 
-mongoose.connect('mongodb://127.0.0.1:27017/Week8').then(()=>console.log("Database Connected"))
+mongoose.connect('mongodb+srv://abhishekabtr:8YroZ6akvTkwtsnW@cluster0.50cywlk.mongodb.net/').then(()=>console.log("Database Connected"))
 .catch(()=>console.log("failed to connect"));
 
 app.listen(PORT,()=>{
