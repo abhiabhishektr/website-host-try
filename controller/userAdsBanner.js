@@ -131,7 +131,7 @@ const uploadBanner = async (req, res) => {
 
 const CouponsAdmin = async (req, res) => {
     const existingCoupons = await Coupon.find();
-    res.render("Coupon", { existingCoupons });
+    res.render("coupon", { existingCoupons });
 };
 
 const CouponsAdminPost = async (req, res) => {

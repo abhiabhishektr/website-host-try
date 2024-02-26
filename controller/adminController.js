@@ -234,7 +234,7 @@ const allusers = async (req, res) => {
             .skip((page - 1) * pageSize)
             .limit(pageSize);
 
-        res.render("allusers", {
+        res.render("allUsers", {
             users,
             currentPage: page,
             totalPages,
