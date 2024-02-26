@@ -31,8 +31,13 @@ app.use('/',admin)
  
 
 
-mongoose.connect('mongodb+srv://abhishekabtr:8YroZ6akvTkwtsnW@cluster0.50cywlk.mongodb.net/').then(()=>console.log("Database Connected"))
-.catch(()=>console.log("failed to connect"));
+mongoose.connect('mongodb+srv://abhishekabtr:8YroZ6akvTkwtsnW@cluster0.50cywlk.mongodb.net/test', {
+}).then(() => {
+  console.log("Database Connected");
+}).catch((error) => {
+  console.error("Failed to connect to the database", error);
+});
+
 
 app.listen(PORT,()=>{
     console.log("server Started");
