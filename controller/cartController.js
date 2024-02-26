@@ -287,6 +287,12 @@ const wishlist = async (req, res) => {
             model: "Product",
         });
 
+        if (!wishlistData || !wishlistData.products) {
+            // Handle the case when wishlistData is null or its products property is null
+            res.render("wishlist", { cartCount: req.cartCount, wishlistData: [] });
+            return;
+        }
+
         // Fetch the user's cart
         const userCart = await Cartdb.findOne({ user: req.session.userid });
 
@@ -299,13 +305,12 @@ const wishlist = async (req, res) => {
             product.isInCart = isInCart;
         });
 
-        res.render("profile", { cartCount: req.cartCount, wishlistData });
+        res.render("wishlist", { cartCount: req.cartCount, wishlistData });
     } catch (error) {
         console.error("Error in wishlist route:", error);
         res.status(500).render("error", { error: "Internal Server Error" });
     }
 };
-
 
 const wishlistManagement = async (req, res) => {
     try {
