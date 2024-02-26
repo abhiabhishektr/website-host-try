@@ -299,7 +299,7 @@ const wishlist = async (req, res) => {
             product.isInCart = isInCart;
         });
 
-        res.render("wishlist", { cartCount: req.cartCount, wishlistData });
+        res.render("profile", { cartCount: req.cartCount, wishlistData });
     } catch (error) {
         console.error("Error in wishlist route:", error);
         res.status(500).render("error", { error: "Internal Server Error" });
