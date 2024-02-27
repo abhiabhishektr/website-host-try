@@ -6,6 +6,7 @@ const fs = require("fs");
 const WalletModel = require("../model/wallet");
 const Cart=require("../model/cartmodel")
 const Offer=require("../model/offerModal")
+const sharp = require('sharp');
 
 const multer = require("multer");
 const path = require("path");
@@ -234,7 +235,7 @@ const allusers = async (req, res) => {
             .skip((page - 1) * pageSize)
             .limit(pageSize);
 
-        res.render("allUsers", {
+        res.render("allusers", {
             users,
             currentPage: page,
             totalPages,

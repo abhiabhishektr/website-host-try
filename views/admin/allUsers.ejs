@@ -72,7 +72,24 @@
             </tbody>
           </table>  
 
-         
+          <script>
+            function confirmSoftDelete(userId) {
+                Swal.fire({
+                    title: 'Soft Delete',
+                    text: 'Are you sure you want to soft delete this user? (This action can be undone)',
+                    icon: 'info',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Yes, soft delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // If the user confirms, submit the form
+                        document.getElementById('deleteForm_' + userId).submit();
+                    }
+                });
+            }
+        </script>
  <!-- Pagination -->
 
 <nav aria-label="Page navigation" class="d-flex justify-content-center mt-4">

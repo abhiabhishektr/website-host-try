@@ -1,4 +1,5 @@
 const fs = require("fs");
+const pdf = require("html-pdf"); // You may need to install this package
 const Order = require("../model/order");
 const Coupon = require("../model/couponModel");
 const Cart = require("../model/cartmodel");
@@ -131,7 +132,7 @@ const uploadBanner = async (req, res) => {
 
 const CouponsAdmin = async (req, res) => {
     const existingCoupons = await Coupon.find();
-    res.render("coupon", { existingCoupons });
+    res.render("Coupon", { existingCoupons });
 };
 
 const CouponsAdminPost = async (req, res) => {

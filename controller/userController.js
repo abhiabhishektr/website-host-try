@@ -77,7 +77,7 @@ const forgotPasswordReset = async (req, res) => {
                 from: "abhishekabtr@gmail.com",
                 to: email,
                 subject: "Reset Password",
-                text: `Click the link to reset your password: http://localhost:3000/resetPassword?name=${users.email}&token=${generettedOtp}`,
+                text: `Click the link to reset your password: http://shoetoday.shop/resetPassword?name=${users.email}&token=${generettedOtp}`,
             };
 
             transporter.sendMail(mailOptions, (error, info) => {

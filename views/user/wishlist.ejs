@@ -32,50 +32,58 @@
 
 
         <tbody>
-          <% if (wishlistData.products && wishlistData.products.length > 0) { %>
-            <% wishlistData.products.forEach(product => { %>
-              <tr>
+          <% if(wishlistData.products.length < 1)  { %>
+            
+            <h5>No Products in the wishlist </h5>
           
-                <td class="product-col">
-                  <div class="product"><a href="product/<%= product.productId.id %>">
-                      <figure class="product-media">
-                        <img src="/uploads/<%= product.productId.imageUrls[0] %>" alt="product image">
-                      </figure>
-          
-                      <h3 class="product-title">
-                        <%= product.productId.name %>
-                      </h3>
-                    </a>
-                  </div>
-                </td>
-                <td class="price-col">
-                  <%= product.productId.price %>
-                </td>
-          
+            <%  } %>
+          <% wishlistData.products.forEach(product=> { %>
+          <tr>
+
+            <td class="product-col">
+              <div class="product"><a href="product/<%= product.productId.id %>">
+                  <figure class="product-media">
+                    <img src="/uploads/<%= product.productId.imageUrls[0] %>" alt="product image">
+                  </figure>
+
+                  <h3 class="product-title">
+
+                    <%= product.productId.name %>
+                </a>
+                </h3>
+              </div>
+            </td>
+            <td class="price-col">
+              <%= product.productId.price %>
+            </td>
+
+    
                 <td class="action-col" id="<%= product.productId.id %>">
-                  <% if (product.isInCart) { %>
-                    <a href="/cart"><button class="btn btn-block btn-outline-primary-2">Go to Cart</button></a>
-                  <% } else if (product.productId.stockQuantity === 0) { %>
-                    <button class="btn btn-block btn-outline-primary-2 disabled">Out of Stock</button>
-                  <% } else { %>
-                    <button class="btn btn-block btn-outline-primary-2" onclick="addToCart('<%= product.productId.id %>')">
-                      <i class="icon-cart-plus"></i>Add to Cart
-                    </button>
-                  <% } %>
-                </td>
-          
-                <td class="remove-col">
-                  <button class="btn-remove" onclick="addToWishlist('<%= product.productId.id %>')">
-                    <i class="icon-close"></i>
-                  </button>
-                </td>
-          
-              </tr>
-            <% }); %>
-          <% } else { %>
-            <p>No products in wishlist.</p>
-          <% } %>
-          
+              <%  if(product.isInCart){ %>
+
+                <a href="/cart"><button class="btn btn-block btn-outline-primary-2">Go to Cart</button>
+                </a>
+              <% }else if(product.productId.stockQuantity==0){ %>
+                <button class="btn btn-block btn-outline-primary-2 disabled">Out of
+                  Stock</button>
+
+              <% }else{ %>
+              
+                <button class="btn btn-block btn-outline-primary-2 " onclick="addToCart('<%= product.productId.id %>')"><i class="icon-cart-plus"></i>Add to Cart</button>
+              
+              <% } %>
+</td>
+       
+
+            <td class="remove-col">
+              <button class="btn-remove" onclick="addToWishlist('<%= product.productId.id %>')">
+                <i class="icon-close"></i>
+              </button>
+            </td>
+
+
+          </tr>
+          <% }); %>
 
         </tbody>
       </table><!-- End .table table-wishlist -->
