@@ -8,7 +8,7 @@ passport.use(
         {
             clientID: process.env.clientID,
             clientSecret: process.env.clientSecret,
-            callbackURL: "https://4196-103-170-228-58.ngrok-free.app/auth/google/callback",
+            callbackURL: "https://shoetoday.shop/auth/google/callback",
         },
         async (accessToken, refreshToken, profile, done) => {
             try {
