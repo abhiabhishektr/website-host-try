@@ -1,5 +1,4 @@
 const fs = require("fs");
-const pdf = require("html-pdf"); // You may need to install this package
 const Order = require("../model/order");
 const Coupon = require("../model/couponModel");
 const Cart = require("../model/cartmodel");
