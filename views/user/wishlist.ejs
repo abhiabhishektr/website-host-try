@@ -36,7 +36,8 @@
             
             <h5>No Products in the wishlist </h5>
           
-            <%  } %>
+            <%  }else { %>
+       
           <% wishlistData.products.forEach(product=> { %>
           <tr>
 
@@ -84,7 +85,7 @@
 
           </tr>
           <% }); %>
-
+          <%  } %>
         </tbody>
       </table><!-- End .table table-wishlist -->
       <script>
