@@ -7,7 +7,7 @@ const Offers = async (req, res) => {
     try {
         const allOffers = await Offer.find();
 
-        res.render("Offer", { offers: allOffers });
+        res.render("offer", { offers: allOffers });
     } catch (error) {
         console.error("Error fetching offers:", error);
         res.status(500).json({ error: "Internal Server Error" });
