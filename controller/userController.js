@@ -69,7 +69,7 @@ const forgotPasswordReset = async (req, res) => {
                 service: "gmail",
                 auth: {
                     user: "abhishekabtr@gmail.com",
-                    pass: "ynvf qhpi ykrm nwdm",
+                    pass: process.env.NODE_MAILER,
                 },
             });
 
@@ -344,7 +344,7 @@ const sendotp = async (req, res) => {
         service: "gmail",
         auth: {
             user: "abhishekabtr@gmail.com",
-            pass: "ynvf qhpi ykrm nwdm", // Replace with your actual generated App Password
+            pass: process.env.NODE_MAILER,
         },
     });
 
