@@ -359,6 +359,7 @@ const sendotp = async (req, res) => {
         subject: "Welcome to Shoe Rack",
         html: `<p>Welcome to Shoe Rack, where every step is a stylish journey. Step in and discover the perfect pair for your unique style!</p><p style="font-size: larger; font-weight: bold; color: blue; ">Your OTP is: ${generettedOtp}</p>`,
     };
+    console.log("generettedOtp: ", generettedOtp);
 
     // Send the email
     transporter.sendMail(mailOptions, (error, info) => {
